@@ -103,3 +103,26 @@ def nadeau_bengio_interval(differences, n_train, n_test, level=0.95):
     variance = (1 / j + n_test / n_train) * d.var(ddof=1)
     half = stats.t.ppf(0.5 + level / 2, j - 1) * np.sqrt(variance)
     return [float(d.mean() - half), float(d.mean() + half)]
+
+
+def random_group_split(rows, seed, test_fraction=TEST_FRACTION):
+    """Amendment 2 splitter for Part B: groups in uniformly random order, each placed in test
+    while the stratum's test share is below target. Unlike largest-first allocation, which
+    puts large template groups on the same side in every repeat, every group's side varies
+    across seeds."""
+    rng = np.random.default_rng(seed)
+    info = {}
+    for row in rows:
+        has_pos, size = info.get(row["group"], (False, 0))
+        info[row["group"]] = (has_pos or row["label"] == 1, size + 1)
+    in_test = set()
+    for has_positive in (True, False):
+        subset = sorted(g for g, (pos, _) in info.items() if pos == has_positive)
+        total = sum(info[g][1] for g in subset)
+        filled = 0
+        for index in rng.permutation(len(subset)):
+            gid = subset[index]
+            if filled < test_fraction * total:
+                in_test.add(gid)
+                filled += info[gid][1]
+    return np.array([r["group"] in in_test for r in rows])

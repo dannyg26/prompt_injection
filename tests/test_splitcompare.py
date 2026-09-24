@@ -64,3 +64,21 @@ def test_evaluate_split_reports_each_attack_source():
     result = evaluate_split(scores, rows, np.ones(len(rows), dtype=bool))
     assert 0 <= result["recall_at_1pct_fpr|BIPIA"] <= 1
     assert result["groups|hackaprompt-dataset"] > 1
+
+
+def test_random_group_split_varies_large_groups_and_keeps_groups_whole():
+    from injection_lab.splitcompare import random_group_split
+
+    rows = rows_fixture()
+    # One large attack template (like HackAPrompt) plus many small groups.
+    for i in range(200):
+        rows.append({"label": 1, "source": "hackaprompt-dataset", "group": "big", "text": "x"})
+    big = np.array([r["group"] == "big" for r in rows])
+    sides = {bool(random_group_split(rows, s)[big][0]) for s in range(20)}
+    assert sides == {True, False}
+    old = {bool(group_split(rows, s)[big][0]) for s in range(20)}
+    assert len(old) == 1  # documents the largest-first defect
+    mask = random_group_split(rows, 3)
+    groups = np.array([r["group"] for r in rows])
+    assert all(len(set(mask[groups == g])) == 1 for g in set(groups))
+    assert 0.2 < mask.mean() < 0.45

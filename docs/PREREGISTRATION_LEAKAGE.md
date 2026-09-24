@@ -57,3 +57,15 @@ The exact code will be locked in an amendment before any Part B run.
 ## Amendment 1 (2026-09-24): output serialization fix
 
 The first authorized run fitted all 40 splits and then crashed while writing its output, because undefined design effects (NaN) are rejected by the strict JSON writer. No result file or summary was written or seen. The only change is that NaN values are now written as `null` (`json_safe` in the run script). The analysis, splits, seeds and decision rules are unchanged. The lock was re-hashed and pushed before the rerun.
+
+## Amendment 2 (2026-09-24, after Part A): splitter for Part B
+
+A post-hoc check of Part A found that the group splitter (largest-first allocation) placed the same HackAPrompt template in the test side of all 20 group splits. The Part A HackAPrompt interval is therefore invalid, and the pooled primary estimate is confounded by test composition (docs/STUDY2_RESULTS.md). Part A results stay as run; they are not re-fitted, because the owner approved a single run.
+
+For Part B:
+
+1. Group splits use `random_group_split`: uniformly random group order, filled to the test fraction per stratum. A test verifies that a large group lands on both sides across seeds.
+2. The primary endpoint changes from pooled recall to **per-source recall inflation**, reported separately for each attack source with at least 20 groups (TaskTracker, BIPIA, jailbreak-classification in these pools). This avoids the composition confound.
+3. HackAPrompt (7 groups) is analyzed only by leave-one-template-out; no inflation interval is computed for it.
+
+This amendment was written after Part A results were seen. It is a design correction for the next experiment, not a reanalysis of Part A. `splitcompare.py` changed after the Part A run; the Part A lock in git history (commit `a93623d`) records the code that produced those results.
