@@ -29,6 +29,13 @@ def write_jsonl(path, rows):
     )
 
 
+def read_json_rows(path):
+    """Plain JSONL loader for study pools, which carry their own partition schema."""
+    # split("\n"), not splitlines(): texts may contain U+2028 and similar separators.
+    lines = Path(path).read_text(encoding="utf-8").split("\n")
+    return [json.loads(line) for line in lines if line.strip()]
+
+
 def read_rows(path):
     rows = []
     ids = set()

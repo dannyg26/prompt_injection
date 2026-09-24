@@ -1,0 +1,549 @@
+{
+  "injecguard_revision": "cb1531f36bffb38b6493438217b36cda8875da8a",
+  "partition_seed": 20260924,
+  "grouping": {
+    "normalization": "NFKC + casefold + whitespace collapse",
+    "shingles": "word 5-grams (whole text if shorter)",
+    "edge_rule": "shared >= min(3, smaller set) and shared/smaller >= 0.5; exhaustive sparse co-occurrence",
+    "components": "transitive connected components",
+    "edge_count": 1180765
+  },
+  "dedup": {
+    "exact_redundant_removed": 1952,
+    "label_conflict_rows_removed": 5
+  },
+  "cross_domain_rows_removed": 66,
+  "counts": {
+    "S-cal": {
+      "rows_benign": 10031,
+      "rows_positive": 1331,
+      "groups": 10124
+    },
+    "S-cal|Alpaca": {
+      "rows_benign": 1086,
+      "rows_positive": 0,
+      "groups": 1086
+    },
+    "S-cal|awesome-chatgpt-prompts": {
+      "rows_benign": 44,
+      "rows_positive": 0,
+      "groups": 44
+    },
+    "S-cal|chatbot_instruction_prompts": {
+      "rows_benign": 4150,
+      "rows_positive": 0,
+      "groups": 4148
+    },
+    "S-cal|grok-conversation-harmless": {
+      "rows_benign": 900,
+      "rows_positive": 0,
+      "groups": 900
+    },
+    "S-cal|hackaprompt-dataset": {
+      "rows_benign": 0,
+      "rows_positive": 1169,
+      "groups": 3
+    },
+    "S-cal|jailbreak-classification": {
+      "rows_benign": 148,
+      "rows_positive": 162,
+      "groups": 245
+    },
+    "S-cal|no_robots": {
+      "rows_benign": 413,
+      "rows_positive": 0,
+      "groups": 413
+    },
+    "S-cal|open-instruct": {
+      "rows_benign": 2474,
+      "rows_positive": 0,
+      "groups": 2474
+    },
+    "S-cal|ultrachat_200k": {
+      "rows_benign": 816,
+      "rows_positive": 0,
+      "groups": 816
+    },
+    "S-generic-bank": {
+      "rows_benign": 2005,
+      "rows_positive": 268,
+      "groups": 2079
+    },
+    "S-generic-bank|Alpaca": {
+      "rows_benign": 219,
+      "rows_positive": 0,
+      "groups": 219
+    },
+    "S-generic-bank|awesome-chatgpt-prompts": {
+      "rows_benign": 8,
+      "rows_positive": 0,
+      "groups": 8
+    },
+    "S-generic-bank|chatbot_instruction_prompts": {
+      "rows_benign": 831,
+      "rows_positive": 0,
+      "groups": 831
+    },
+    "S-generic-bank|grok-conversation-harmless": {
+      "rows_benign": 212,
+      "rows_positive": 0,
+      "groups": 212
+    },
+    "S-generic-bank|hackaprompt-dataset": {
+      "rows_benign": 0,
+      "rows_positive": 195,
+      "groups": 1
+    },
+    "S-generic-bank|jailbreak-classification": {
+      "rows_benign": 27,
+      "rows_positive": 73,
+      "groups": 100
+    },
+    "S-generic-bank|no_robots": {
+      "rows_benign": 93,
+      "rows_positive": 0,
+      "groups": 93
+    },
+    "S-generic-bank|open-instruct": {
+      "rows_benign": 461,
+      "rows_positive": 0,
+      "groups": 461
+    },
+    "S-generic-bank|ultrachat_200k": {
+      "rows_benign": 154,
+      "rows_positive": 0,
+      "groups": 154
+    },
+    "S-test": {
+      "rows_benign": 6018,
+      "rows_positive": 799,
+      "groups": 6110
+    },
+    "S-test|Alpaca": {
+      "rows_benign": 625,
+      "rows_positive": 0,
+      "groups": 625
+    },
+    "S-test|awesome-chatgpt-prompts": {
+      "rows_benign": 24,
+      "rows_positive": 0,
+      "groups": 24
+    },
+    "S-test|chatbot_instruction_prompts": {
+      "rows_benign": 2457,
+      "rows_positive": 0,
+      "groups": 2457
+    },
+    "S-test|grok-conversation-harmless": {
+      "rows_benign": 543,
+      "rows_positive": 0,
+      "groups": 543
+    },
+    "S-test|hackaprompt-dataset": {
+      "rows_benign": 0,
+      "rows_positive": 678,
+      "groups": 1
+    },
+    "S-test|jailbreak-classification": {
+      "rows_benign": 87,
+      "rows_positive": 121,
+      "groups": 181
+    },
+    "S-test|no_robots": {
+      "rows_benign": 248,
+      "rows_positive": 0,
+      "groups": 248
+    },
+    "S-test|open-instruct": {
+      "rows_benign": 1547,
+      "rows_positive": 0,
+      "groups": 1546
+    },
+    "S-test|ultrachat_200k": {
+      "rows_benign": 487,
+      "rows_positive": 0,
+      "groups": 487
+    },
+    "S-train": {
+      "rows_benign": 22069,
+      "rows_positive": 2929,
+      "groups": 18878
+    },
+    "S-train|Alpaca": {
+      "rows_benign": 2070,
+      "rows_positive": 0,
+      "groups": 2052
+    },
+    "S-train|awesome-chatgpt-prompts": {
+      "rows_benign": 91,
+      "rows_positive": 0,
+      "groups": 82
+    },
+    "S-train|chatbot_instruction_prompts": {
+      "rows_benign": 8334,
+      "rows_positive": 0,
+      "groups": 7945
+    },
+    "S-train|grok-conversation-harmless": {
+      "rows_benign": 1970,
+      "rows_positive": 0,
+      "groups": 1746
+    },
+    "S-train|hackaprompt-dataset": {
+      "rows_benign": 0,
+      "rows_positive": 2772,
+      "groups": 2
+    },
+    "S-train|jailbreak-classification": {
+      "rows_benign": 253,
+      "rows_positive": 157,
+      "groups": 339
+    },
+    "S-train|no_robots": {
+      "rows_benign": 745,
+      "rows_positive": 0,
+      "groups": 744
+    },
+    "S-train|open-instruct": {
+      "rows_benign": 7063,
+      "rows_positive": 0,
+      "groups": 4708
+    },
+    "S-train|ultrachat_200k": {
+      "rows_benign": 1543,
+      "rows_positive": 0,
+      "groups": 1511
+    },
+    "T-bank": {
+      "rows_benign": 1000,
+      "rows_positive": 0,
+      "groups": 693
+    },
+    "T-bank-discarded-positive": {
+      "rows_benign": 0,
+      "rows_positive": 258,
+      "groups": 85
+    },
+    "T-bank-discarded-positive|TaskTracker": {
+      "rows_benign": 0,
+      "rows_positive": 258,
+      "groups": 85
+    },
+    "T-bank|TaskTracker": {
+      "rows_benign": 1000,
+      "rows_positive": 0,
+      "groups": 693
+    },
+    "T-eval": {
+      "rows_benign": 10139,
+      "rows_positive": 2877,
+      "groups": 7432
+    },
+    "T-eval|TaskTracker": {
+      "rows_benign": 10139,
+      "rows_positive": 2877,
+      "groups": 7432
+    },
+    "U-eval": {
+      "rows_benign": 1538,
+      "rows_positive": 557,
+      "groups": 1462
+    },
+    "U-eval|BIPIA": {
+      "rows_benign": 235,
+      "rows_positive": 557,
+      "groups": 185
+    },
+    "U-eval|NotInject": {
+      "rows_benign": 339,
+      "rows_positive": 0,
+      "groups": 339
+    },
+    "U-eval|WildGuard": {
+      "rows_benign": 964,
+      "rows_positive": 0,
+      "groups": 938
+    }
+  },
+  "largest_groups": [
+    {
+      "group": "g:d36c64c4ff13e462676b",
+      "rows": 2232,
+      "partition": "S-train",
+      "labels": {
+        "1": 2219,
+        "0": 13
+      },
+      "sources": {
+        "hackaprompt-dataset": 2200,
+        "jailbreak-classification": 19,
+        "awesome-chatgpt-prompts": 6,
+        "chatbot_instruction_prompts": 5,
+        "open-instruct": 1,
+        "Alpaca": 1
+      }
+    },
+    {
+      "group": "g:2df28917cef47215d71d",
+      "rows": 769,
+      "partition": "S-cal",
+      "labels": {
+        "1": 769
+      },
+      "sources": {
+        "hackaprompt-dataset": 768,
+        "jailbreak-classification": 1
+      }
+    },
+    {
+      "group": "g:2553c4aa575363250f66",
+      "rows": 678,
+      "partition": "S-test",
+      "labels": {
+        "1": 678
+      },
+      "sources": {
+        "hackaprompt-dataset": 678
+      }
+    },
+    {
+      "group": "g:5193198376a2b96b65c2",
+      "rows": 597,
+      "partition": "S-train",
+      "labels": {
+        "1": 597
+      },
+      "sources": {
+        "jailbreak-classification": 25,
+        "hackaprompt-dataset": 572
+      }
+    },
+    {
+      "group": "g:9d9db933adaaecac098f",
+      "rows": 499,
+      "partition": "S-train",
+      "labels": {
+        "0": 499
+      },
+      "sources": {
+        "open-instruct": 493,
+        "jailbreak-classification": 6
+      }
+    },
+    {
+      "group": "g:39d9ced4ea7d351bd1b2",
+      "rows": 305,
+      "partition": "S-cal",
+      "labels": {
+        "1": 305
+      },
+      "sources": {
+        "hackaprompt-dataset": 305
+      }
+    },
+    {
+      "group": "g:3028e67c67835de55f15",
+      "rows": 213,
+      "partition": "U-eval",
+      "labels": {
+        "1": 170,
+        "0": 43
+      },
+      "sources": {
+        "BIPIA": 213
+      }
+    },
+    {
+      "group": "g:4dd9ff1709c9f2dbe669",
+      "rows": 195,
+      "partition": "S-generic-bank",
+      "labels": {
+        "1": 195
+      },
+      "sources": {
+        "hackaprompt-dataset": 195
+      }
+    },
+    {
+      "group": "g:bb47ebe8dc39e72cb7b6",
+      "rows": 130,
+      "partition": "S-train",
+      "labels": {
+        "0": 130
+      },
+      "sources": {
+        "open-instruct": 130
+      }
+    },
+    {
+      "group": "g:ee4efb8674a6f2cd1f00",
+      "rows": 96,
+      "partition": "S-cal",
+      "labels": {
+        "1": 96
+      },
+      "sources": {
+        "hackaprompt-dataset": 96
+      }
+    }
+  ],
+  "status": "fixed-corpus counts; no model was fitted or scored to build these pools",
+  "input_sha256": {
+    "train.json": "806ded8bd85782a53d34faffe4fd92b3f2e0b3b431c43578ce77faea6b9ed911",
+    "NotInject_one.json": "69b535596d95102424e9c5946944feb4f2d596687eb8213f2ecad75478e5ffdd",
+    "NotInject_two.json": "6043d94e75b48d8e7682d25dc79eaf45359e1e561ce520e3b8fd5625a91060c6",
+    "NotInject_three.json": "ef01eff0d761d2e34571b3fdbcec08c30cd93efe8d0e1a2eb5c2baeb1873b070",
+    "wildguard.json": "d884fc834a5a8081a423c49effb7aeb7977e991c1e3e7fb58e0285630d550bad"
+  },
+  "admitted_components": {
+    "Alpaca": {
+      "domain": "S",
+      "license": "CC-BY-NC-4.0 (Stanford Alpaca DATA_LICENSE)"
+    },
+    "chatbot_instruction_prompts": {
+      "domain": "S",
+      "license": "Apache-2.0 declared; nested parents unresolved"
+    },
+    "open-instruct": {
+      "domain": "S",
+      "license": "CC-BY-3.0 declared; mixed component terms"
+    },
+    "no_robots": {
+      "domain": "S",
+      "license": "CC-BY-NC-4.0 (HuggingFaceH4 card)"
+    },
+    "ultrachat_200k": {
+      "domain": "S",
+      "license": "MIT (HuggingFaceH4 card)"
+    },
+    "grok-conversation-harmless": {
+      "domain": "S",
+      "license": "Apache-2.0 (HuggingFaceH4 card)"
+    },
+    "awesome-chatgpt-prompts": {
+      "domain": "S",
+      "license": "CC0-1.0 (fka card)"
+    },
+    "hackaprompt-dataset": {
+      "domain": "S",
+      "license": "MIT declared; gated access"
+    },
+    "jailbreak-classification": {
+      "domain": "S",
+      "license": "Apache-2.0 declared; nested parents unresolved"
+    },
+    "TaskTracker": {
+      "domain": "T",
+      "license": "MIT (microsoft/TaskTracker); SQuAD-derived text CC-BY-SA-4.0"
+    },
+    "BIPIA": {
+      "domain": "U",
+      "license": "MIT with explicit CC-BY-SA-4.0 component exceptions"
+    },
+    "NotInject": {
+      "domain": "U",
+      "license": "MIT (leolee99/NotInject card)"
+    },
+    "WildGuard": {
+      "domain": "U",
+      "license": "ODC-BY declared; gated upstream; benign subset as redistributed"
+    }
+  },
+  "excluded_components_rows": {
+    "ChatGPT-Jailbreak-Prompts": 79,
+    "InjecAgent": 111,
+    "LLM Augmented set": 435,
+    "Prompt-Injection-Mixed-Techniques": 1174,
+    "Question Set": 2286,
+    "StruQ": 20,
+    "over-defense": 762,
+    "prompt-injections": 546,
+    "safe-guard-prompt-injection": 8236,
+    "vigil-jailbreak-ada-002": 104,
+    "xtest-v2-copy": 450
+  },
+  "excluded_reason": "no component-level license declaration verified, legacy, or construct mismatch",
+  "removed_ids": {
+    "label_conflict": [
+      "injecguard:train:696",
+      "injecguard:train:73626",
+      "injecguard:train:1117",
+      "injecguard:train:1568",
+      "injecguard:train:73716"
+    ],
+    "cross": [
+      "injecguard:wildguard:45",
+      "injecguard:train:10372",
+      "injecguard:train:11604",
+      "injecguard:train:13185",
+      "injecguard:train:63775",
+      "injecguard:train:65301",
+      "injecguard:train:15942",
+      "injecguard:train:13184",
+      "injecguard:train:10373",
+      "injecguard:train:62083",
+      "injecguard:train:11605",
+      "injecguard:train:19099",
+      "injecguard:train:19310",
+      "injecguard:train:18838",
+      "injecguard:train:10747",
+      "injecguard:train:59522",
+      "injecguard:train:59406",
+      "injecguard:train:18220",
+      "injecguard:train:10263",
+      "injecguard:train:18195",
+      "injecguard:train:11267",
+      "injecguard:train:11028",
+      "injecguard:train:11029",
+      "injecguard:train:15796",
+      "injecguard:train:16376",
+      "injecguard:train:60408",
+      "injecguard:train:11266",
+      "injecguard:train:14040",
+      "injecguard:train:61353",
+      "injecguard:train:60569",
+      "injecguard:train:16045",
+      "injecguard:train:18144",
+      "injecguard:train:14543",
+      "injecguard:train:65470",
+      "injecguard:train:62828",
+      "injecguard:train:19164",
+      "injecguard:train:64535",
+      "injecguard:train:14542",
+      "injecguard:train:10262",
+      "injecguard:train:14041",
+      "injecguard:train:16066",
+      "injecguard:train:10746",
+      "injecguard:train:18940",
+      "injecguard:train:67497",
+      "injecguard:train:62221",
+      "injecguard:train:59525",
+      "injecguard:train:11614",
+      "injecguard:train:11615",
+      "injecguard:wildguard:300",
+      "injecguard:wildguard:349",
+      "injecguard:train:64415",
+      "injecguard:train:13322",
+      "injecguard:train:13323",
+      "injecguard:train:61529",
+      "injecguard:train:62015",
+      "injecguard:train:59735",
+      "injecguard:train:61291",
+      "injecguard:train:65618",
+      "injecguard:train:67434",
+      "injecguard:wildguard:365",
+      "injecguard:train:63322",
+      "injecguard:wildguard:75",
+      "injecguard:wildguard:140",
+      "injecguard:train:62356",
+      "injecguard:train:60609",
+      "injecguard:wildguard:262"
+    ]
+  },
+  "pools_sha256": "7e6259023876735e0da6f8a15e1987c2436fba51c254a43dc22101ff7dbfadf2",
+  "manifest_sha256": "286ce37d8299b9ae956eb5ee424730cd33fea13398c3225ab460ed66ce5ec014",
+  "code_sha256": {
+    "src/injection_lab/pools.py": "c4a679826eb65a794689d0275014aa6905431fdf96cc1927b17fad929e52a615",
+    "/home/user/prompt_injection/scripts/build_study_pools.py": "5dbc93d49d03c958214bbe892aaebfce0e5e7075d994d44a6715a9e3cc94412c"
+  }
+}

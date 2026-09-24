@@ -1,0 +1,20 @@
+{
+  "frozen_utc": "2026-09-24T01:34:52+00:00",
+  "note": "Hashes fixed before any study model was scored. pools.jsonl is gitignored (raw text); rebuild it with scripts/build_study_pools.py and compare.",
+  "environment": "Python 3.11.x, Linux, scikit-learn 1.7.2, numpy 2.2.6, scipy 1.15.3",
+  "sha256": {
+    "docs/PREREGISTRATION.md": "838a1f4658967e539e36ba64d66b02e7365ee3e3e1f41f0e4e642bf08ace8bcb",
+    "AGENTS.md": "c803e1c18c6d2eb1f8ed898cafd785dafbd22ad4e9ad83510d7b2e57b0dc8943",
+    "src/injection_lab/adaptation.py": "a78bb1f1d204a2d9424fa486e02346e6119aab085965732a8615b3d0e9980a3c",
+    "src/injection_lab/study_analysis.py": "85bacfdf1f34af637e2a5385e0a2b4552667403df8ea8256a4c0eccc8bddd20e",
+    "src/injection_lab/pools.py": "c4a679826eb65a794689d0275014aa6905431fdf96cc1927b17fad929e52a615",
+    "src/injection_lab/data.py": "f8d427ce8d2ea239126873740fcc6d8af2332a6b8409c728ec3dc4a5792cff92",
+    "src/injection_lab/curation.py": "0aeba0e4ed2569b24bf4a34b33d49407a2d173320d5a6517db414a0ac920d1cb",
+    "scripts/build_study_pools.py": "5dbc93d49d03c958214bbe892aaebfce0e5e7075d994d44a6715a9e3cc94412c",
+    "scripts/run_adaptation_study.py": "3288d801fb93fa100c9c4fe516a6d52df737a9bdef069f32baf1f73e76fea20e",
+    "scripts/analyze_adaptation_study.py": "4539047757c3a6eea37945cb6a1c9c37d23528762245f98d16034521f3265895",
+    "data/processed/study/pools.jsonl": "7e6259023876735e0da6f8a15e1987c2436fba51c254a43dc22101ff7dbfadf2",
+    "results/study/pool_ledger.json": "b546cbfd2eb3a96c991b974d0bede9e7fc4cf54918c16d16f3053210b3e3f057",
+    "results/study/pool_manifest.csv.gz": "286ce37d8299b9ae956eb5ee424730cd33fea13398c3225ab460ed66ce5ec014"
+  }
+}
