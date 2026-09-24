@@ -24,3 +24,9 @@ Not done:
 - Data audit: [BENCHMARK_AUDIT.md](BENCHMARK_AUDIT.md). The InjecGuard training file is clean against its public test files, but its validation set consists of test items (disclosed). Attack sources are highly template-concentrated: 5,000 HackAPrompt rows form 6 groups.
 - Preregistration: [PREREGISTRATION_LEAKAGE.md](PREREGISTRATION_LEAKAGE.md), locked in `results/leakage/PREREG_LOCK.json`. **Running requires the owner's AGENTS.md amendment.** Part B (DeBERTa and released detectors) needs a GPU and Hugging Face access.
 - **Part A results:** [STUDY2_RESULTS.md](STUDY2_RESULTS.md). Row splits inflate recall at 1% FPR by 4.2 points on TaskTracker and 8.0 on BIPIA (intervals exclude 0). Held-out HackAPrompt templates get a median of 33% recall (range 0-100) against 100% on row splits. Example-level intervals are about 1.2-1.5 times too narrow. The pooled primary estimate is confounded and the HackAPrompt interval is invalid, because the group splitter placed the same template in the test set every time (disclosed; fix before Part B).
+
+## Paper integration (2026-09-24)
+
+- `paper/PAPER.md` now reports the audit, Study 1 and Study 2 together, with figures, the Study 2 design defect and all limitations.
+- Amendment 2 fixes the group splitter for any future run (`random_group_split`, tested); Part A was not refitted.
+- Still required for a submission: Part B (transformer and released detectors; needs a GPU and Hugging Face), a human-labeled agreement sample, and a full-text read of the two closest papers.

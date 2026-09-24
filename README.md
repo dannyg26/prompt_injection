@@ -1,25 +1,18 @@
 # Injection Lab
 
-Capstone research on spending scarce labels to adapt prompt-injection detectors under domain shift. **Broad domain adaptation is already studied; global novelty of the narrower comparison is not claimed.**
+Capstone research on template concentration in public prompt-injection data and its consequences for evaluation and for benign-label adaptation. **Broad domain adaptation is already studied; global novelty of the narrower comparison is not claimed.**
 
-## Main result (preregistered, locked single run)
+## Findings (two preregistered studies; one linear detector; details and limits in the paper)
 
-**Report: [paper/PAPER.md](paper/PAPER.md).** Plan, fixed before any model was scored: [docs/PREREGISTRATION.md](docs/PREREGISTRATION.md). All tables: [results/study/RESULTS.md](results/study/RESULTS.md).
+**Report: [paper/PAPER.md](paper/PAPER.md).**
 
-- **Setup.** A TF-IDF logistic-regression detector trained on direct prompts is moved to injections embedded in documents (TaskTracker): 13,016 evaluation rows in 7,432 independent groups, from 61,819 grouped, licensed rows of the InjecGuard release.
-- **Confirmatory result.** With 200 benign target labels, matched retraining did not beat threshold-only adjustment (+0.10 recall points at 1% FPR, 97.5% CI −0.18 to +0.49) or generic retraining (+0.15, −0.16 to +0.47). A 2-point benefit is excluded.
-- **Why.** The shift is a recall failure, not over-defense. Target AUROC is 0.648 and recall is 3.1% while target FPR is already at 1.0%. Benign-only labels cannot supply attack signal.
-- **Also found.**
-  - Fewer than about 100 benign labels cannot set a 1% threshold (2.9% FPR at B = 25).
-  - Reusing labels for fitting and thresholding inflates FPR.
-  - 5,000 HackAPrompt attacks are only 7 templates. The detector catches 92% of calibration templates but 0% of one held-out obfuscation template.
-  - It flags 26.7% of benign safety-sensitive WildGuard prompts.
+- **Audit.** Attack data in the InjecGuard release are highly template-concentrated: 5,000 HackAPrompt attacks form 6 lexical groups, while benign sources are close to one row per group ([audit](docs/BENCHMARK_AUDIT.md)).
+- **Study 2 (template leakage).** Row-random splits raised recall at 1% FPR relative to group splits on TaskTracker (+4.2 points, 95% CI +0.8 to +7.6) and BIPIA (+8.0, +3.8 to +12.2); jailbreak-classification showed no detected inflation. Held-out HackAPrompt templates got 0-100% recall (median 33%) against 100% under row splits. Example-level intervals were about 1.2 to 1.5 times too narrow. A splitter defect invalidates the HackAPrompt interval and the pooled primary estimate ([results](docs/STUDY2_RESULTS.md), [preregistration](docs/PREREGISTRATION_LEAKAGE.md)).
+- **Study 1 (benign-label adaptation).** With 200 benign target labels, matched retraining did not beat threshold adjustment (+0.10 points, 97.5% CI −0.18 to +0.49) or generic retraining. The detector barely separated document-embedded attacks from clean text (AUROC 0.648) ([preregistration](docs/PREREGISTRATION.md), [tables](results/study/RESULTS.md)).
 
-Limitations, stated in advance: upstream labels only with no human IAA, one detector class, a single merged data release, CPU only. The earlier deepset starter results remain [withdrawn](results/INITIAL_FINDINGS.md) and the repaired runs are exploratory ([data repair](docs/DATA_REPAIR.md)).
+Not established: behavior of transformer detectors (Part B not run), human-verified labels, and novelty relative to prior dataset-level work (UNVERIFIED; see [novelty check](docs/LEAKAGE_NOVELTY.md)). The earlier deepset starter results remain [withdrawn](results/INITIAL_FINDINGS.md).
 
-Study 2 (template leakage): [results](docs/STUDY2_RESULTS.md), [preregistration](docs/PREREGISTRATION_LEAKAGE.md), [data audit](docs/BENCHMARK_AUDIT.md), [novelty check](docs/LEAKAGE_NOVELTY.md).
-
-Background audit, in reading order: [verified references](docs/VERIFIED_REFERENCES.md), [related work and novelty decision](docs/RELATED_WORK.md), [component provenance and licenses](docs/COMPONENT_PROVENANCE_AUDIT.md), [power analysis](docs/POWER_ANALYSIS.md), and the [v0.3 spec](docs/EXPERIMENT_SPEC.md), which the preregistration supersedes where they differ.
+Background audit: [verified references](docs/VERIFIED_REFERENCES.md), [related work](docs/RELATED_WORK.md), [component licenses](docs/COMPONENT_PROVENANCE_AUDIT.md), [power analysis](docs/POWER_ANALYSIS.md), [status](docs/STATUS.md).
 
 ## Reproduce the study
 
