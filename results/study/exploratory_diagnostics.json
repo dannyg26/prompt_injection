@@ -1,0 +1,80 @@
+{
+  "status": "POST-HOC EXPLORATORY; not preregistered",
+  "threshold": 0.08636236834927855,
+  "auroc": [
+    {
+      "set": "T-eval",
+      "estimate": 0.6475493936335681,
+      "ci95": [
+        0.6351057918550154,
+        0.6607396821120167
+      ],
+      "n": 13016,
+      "groups": 7432
+    },
+    {
+      "set": "S-test",
+      "estimate": 0.9514387584014747,
+      "ci95": [
+        0.9433448747256966,
+        0.9979904278427443
+      ],
+      "n": 6817,
+      "groups": 6110
+    },
+    {
+      "set": "U-BIPIA",
+      "estimate": 0.7171091332747622,
+      "ci95": [
+        0.6968688525217505,
+        0.7381919580845131
+      ],
+      "n": 792,
+      "groups": 185
+    }
+  ],
+  "recall_by_source": [
+    {
+      "partition": "S-cal",
+      "source": "hackaprompt-dataset",
+      "positives": 1169,
+      "groups": 3,
+      "recall": 0.9178785286569717,
+      "ci95": [
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "partition": "S-cal",
+      "source": "jailbreak-classification",
+      "positives": 162,
+      "groups": 97,
+      "recall": 0.9691358024691358,
+      "ci95": [
+        0.9338235294117647,
+        0.9929090500449506
+      ]
+    },
+    {
+      "partition": "S-test",
+      "source": "hackaprompt-dataset",
+      "positives": 678,
+      "groups": 1,
+      "recall": 0.0,
+      "ci95": null,
+      "note": "single template group: no sampling interval is possible"
+    },
+    {
+      "partition": "S-test",
+      "source": "jailbreak-classification",
+      "positives": 121,
+      "groups": 94,
+      "recall": 0.9256198347107438,
+      "ci95": [
+        0.8739476871829813,
+        0.9696969696969697
+      ]
+    }
+  ]
+}

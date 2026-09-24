@@ -1,3 +1,5 @@
+> The full draft now lives in [PAPER.md](PAPER.md); this outline is kept for history.
+
 # Capstone report outline
 
 Working title: **Allocating Scarce Labels for Prompt-Injection Detection Under Domain Shift**

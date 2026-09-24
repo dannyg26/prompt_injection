@@ -39,16 +39,16 @@ def main():
             y = [100 * d["estimate_seed_mean"] for d in points]
             low = [100 * d["ci95"][0] for d in points]
             high = [100 * d["ci95"][1] for d in points]
-            ax.fill_between(budgets, low, high, color=color, alpha=0.12, linewidth=0)
+            ax.fill_between(budgets, low, high, color=color, alpha=0.08, linewidth=0)
             ax.plot(budgets, y, color=color, linewidth=2, marker=marker, markersize=6, label=label)
         if metric == "operational_fpr":
             ax.axhline(1.0, color="#52514e", linewidth=1, linestyle="--")
             ax.annotate(
                 "1% target",
-                (budgets[-1], 1.0),
+                (budgets[0], 1.0),
                 textcoords="offset points",
-                xytext=(-4, 4),
-                ha="right",
+                xytext=(2, -11),
+                ha="left",
                 fontsize=8,
                 color="#52514e",
             )
@@ -56,11 +56,13 @@ def main():
         ax.set_xlabel("Revealed target benign labels (B)")
         ax.set_ylabel("Percent")
         ax.set_xticks(budgets)
+        ax.set_ylim(bottom=0)
         ax.grid(axis="y", color="#e4e3df", linewidth=0.8)
         ax.spines[["top", "right"]].set_visible(False)
     axes[0].legend(frameon=False, fontsize=8)
     fig.suptitle(
-        "Target domain (TaskTracker): seed mean with 95% group/seed bootstrap band",
+        "Target domain (TaskTracker): seed mean, 95% group/seed bootstrap band. "
+        "Matched and matched + threshold share one model, so their ROC recall coincides.",
         fontsize=11,
         x=0.01,
         ha="left",

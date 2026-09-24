@@ -1,19 +1,19 @@
-# Research status - draft v0.3
+# Research status - v0.4 (2026-09-24)
 
-**No new detector training, adaptation or scoring has run.** Current work was a literature, data and feasibility audit.
+**The preregistered adaptation study ran once and has been analyzed.** Report: [paper/PAPER.md](../paper/PAPER.md).
 
 Completed:
-- EvoShield's published experimental design checked: it does not report the proposed three-way equal-label-budget comparison. Author inquiry is prepared but NOT SENT because no sending account is connected.
-- Explicit analytical power calculations for low-FPR precision, paired fixed-threshold differences, and illustrative ROC-cutoff uncertainty.
-- Pinned PromptShield/InjecGuard counts, every InjecGuard source label, component-license findings and exact overlap census. Both merged releases remain on HOLD.
-- Frozen embedding sensitivity on 627 legacy records with thresholds .85/.90/.95 and all five split seeds; candidate results are not human-confirmed duplicates.
-- Revised two-page spec, annotation protocol and eight-week run/workload budget. Deepset is legacy only.
-- 23 tests passed, including independent checks of power mathematics. Model/data/result hashes remain recorded.
+- Grouped S/T/U pools from the pinned InjecGuard GitHub release (61,819 rows; license-declared components only; word-shingle containment grouping). Deterministic rebuild verified byte-identical.
+- Preregistration, code and pool hashes locked and pushed (commit `0f120e6`) before any study model was scored. 81 models were fitted and scored once (16.4 minutes on 4 CPU cores).
+- Confirmatory result: no benefit of matched benign retraining over threshold-only or generic retraining at B = 200; a 2-point benefit is excluded. Descriptive and post-hoc exploratory diagnostics are reported separately.
+- 35 tests pass, including brute-force checks of the weighted ROC and threshold rules. Ruff lint and format are clean.
 
-Launch blockers:
-- Component-to-row provenance and permissions for the primary pools.
-- Independent class/group counts sufficient for the selected effect and endpoint.
-- Named second annotator/adjudicator, actual timing pilot, and measured IAA on >=100 target items.
-- Hardware/runtime and between-seed variance feasibility.
+Unmet gates, reported as limitations:
+- No human annotation or IAA; upstream labels only.
+- Nested component licenses partly UNVERIFIED; research use only, no redistribution.
+- Evaluation not sized to a target effect; all permitted rows were used.
 
-No human IAA or annotation-time measurements are claimed. No global novelty claim is established. The ready-to-send author email awaits an account connection, not renewed authorization.
+Not done:
+- No transformer detector: no GPU, and Hugging Face is blocked in the compute environment.
+- The EvoShield author email has still not been sent.
+- Any further detector training (for example, benign-vs-attack label allocation) needs a new preregistration and owner approval under AGENTS.md.
