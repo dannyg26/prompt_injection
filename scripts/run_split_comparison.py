@@ -33,6 +33,17 @@ SUMMARY = Path("results/leakage/RESULTS.md")
 APPROVAL = "PREREGISTRATION_LEAKAGE.md may be fit and scored"
 
 
+def json_safe(value):
+    """NaN (undefined metric, e.g. one group or p in {0, 1}) is written as null."""
+    if isinstance(value, dict):
+        return {k: json_safe(v) for k, v in value.items()}
+    if isinstance(value, list | tuple):
+        return [json_safe(v) for v in value]
+    if isinstance(value, float) and not np.isfinite(value):
+        return None
+    return value
+
+
 def verify():
     if APPROVAL not in Path("AGENTS.md").read_text(encoding="utf-8"):
         raise PermissionError("Owner approval amendment for study 2 is not recorded in AGENTS.md")
@@ -125,7 +136,7 @@ def main():
         "design_effect_group_splits": design,
         "leave_one_hackaprompt_template_out": loto,
     }
-    write_json(OUT, report)
+    write_json(OUT, json_safe(report))
     lines = ["# Study 2 Part A results (locked run)", "", f"Commit `{head}`.", ""]
     lines += ["| Metric | Row split | Group split | Inflation | 95% CI (Nadeau-Bengio) |"]
     lines += ["| --- | ---: | ---: | ---: | --- |"]

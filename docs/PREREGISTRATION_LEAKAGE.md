@@ -53,3 +53,7 @@ The exact code will be locked in an amendment before any Part B run.
 - One linear detector in Part A.
 - Repeated-split inference is approximate even with the Nadeau–Bengio correction.
 - Pooling all domains mixes direct and indirect attacks.
+
+## Amendment 1 (2026-09-24): output serialization fix
+
+The first authorized run fitted all 40 splits and then crashed while writing its output, because undefined design effects (NaN) are rejected by the strict JSON writer. No result file or summary was written or seen. The only change is that NaN values are now written as `null` (`json_safe` in the run script). The analysis, splits, seeds and decision rules are unchanged. The lock was re-hashed and pushed before the rerun.

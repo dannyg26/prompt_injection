@@ -3,12 +3,14 @@
   "authorized": false,
   "note": "Frozen before any Study 2 fit. Running also requires the owner's AGENTS.md amendment; AGENTS.md is deliberately not hashed so that amendment can be added.",
   "sha256": {
-    "docs/PREREGISTRATION_LEAKAGE.md": "b51bbd335f23aa5a23a4433f010d68a229f4e4f807037bb537325658c4e3c347",
+    "docs/PREREGISTRATION_LEAKAGE.md": "7fdc3fe52a54208b9e6d47a27f70399178e3315efaa926a0590a3a8e9e48de32",
     "src/injection_lab/splitcompare.py": "b002483c694ad3af15a5e4260f52cb9f61302c1646b339aa2af24168783e6117",
     "src/injection_lab/adaptation.py": "a78bb1f1d204a2d9424fa486e02346e6119aab085965732a8615b3d0e9980a3c",
     "src/injection_lab/pools.py": "c4a679826eb65a794689d0275014aa6905431fdf96cc1927b17fad929e52a615",
     "src/injection_lab/data.py": "f8d427ce8d2ea239126873740fcc6d8af2332a6b8409c728ec3dc4a5792cff92",
-    "scripts/run_split_comparison.py": "468c9feffdca6b5e1c930aaacd519a884218f0b23e474d8297dddbd649ee1625",
+    "scripts/run_split_comparison.py": "347281f79c1f30921ea65efffa796e63a2e25c5082a12f53820081e3f71123b3",
     "data/processed/study/pools.jsonl": "7e6259023876735e0da6f8a15e1987c2436fba51c254a43dc22101ff7dbfadf2"
-  }
+  },
+  "amended_utc": "2026-09-24T03:02:46+00:00",
+  "amendment": "1: NaN serialized as null; no results were produced before this change"
 }
