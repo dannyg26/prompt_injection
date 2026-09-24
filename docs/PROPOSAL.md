@@ -1,4 +1,4 @@
-# Capstone proposal ? revised scope
+# Capstone proposal - revised scope
 
 **Provisional question:** How should a small review budget be allocated between threshold adjustment and benign-domain adaptation, compared with generic extra data, while measuring behavior on an untouched third domain?
 

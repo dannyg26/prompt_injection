@@ -7,7 +7,7 @@ Draft v0.3, 2026-09-23. These are hypothetical analytical design calculations, *
 2. Power to compare paired, fixed-threshold predictions.
 3. Power to compare recall at a 1% ROC cutoff estimated from data.
 
-They have different sample requirements. A 95% confidence level specifies type-I error, not an 80% or 90% probability of detecting a real effect. ?Separate? means a paired difference interval excludes zero; marginal intervals need not be nonoverlapping.
+They have different sample requirements. A 95% confidence level specifies type-I error, not an 80% or 90% probability of detecting a real effect. "Separate" means a paired difference interval excludes zero; marginal intervals need not be nonoverlapping.
 
 ## FPR precision
 

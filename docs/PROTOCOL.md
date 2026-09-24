@@ -1,4 +1,4 @@
-# Evaluation protocol ? supersession notice
+# Evaluation protocol - supersession notice
 
 The original draft v0.1 is superseded and preserved under `artifacts/superseded_pre_cleanup/docs/PROTOCOL.md`. Neither version is a preregistration.
 

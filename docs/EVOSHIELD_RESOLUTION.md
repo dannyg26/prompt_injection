@@ -14,7 +14,7 @@ Primary source: [publisher article](https://www.mdpi.com/2227-7390/14/10/1719), 
 - Institutional-domain and corresponding-author searches found no verified institutional full-text copy.
 - [Semantic Scholar DOI lookup](https://api.semanticscholar.org/graph/v1/paper/DOI:10.3390/math14101719?fields=title,authors,openAccessPdf,url) succeeded; its open-access pointer leads back to the publisher DOI, not an independent manuscript.
 - Publisher correspondence field identifies **Zhenlu Wu, zlwu@gdou.edu.cn**. The institutional attribution is Guangdong Ocean University.
-- Author inquiry is prepared in [EVOSHIELD_EMAIL.eml](EVOSHIELD_EMAIL.eml). **NOT SENT**: no sending account is connected. Gmail and Outlook connection options were surfaced; authorization to send already comes from the user's request. No reply is claimed.
+- Author inquiry is prepared in [EVOSHIELD_EMAIL.eml](EVOSHIELD_EMAIL.eml). **NOT SENT**: no sending account is connected. No reply is claimed.
 - The publisher version history lists an update on 21 May 2026. The comparison above concerns the currently indexed article; an unindexed supplement or subsequent revision is not ruled out.
 
 No model training, adaptation or detector scoring was performed during this resolution. Data audits and mathematical design calculations are separate. The remaining launch blockers are source permissions/provenance, annotation staffing and adequate independent evaluation counts. If the author identifies an overlooked matching experiment, reopen the novelty decision before any model run.

@@ -25,7 +25,7 @@ Source-hit counts may exceed rows because one text appears under multiple InjecG
 
 ## PromptShield components
 
-[Paper Table 1 and ?3.1](https://arxiv.org/html/2501.15145v2) identify the families below. Actual row-to-component assignment is absent from the public files; request or reconstruct a provenance map with exact upstream IDs, then audit transformed parents.
+[Paper Table 1 and §3.1](https://arxiv.org/html/2501.15145v2) identify the families below. Actual row-to-component assignment is absent from the public files; request or reconstruct a provenance map with exact upstream IDs, then audit transformed parents.
 
 | Component | Primary evidence / terms | Decision |
 | --- | --- | --- |
