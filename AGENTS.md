@@ -10,4 +10,5 @@
 
 - Current launch gate: no detector training, adaptation or scoring until primary component permissions/provenance, independent sample-size design, and human annotation/IAA gates are satisfied. Analytical planning and frozen embedding data audits are authorized.
 - Amendment 2026-09-24 (project owner's decision): the single study in docs/PREREGISTRATION.md may be fit and scored once, only after its lock (results/study/PREREG_LOCK.json) is committed and pushed. The unmet gates above stay unmet and must be reported as limitations of that study, not as satisfied. All other detector training remains gated.
+- Amendment 2026-09-24 (project owner's decision, second): Study 2 Part A in docs/PREREGISTRATION_LEAKAGE.md may be fit and scored once, only after its lock (results/leakage/PREREG_LOCK.json) matches a pushed commit. Part B remains gated. The unmet gates above must be reported as limitations.
 - Adaptation labels revealed to algorithms and evaluation-set size are separate pools; never shrink evaluation to the adaptation budget.
