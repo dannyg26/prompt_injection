@@ -1,0 +1,395 @@
+{
+  "status": "CANDIDATE sensitivity, not human-confirmed semantic deduplication",
+  "model_manifest": {
+    "model": "sentence-transformers/all-MiniLM-L6-v2",
+    "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "license": "Apache-2.0 model card",
+    "files": [
+      {
+        "file": "onnx/model.onnx",
+        "bytes": 90405214,
+        "sha256": "6fd5d72fe4589f189f8ebc006442dbb529bb7ce38f8082112682524616046452"
+      },
+      {
+        "file": "tokenizer.json",
+        "bytes": 466247,
+        "sha256": "be50c3628f2bf5bb5e3a7f17b1f74611b2561a3a27eeab05e5aa30f411572037"
+      }
+    ]
+  },
+  "input_sha256": "6240f3ded177a4143593d20f373986f808aa86ab3a6a99b0d6d4c06c6bce8c37",
+  "script_sha256": "09f897b801e9839c775264a6ec19db6c9aef4b0d958df82ca3aef6eda32634b5",
+  "embedding_sha256": "3581ba62879325825fda656f5836c280ff153ac700bd99d68ed33f4b4c718bfc",
+  "record_order_sha256": "e0e26a00e2abfb912f0f77b0d8be2846479d6dc7eb56e72d883947f0edddb2e2",
+  "seeds": [
+    17,
+    29,
+    42,
+    71,
+    101
+  ],
+  "embedding_seed": null,
+  "embedding_reason": "Frozen deterministic CPU ONNX inference, no fitting/sampling",
+  "input_n": 627,
+  "multi_chunk_records": 3,
+  "pooling": "attention-masked token mean; token-count-weighted chunk mean; L2 norm",
+  "chunking": "256 wordpieces with 32-token overlap; no tail discarded",
+  "versions": {
+    "onnxruntime": "1.22.1",
+    "tokenizers": "0.21.4",
+    "numpy": "2.2.6"
+  },
+  "thresholds": [
+    {
+      "cutoff": 0.85,
+      "candidate_pairs": 39,
+      "retained": 578,
+      "quarantined": 21,
+      "redundant_removed": 28,
+      "splits": [
+        {
+          "seed": 17,
+          "cross_split_candidate_edges_before": 23,
+          "old_test_ids_removed": 13,
+          "retained_ids_changing_partition": 287,
+          "new_test_ids_shared_with_old_test": 24,
+          "new_counts": {
+            "train": {
+              "n": 380,
+              "positive": 142
+            },
+            "validation": {
+              "n": 96,
+              "positive": 36
+            },
+            "test": {
+              "n": 102,
+              "positive": 38
+            }
+          }
+        },
+        {
+          "seed": 29,
+          "cross_split_candidate_edges_before": 20,
+          "old_test_ids_removed": 7,
+          "retained_ids_changing_partition": 267,
+          "new_test_ids_shared_with_old_test": 30,
+          "new_counts": {
+            "train": {
+              "n": 380,
+              "positive": 142
+            },
+            "validation": {
+              "n": 96,
+              "positive": 36
+            },
+            "test": {
+              "n": 102,
+              "positive": 38
+            }
+          }
+        },
+        {
+          "seed": 42,
+          "cross_split_candidate_edges_before": 19,
+          "old_test_ids_removed": 10,
+          "retained_ids_changing_partition": 283,
+          "new_test_ids_shared_with_old_test": 25,
+          "new_counts": {
+            "train": {
+              "n": 380,
+              "positive": 142
+            },
+            "validation": {
+              "n": 96,
+              "positive": 36
+            },
+            "test": {
+              "n": 102,
+              "positive": 38
+            }
+          }
+        },
+        {
+          "seed": 71,
+          "cross_split_candidate_edges_before": 23,
+          "old_test_ids_removed": 7,
+          "retained_ids_changing_partition": 268,
+          "new_test_ids_shared_with_old_test": 38,
+          "new_counts": {
+            "train": {
+              "n": 380,
+              "positive": 142
+            },
+            "validation": {
+              "n": 96,
+              "positive": 36
+            },
+            "test": {
+              "n": 102,
+              "positive": 38
+            }
+          }
+        },
+        {
+          "seed": 101,
+          "cross_split_candidate_edges_before": 14,
+          "old_test_ids_removed": 14,
+          "retained_ids_changing_partition": 291,
+          "new_test_ids_shared_with_old_test": 21,
+          "new_counts": {
+            "train": {
+              "n": 380,
+              "positive": 142
+            },
+            "validation": {
+              "n": 96,
+              "positive": 36
+            },
+            "test": {
+              "n": 102,
+              "positive": 38
+            }
+          }
+        }
+      ]
+    },
+    {
+      "cutoff": 0.9,
+      "candidate_pairs": 15,
+      "retained": 608,
+      "quarantined": 8,
+      "redundant_removed": 11,
+      "splits": [
+        {
+          "seed": 17,
+          "cross_split_candidate_edges_before": 11,
+          "old_test_ids_removed": 6,
+          "retained_ids_changing_partition": 255,
+          "new_test_ids_shared_with_old_test": 45,
+          "new_counts": {
+            "train": {
+              "n": 400,
+              "positive": 153
+            },
+            "validation": {
+              "n": 101,
+              "positive": 39
+            },
+            "test": {
+              "n": 107,
+              "positive": 41
+            }
+          }
+        },
+        {
+          "seed": 29,
+          "cross_split_candidate_edges_before": 7,
+          "old_test_ids_removed": 2,
+          "retained_ids_changing_partition": 263,
+          "new_test_ids_shared_with_old_test": 46,
+          "new_counts": {
+            "train": {
+              "n": 400,
+              "positive": 153
+            },
+            "validation": {
+              "n": 101,
+              "positive": 39
+            },
+            "test": {
+              "n": 107,
+              "positive": 41
+            }
+          }
+        },
+        {
+          "seed": 42,
+          "cross_split_candidate_edges_before": 8,
+          "old_test_ids_removed": 3,
+          "retained_ids_changing_partition": 286,
+          "new_test_ids_shared_with_old_test": 38,
+          "new_counts": {
+            "train": {
+              "n": 400,
+              "positive": 153
+            },
+            "validation": {
+              "n": 101,
+              "positive": 39
+            },
+            "test": {
+              "n": 107,
+              "positive": 41
+            }
+          }
+        },
+        {
+          "seed": 71,
+          "cross_split_candidate_edges_before": 6,
+          "old_test_ids_removed": 2,
+          "retained_ids_changing_partition": 287,
+          "new_test_ids_shared_with_old_test": 41,
+          "new_counts": {
+            "train": {
+              "n": 400,
+              "positive": 153
+            },
+            "validation": {
+              "n": 101,
+              "positive": 39
+            },
+            "test": {
+              "n": 107,
+              "positive": 41
+            }
+          }
+        },
+        {
+          "seed": 101,
+          "cross_split_candidate_edges_before": 6,
+          "old_test_ids_removed": 5,
+          "retained_ids_changing_partition": 281,
+          "new_test_ids_shared_with_old_test": 42,
+          "new_counts": {
+            "train": {
+              "n": 400,
+              "positive": 153
+            },
+            "validation": {
+              "n": 101,
+              "positive": 39
+            },
+            "test": {
+              "n": 107,
+              "positive": 41
+            }
+          }
+        }
+      ]
+    },
+    {
+      "cutoff": 0.95,
+      "candidate_pairs": 0,
+      "retained": 627,
+      "quarantined": 0,
+      "redundant_removed": 0,
+      "splits": [
+        {
+          "seed": 17,
+          "cross_split_candidate_edges_before": 0,
+          "old_test_ids_removed": 0,
+          "retained_ids_changing_partition": 0,
+          "new_test_ids_shared_with_old_test": 110,
+          "new_counts": {
+            "train": {
+              "n": 412,
+              "positive": 159
+            },
+            "validation": {
+              "n": 105,
+              "positive": 41
+            },
+            "test": {
+              "n": 110,
+              "positive": 42
+            }
+          }
+        },
+        {
+          "seed": 29,
+          "cross_split_candidate_edges_before": 0,
+          "old_test_ids_removed": 0,
+          "retained_ids_changing_partition": 0,
+          "new_test_ids_shared_with_old_test": 110,
+          "new_counts": {
+            "train": {
+              "n": 412,
+              "positive": 159
+            },
+            "validation": {
+              "n": 105,
+              "positive": 41
+            },
+            "test": {
+              "n": 110,
+              "positive": 42
+            }
+          }
+        },
+        {
+          "seed": 42,
+          "cross_split_candidate_edges_before": 0,
+          "old_test_ids_removed": 0,
+          "retained_ids_changing_partition": 0,
+          "new_test_ids_shared_with_old_test": 110,
+          "new_counts": {
+            "train": {
+              "n": 412,
+              "positive": 159
+            },
+            "validation": {
+              "n": 105,
+              "positive": 41
+            },
+            "test": {
+              "n": 110,
+              "positive": 42
+            }
+          }
+        },
+        {
+          "seed": 71,
+          "cross_split_candidate_edges_before": 0,
+          "old_test_ids_removed": 0,
+          "retained_ids_changing_partition": 0,
+          "new_test_ids_shared_with_old_test": 110,
+          "new_counts": {
+            "train": {
+              "n": 412,
+              "positive": 159
+            },
+            "validation": {
+              "n": 105,
+              "positive": 41
+            },
+            "test": {
+              "n": 110,
+              "positive": 42
+            }
+          }
+        },
+        {
+          "seed": 101,
+          "cross_split_candidate_edges_before": 0,
+          "old_test_ids_removed": 0,
+          "retained_ids_changing_partition": 0,
+          "new_test_ids_shared_with_old_test": 110,
+          "new_counts": {
+            "train": {
+              "n": 412,
+              "positive": 159
+            },
+            "validation": {
+              "n": 105,
+              "positive": 41
+            },
+            "test": {
+              "n": 110,
+              "positive": 42
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "High similarity may mean common topic, not equivalent instruction",
+    "No human duplicate-pair precision/recall is measured",
+    "Long-document pooling can dilute short repeated instructions",
+    "Sensitivity splits are not promoted to primary data or used for detector fitting",
+    "Counts are a census of this fixed corpus, not estimated population metrics",
+    "This audit covers legacy 627 rows only, not the larger candidate pools"
+  ],
+  "script_archive_path": "artifacts/semantic_model/script_at_run.py"
+}

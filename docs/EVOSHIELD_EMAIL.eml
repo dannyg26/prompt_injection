@@ -1,0 +1,21 @@
+To: zlwu@gdou.edu.cn
+Subject: EvoShield: clarification of budget-controlled adaptation comparisons
+X-Unsent: 1
+Content-Type: text/plain; charset=UTF-8
+
+Dear Zhenlu Wu,
+
+I am preparing a capstone study on allocating a small label budget for prompt-injection detection and want to avoid duplicating EvoShield (DOI: 10.3390/math14101719).
+
+My reading of Sections 4.1-5.4 is that the experiments compare online LLM routing/review adaptation with local and LLM baselines, vary the entropy threshold and review window, and examine an ordered cross-dataset stream.
+
+Does the paper, supplementary material, or a newer manuscript also compare these three arms at the same number of labeled examples:
+1. Adjust only a frozen detector's classification threshold using target-domain labels.
+2. Add generic/source-domain labeled data and retrain.
+3. Add domain-matched labeled data and retrain.
+
+We are considering small label budgets (25, 50, 100 and 200), separately sized evaluation data, low-FPR recall, and retention on an untouched domain. We are particularly interested in benign-data adaptation rather than online attack generation.
+
+If I have missed an overlapping experiment, could you point me to the relevant section or supplementary material? A current author manuscript would also help us verify the design directly.
+
+Thank you for your time.

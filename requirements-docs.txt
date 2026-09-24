@@ -1,0 +1,4 @@
+# Optional PDF-generation dependencies; independent of the training environment.
+reportlab==4.4.3
+pillow==12.3.0
+charset-normalizer==3.5.1

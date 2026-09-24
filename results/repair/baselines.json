@@ -1,0 +1,569 @@
+{
+  "status": "EXPLORATORY DATA-REPAIR CHECK, not confirmatory evidence",
+  "python": "3.12.10",
+  "versions": {
+    "scikit-learn": "1.7.2",
+    "numpy": "2.2.6",
+    "scipy": "1.15.3",
+    "joblib": "1.6.0"
+  },
+  "seeds": [
+    17,
+    29,
+    42,
+    71,
+    101
+  ],
+  "bootstrap_seed": null,
+  "ci_method": "Wilson analytical intervals; no bootstrap used",
+  "code_sha256": {
+    "C:\\Users\\danny\\Downloads\\prompt_injection\\scripts\\rerun_repaired_baselines.py": "ab6d77adfd584d1d4834a76de5d6fdb97ff6c7b4417cbd8ed6043ccd8dd5f549",
+    "src\\injection_lab\\experiment.py": "ff880a530281ae362ecf3896fe61028410bad38341245d99e29665c17f15eccd"
+  },
+  "audit_sha256": "3192d990b075b5fef9bdadc9d5af1b5afd1ad824a16d2a8265b023b2231bd76b",
+  "before": [
+    {
+      "features": "word",
+      "split_seed": 42,
+      "model_seed": 42,
+      "status": "WITHDRAWN; descriptive historical audit only",
+      "ci_caveat": "Nominal Wilson intervals do not correct leakage or template dependence",
+      "predictions_sha256": "b54edbbd8ea1a42923df4a900bd0908b8a754786a1732b2cfdb2a93ca5d7b83d",
+      "counts": {
+        "tp": 44,
+        "fp": 1,
+        "tn": 55,
+        "fn": 16
+      },
+      "recall": {
+        "estimate": 0.7333333333333333,
+        "ci95": [
+          0.6099128690331636,
+          0.8286735999671945
+        ]
+      },
+      "false_positive_rate": {
+        "estimate": 0.017857142857142856,
+        "ci95": [
+          0.0031592103419746734,
+          0.09445637149397576
+        ]
+      }
+    },
+    {
+      "features": "char",
+      "split_seed": 42,
+      "model_seed": 42,
+      "status": "WITHDRAWN; descriptive historical audit only",
+      "ci_caveat": "Nominal Wilson intervals do not correct leakage or template dependence",
+      "predictions_sha256": "4330585e816ff3be9039fd92be563de9ca7143d992c3dfc3f25d1f8a00664a2f",
+      "counts": {
+        "tp": 47,
+        "fp": 1,
+        "tn": 55,
+        "fn": 13
+      },
+      "recall": {
+        "estimate": 0.7833333333333333,
+        "ci95": [
+          0.6637997242680521,
+          0.868769559518097
+        ]
+      },
+      "false_positive_rate": {
+        "estimate": 0.017857142857142856,
+        "ci95": [
+          0.0031592103419746734,
+          0.09445637149397576
+        ]
+      }
+    },
+    {
+      "features": "combined",
+      "split_seed": 42,
+      "model_seed": 42,
+      "status": "WITHDRAWN; descriptive historical audit only",
+      "ci_caveat": "Nominal Wilson intervals do not correct leakage or template dependence",
+      "predictions_sha256": "e0e2b49355cdd883da86d00baf425b00f930e103094e3d737d70bb3f0909c0fe",
+      "counts": {
+        "tp": 48,
+        "fp": 1,
+        "tn": 55,
+        "fn": 12
+      },
+      "recall": {
+        "estimate": 0.8,
+        "ci95": [
+          0.6821819419437211,
+          0.8817149467710251
+        ]
+      },
+      "false_positive_rate": {
+        "estimate": 0.017857142857142856,
+        "ci95": [
+          0.0031592103419746734,
+          0.09445637149397576
+        ]
+      }
+    }
+  ],
+  "after": [
+    {
+      "features": "word",
+      "split_seed": 17,
+      "model_seed": 17,
+      "threshold": 0.5004189061608395,
+      "validation_fpr_budget": 0.05,
+      "dataset_sha256": "a7beaebd0621bedd2ea3166faaee1f352f3fca17b9a8c97488af88957070172d",
+      "test_n": 110,
+      "ci_method": "two-sided 95% Wilson, conditional on fitted model/threshold",
+      "counts": {
+        "tp": 33,
+        "fp": 10,
+        "tn": 58,
+        "fn": 9
+      },
+      "recall": {
+        "estimate": 0.7857142857142857,
+        "ci95": [
+          0.6406015468367708,
+          0.8829420012399697
+        ]
+      },
+      "false_positive_rate": {
+        "estimate": 0.14705882352941177,
+        "ci95": [
+          0.08188817736343271,
+          0.24997394253308772
+        ]
+      }
+    },
+    {
+      "features": "char",
+      "split_seed": 17,
+      "model_seed": 17,
+      "threshold": 0.49880857894416936,
+      "validation_fpr_budget": 0.05,
+      "dataset_sha256": "a7beaebd0621bedd2ea3166faaee1f352f3fca17b9a8c97488af88957070172d",
+      "test_n": 110,
+      "ci_method": "two-sided 95% Wilson, conditional on fitted model/threshold",
+      "counts": {
+        "tp": 34,
+        "fp": 3,
+        "tn": 65,
+        "fn": 8
+      },
+      "recall": {
+        "estimate": 0.8095238095238095,
+        "ci95": [
+          0.6669922598996131,
+          0.9001799171835226
+        ]
+      },
+      "false_positive_rate": {
+        "estimate": 0.04411764705882353,
+        "ci95": [
+          0.01511661970804156,
+          0.12187195182496394
+        ]
+      }
+    },
+    {
+      "features": "combined",
+      "split_seed": 17,
+      "model_seed": 17,
+      "threshold": 0.5156891918740371,
+      "validation_fpr_budget": 0.05,
+      "dataset_sha256": "a7beaebd0621bedd2ea3166faaee1f352f3fca17b9a8c97488af88957070172d",
+      "test_n": 110,
+      "ci_method": "two-sided 95% Wilson, conditional on fitted model/threshold",
+      "counts": {
+        "tp": 35,
+        "fp": 5,
+        "tn": 63,
+        "fn": 7
+      },
+      "recall": {
+        "estimate": 0.8333333333333334,
+        "ci95": [
+          0.6939599725535115,
+          0.9168408335360192
+        ]
+      },
+      "false_positive_rate": {
+        "estimate": 0.07352941176470588,
+        "ci95": [
+          0.031814844251117996,
+          0.16085188395717748
+        ]
+      }
+    },
+    {
+      "features": "word",
+      "split_seed": 29,
+      "model_seed": 29,
+      "threshold": 0.546882553135759,
+      "validation_fpr_budget": 0.05,
+      "dataset_sha256": "2e37e764c36bfc91b2176b40b1cd559b10ed6455fe5e4c87ae414db4b243c77f",
+      "test_n": 110,
+      "ci_method": "two-sided 95% Wilson, conditional on fitted model/threshold",
+      "counts": {
+        "tp": 34,
+        "fp": 3,
+        "tn": 65,
+        "fn": 8
+      },
+      "recall": {
+        "estimate": 0.8095238095238095,
+        "ci95": [
+          0.6669922598996131,
+          0.9001799171835226
+        ]
+      },
+      "false_positive_rate": {
+        "estimate": 0.04411764705882353,
+        "ci95": [
+          0.01511661970804156,
+          0.12187195182496394
+        ]
+      }
+    },
+    {
+      "features": "char",
+      "split_seed": 29,
+      "model_seed": 29,
+      "threshold": 0.5044139272895908,
+      "validation_fpr_budget": 0.05,
+      "dataset_sha256": "2e37e764c36bfc91b2176b40b1cd559b10ed6455fe5e4c87ae414db4b243c77f",
+      "test_n": 110,
+      "ci_method": "two-sided 95% Wilson, conditional on fitted model/threshold",
+      "counts": {
+        "tp": 37,
+        "fp": 4,
+        "tn": 64,
+        "fn": 5
+      },
+      "recall": {
+        "estimate": 0.8809523809523809,
+        "ci95": [
+          0.7499960973799032,
+          0.9480619667224176
+        ]
+      },
+      "false_positive_rate": {
+        "estimate": 0.058823529411764705,
+        "ci95": [
+          0.023110765539635758,
+          0.1417168843310147
+        ]
+      }
+    },
+    {
+      "features": "combined",
+      "split_seed": 29,
+      "model_seed": 29,
+      "threshold": 0.5206219561663894,
+      "validation_fpr_budget": 0.05,
+      "dataset_sha256": "2e37e764c36bfc91b2176b40b1cd559b10ed6455fe5e4c87ae414db4b243c77f",
+      "test_n": 110,
+      "ci_method": "two-sided 95% Wilson, conditional on fitted model/threshold",
+      "counts": {
+        "tp": 38,
+        "fp": 6,
+        "tn": 62,
+        "fn": 4
+      },
+      "recall": {
+        "estimate": 0.9047619047619048,
+        "ci95": [
+          0.7793489419142897,
+          0.9623377511944261
+        ]
+      },
+      "false_positive_rate": {
+        "estimate": 0.08823529411764706,
+        "ci95": [
+          0.04106811531448934,
+          0.17943769123145112
+        ]
+      }
+    },
+    {
+      "features": "word",
+      "split_seed": 42,
+      "model_seed": 42,
+      "threshold": 0.5235455389597394,
+      "validation_fpr_budget": 0.05,
+      "dataset_sha256": "6240f3ded177a4143593d20f373986f808aa86ab3a6a99b0d6d4c06c6bce8c37",
+      "test_n": 110,
+      "ci_method": "two-sided 95% Wilson, conditional on fitted model/threshold",
+      "counts": {
+        "tp": 32,
+        "fp": 3,
+        "tn": 65,
+        "fn": 10
+      },
+      "recall": {
+        "estimate": 0.7619047619047619,
+        "ci95": [
+          0.6147245613168169,
+          0.8651903577535287
+        ]
+      },
+      "false_positive_rate": {
+        "estimate": 0.04411764705882353,
+        "ci95": [
+          0.01511661970804156,
+          0.12187195182496394
+        ]
+      }
+    },
+    {
+      "features": "char",
+      "split_seed": 42,
+      "model_seed": 42,
+      "threshold": 0.4861919039171713,
+      "validation_fpr_budget": 0.05,
+      "dataset_sha256": "6240f3ded177a4143593d20f373986f808aa86ab3a6a99b0d6d4c06c6bce8c37",
+      "test_n": 110,
+      "ci_method": "two-sided 95% Wilson, conditional on fitted model/threshold",
+      "counts": {
+        "tp": 35,
+        "fp": 2,
+        "tn": 66,
+        "fn": 7
+      },
+      "recall": {
+        "estimate": 0.8333333333333334,
+        "ci95": [
+          0.6939599725535115,
+          0.9168408335360192
+        ]
+      },
+      "false_positive_rate": {
+        "estimate": 0.029411764705882353,
+        "ci95": [
+          0.008103179543129883,
+          0.10104631365223063
+        ]
+      }
+    },
+    {
+      "features": "combined",
+      "split_seed": 42,
+      "model_seed": 42,
+      "threshold": 0.5055362194546236,
+      "validation_fpr_budget": 0.05,
+      "dataset_sha256": "6240f3ded177a4143593d20f373986f808aa86ab3a6a99b0d6d4c06c6bce8c37",
+      "test_n": 110,
+      "ci_method": "two-sided 95% Wilson, conditional on fitted model/threshold",
+      "counts": {
+        "tp": 34,
+        "fp": 2,
+        "tn": 66,
+        "fn": 8
+      },
+      "recall": {
+        "estimate": 0.8095238095238095,
+        "ci95": [
+          0.6669922598996131,
+          0.9001799171835226
+        ]
+      },
+      "false_positive_rate": {
+        "estimate": 0.029411764705882353,
+        "ci95": [
+          0.008103179543129883,
+          0.10104631365223063
+        ]
+      }
+    },
+    {
+      "features": "word",
+      "split_seed": 71,
+      "model_seed": 71,
+      "threshold": 0.5497471303309034,
+      "validation_fpr_budget": 0.05,
+      "dataset_sha256": "6f5537e6f1644f5aafcaefa1fdb4cc56b33007a9de52b7368003fb83dcb48a16",
+      "test_n": 110,
+      "ci_method": "two-sided 95% Wilson, conditional on fitted model/threshold",
+      "counts": {
+        "tp": 25,
+        "fp": 3,
+        "tn": 65,
+        "fn": 17
+      },
+      "recall": {
+        "estimate": 0.5952380952380952,
+        "ci95": [
+          0.44494312750039344,
+          0.7295713885251867
+        ]
+      },
+      "false_positive_rate": {
+        "estimate": 0.04411764705882353,
+        "ci95": [
+          0.01511661970804156,
+          0.12187195182496394
+        ]
+      }
+    },
+    {
+      "features": "char",
+      "split_seed": 71,
+      "model_seed": 71,
+      "threshold": 0.5565823277316594,
+      "validation_fpr_budget": 0.05,
+      "dataset_sha256": "6f5537e6f1644f5aafcaefa1fdb4cc56b33007a9de52b7368003fb83dcb48a16",
+      "test_n": 110,
+      "ci_method": "two-sided 95% Wilson, conditional on fitted model/threshold",
+      "counts": {
+        "tp": 29,
+        "fp": 1,
+        "tn": 67,
+        "fn": 13
+      },
+      "recall": {
+        "estimate": 0.6904761904761905,
+        "ci95": [
+          0.5397400606391092,
+          0.8092889714120513
+        ]
+      },
+      "false_positive_rate": {
+        "estimate": 0.014705882352941176,
+        "ci95": [
+          0.0026006835761068076,
+          0.07870973128160871
+        ]
+      }
+    },
+    {
+      "features": "combined",
+      "split_seed": 71,
+      "model_seed": 71,
+      "threshold": 0.5483611685786473,
+      "validation_fpr_budget": 0.05,
+      "dataset_sha256": "6f5537e6f1644f5aafcaefa1fdb4cc56b33007a9de52b7368003fb83dcb48a16",
+      "test_n": 110,
+      "ci_method": "two-sided 95% Wilson, conditional on fitted model/threshold",
+      "counts": {
+        "tp": 29,
+        "fp": 1,
+        "tn": 67,
+        "fn": 13
+      },
+      "recall": {
+        "estimate": 0.6904761904761905,
+        "ci95": [
+          0.5397400606391092,
+          0.8092889714120513
+        ]
+      },
+      "false_positive_rate": {
+        "estimate": 0.014705882352941176,
+        "ci95": [
+          0.0026006835761068076,
+          0.07870973128160871
+        ]
+      }
+    },
+    {
+      "features": "word",
+      "split_seed": 101,
+      "model_seed": 101,
+      "threshold": 0.4946900123042065,
+      "validation_fpr_budget": 0.05,
+      "dataset_sha256": "2a9a116f3b03a7aaedf09d65977c2e09fb9e11f2dfe50219596290a481e34b6c",
+      "test_n": 110,
+      "ci_method": "two-sided 95% Wilson, conditional on fitted model/threshold",
+      "counts": {
+        "tp": 36,
+        "fp": 6,
+        "tn": 62,
+        "fn": 6
+      },
+      "recall": {
+        "estimate": 0.8571428571428571,
+        "ci95": [
+          0.7215891052555522,
+          0.9328403298403735
+        ]
+      },
+      "false_positive_rate": {
+        "estimate": 0.08823529411764706,
+        "ci95": [
+          0.04106811531448934,
+          0.17943769123145112
+        ]
+      }
+    },
+    {
+      "features": "char",
+      "split_seed": 101,
+      "model_seed": 101,
+      "threshold": 0.4462835937355388,
+      "validation_fpr_budget": 0.05,
+      "dataset_sha256": "2a9a116f3b03a7aaedf09d65977c2e09fb9e11f2dfe50219596290a481e34b6c",
+      "test_n": 110,
+      "ci_method": "two-sided 95% Wilson, conditional on fitted model/threshold",
+      "counts": {
+        "tp": 39,
+        "fp": 10,
+        "tn": 58,
+        "fn": 3
+      },
+      "recall": {
+        "estimate": 0.9285714285714286,
+        "ci95": [
+          0.8099057319884169,
+          0.9754095901266941
+        ]
+      },
+      "false_positive_rate": {
+        "estimate": 0.14705882352941177,
+        "ci95": [
+          0.08188817736343271,
+          0.24997394253308772
+        ]
+      }
+    },
+    {
+      "features": "combined",
+      "split_seed": 101,
+      "model_seed": 101,
+      "threshold": 0.4311470967708776,
+      "validation_fpr_budget": 0.05,
+      "dataset_sha256": "2a9a116f3b03a7aaedf09d65977c2e09fb9e11f2dfe50219596290a481e34b6c",
+      "test_n": 110,
+      "ci_method": "two-sided 95% Wilson, conditional on fitted model/threshold",
+      "counts": {
+        "tp": 39,
+        "fp": 11,
+        "tn": 57,
+        "fn": 3
+      },
+      "recall": {
+        "estimate": 0.9285714285714286,
+        "ci95": [
+          0.8099057319884169,
+          0.9754095901266941
+        ]
+      },
+      "false_positive_rate": {
+        "estimate": 0.16176470588235295,
+        "ci95": [
+          0.09280092222804136,
+          0.26690027600612404
+        ]
+      }
+    }
+  ],
+  "limitations": [
+    "Before/after test membership differs; differences are not causal leakage estimates.",
+    "Wilson intervals assume independence between retained lexical groups.",
+    "Intervals condition on fitting and threshold selection; seed sensitivity is separate.",
+    "Different seed test sets overlap; do not pool their denominators.",
+    "This small corpus cannot establish recall at 1% population FPR."
+  ]
+}

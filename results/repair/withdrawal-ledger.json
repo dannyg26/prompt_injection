@@ -1,0 +1,74 @@
+[
+  {
+    "original": "results/INITIAL_FINDINGS.md",
+    "archive": "artifacts/superseded_pre_cleanup/results/INITIAL_FINDINGS.md",
+    "sha256": "16f04a0dce96b599871667a7ca2c6ed77e4e314db660e812f9350ac7ad4a3ce2",
+    "status": "WITHDRAWN results / SUPERSEDED documentation"
+  },
+  {
+    "original": "results/deepset-baselines.csv",
+    "archive": "artifacts/superseded_pre_cleanup/results/deepset-baselines.csv",
+    "sha256": "f45e0e9fbb007bb8bc21f578b390c64f841ff77f8980faabb46d7bb8730727a2",
+    "status": "WITHDRAWN results / SUPERSEDED documentation"
+  },
+  {
+    "original": "results/exploratory/deepset-char.json",
+    "archive": "artifacts/superseded_pre_cleanup/results/exploratory/deepset-char.json",
+    "sha256": "dfce4286e10e4ce1c9b8b811445b24be109bee7c2a7fec211669ff06028bf341",
+    "status": "WITHDRAWN results / SUPERSEDED documentation"
+  },
+  {
+    "original": "results/exploratory/deepset-combined.json",
+    "archive": "artifacts/superseded_pre_cleanup/results/exploratory/deepset-combined.json",
+    "sha256": "b8a804269603156956194dec6c27342130919fa1328fefadb9296c78471f8e05",
+    "status": "WITHDRAWN results / SUPERSEDED documentation"
+  },
+  {
+    "original": "results/exploratory/deepset-word.json",
+    "archive": "artifacts/superseded_pre_cleanup/results/exploratory/deepset-word.json",
+    "sha256": "b0e82d2bb2d6c14eade12b22bce903ddca3949fa23da508dc37e68be5e84ab87",
+    "status": "WITHDRAWN results / SUPERSEDED documentation"
+  },
+  {
+    "original": "results/exploratory/deepset.manifest.json",
+    "archive": "artifacts/superseded_pre_cleanup/results/exploratory/deepset.manifest.json",
+    "sha256": "d3b27def258a85f1430f9808d1152816408d9e9f106f13e4ce415c7def6435b5",
+    "status": "WITHDRAWN results / SUPERSEDED documentation"
+  },
+  {
+    "original": "docs/PROPOSAL.md",
+    "archive": "artifacts/superseded_pre_cleanup/docs/PROPOSAL.md",
+    "sha256": "9fc053f55f268a1f1142fbf5f5563ae89fe60b7f0ee9cdf05eae4eef6db66a7d",
+    "status": "WITHDRAWN results / SUPERSEDED documentation"
+  },
+  {
+    "original": "docs/PROTOCOL.md",
+    "archive": "artifacts/superseded_pre_cleanup/docs/PROTOCOL.md",
+    "sha256": "9edd917011a0af76c7d8565e89749ba0a702ee05c629a6a1d6b4c788010ced94",
+    "status": "WITHDRAWN results / SUPERSEDED documentation"
+  },
+  {
+    "original": "docs/DATASETS.md",
+    "archive": "artifacts/superseded_pre_cleanup/docs/DATASETS.md",
+    "sha256": "ae6166f4da5f66d0ca55ce8a80c21ca0301f9a76e8303f9cc13c80fd8ad72916",
+    "status": "WITHDRAWN results / SUPERSEDED documentation"
+  },
+  {
+    "original": "docs/STATUS.md",
+    "archive": "artifacts/superseded_pre_cleanup/docs/STATUS.md",
+    "sha256": "7ffcc0ef00ac6f3912d9db3dc09096e3d2c91569649e32a3eee38c715afb9a4a",
+    "status": "WITHDRAWN results / SUPERSEDED documentation"
+  },
+  {
+    "original": "README.md",
+    "archive": "artifacts/superseded_pre_cleanup/README.md",
+    "sha256": "354d67e1aaf431ea8031e3fc80d17e56fc32ba039ae5ac644a6e852daaf0162c",
+    "status": "WITHDRAWN results / SUPERSEDED documentation"
+  },
+  {
+    "original": "paper/outline.md",
+    "archive": "artifacts/superseded_pre_cleanup/paper/outline.md",
+    "sha256": "98b33422f786f5347e4c0690e6bd0e9cd6ab1416ee17b6e8964c341f2a92cd03",
+    "status": "WITHDRAWN results / SUPERSEDED documentation"
+  }
+]

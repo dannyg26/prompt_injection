@@ -1,0 +1,131 @@
+{
+  "status": "fixed-corpus audit counts, no performance estimates",
+  "normalization": "NFKC + casefold + whitespace collapse + SHA256",
+  "code_sha256": "e5dd05ec0ba332c0a6e5453bfc3fd2ec772b5df44e48ced83e93c5b04d15c466",
+  "input_sha256": {
+    "artifacts\\research_audit\\injec_train.json": "806ded8bd85782a53d34faffe4fd92b3f2e0b3b431c43578ce77faea6b9ed911",
+    "artifacts\\research_audit\\promptshield_train.json": "aa33c3ffcc27bd07c0a233b52f1b8c3cbdb30606ce2412da06a88b5290cdc7b6",
+    "artifacts\\research_audit\\promptshield_validation.json": "1d93d90d57d3ef44ed0c546fbc04d66324436c5fcd32e7fcb940ceed270fbe77",
+    "artifacts\\research_audit\\promptshield_test.json": "526207c2485829d9961407011d7f4cd929569e7f285dc8396b3f385e0608bc70"
+  },
+  "injec_counts_by_source_label": {
+    "Alpaca": {
+      "0": 4000
+    },
+    "BIPIA": {
+      "0": 558,
+      "1": 558
+    },
+    "ChatGPT-Jailbreak-Prompts": {
+      "1": 79
+    },
+    "InjecAgent": {
+      "1": 111
+    },
+    "LLM Augmented set": {
+      "1": 435
+    },
+    "Prompt-Injection-Mixed-Techniques": {
+      "1": 1174
+    },
+    "Question Set": {
+      "0": 643,
+      "1": 1643
+    },
+    "StruQ": {
+      "1": 20
+    },
+    "TaskTracker": {
+      "0": 11386,
+      "1": 3316
+    },
+    "awesome-chatgpt-prompts": {
+      "0": 170
+    },
+    "chatbot_instruction_prompts": {
+      "0": 16000
+    },
+    "grok-conversation-harmless": {
+      "0": 4000
+    },
+    "hackaprompt-dataset": {
+      "1": 5000
+    },
+    "jailbreak-classification": {
+      "0": 517,
+      "1": 527
+    },
+    "no_robots": {
+      "0": 1500
+    },
+    "open-instruct": {
+      "0": 12000
+    },
+    "over-defense": {
+      "0": 762
+    },
+    "prompt-injections": {
+      "0": 343,
+      "1": 203
+    },
+    "safe-guard-prompt-injection": {
+      "0": 5740,
+      "1": 2496
+    },
+    "ultrachat_200k": {
+      "0": 3000
+    },
+    "vigil-jailbreak-ada-002": {
+      "1": 104
+    },
+    "xtest-v2-copy": {
+      "0": 450
+    }
+  },
+  "promptshield_splits": [
+    {
+      "split": "train",
+      "n": 18909,
+      "normalized_unique": 18786,
+      "overlapping_rows_with_injec_train": 472,
+      "distinct_overlap_texts": 472,
+      "label_conflict_rows": 0,
+      "injec_sources": {
+        "ultrachat_200k": 72,
+        "Alpaca": 186,
+        "chatbot_instruction_prompts": 228
+      }
+    },
+    {
+      "split": "validation",
+      "n": 1000,
+      "normalized_unique": 998,
+      "overlapping_rows_with_injec_train": 20,
+      "distinct_overlap_texts": 20,
+      "label_conflict_rows": 0,
+      "injec_sources": {
+        "Alpaca": 8,
+        "chatbot_instruction_prompts": 11,
+        "ultrachat_200k": 3
+      }
+    },
+    {
+      "split": "test",
+      "n": 23516,
+      "normalized_unique": 23345,
+      "overlapping_rows_with_injec_train": 479,
+      "distinct_overlap_texts": 455,
+      "label_conflict_rows": 1,
+      "injec_sources": {
+        "open-instruct": 377,
+        "safe-guard-prompt-injection": 97,
+        "chatbot_instruction_prompts": 17,
+        "grok-conversation-harmless": 46,
+        "prompt-injections": 5,
+        "jailbreak-classification": 1,
+        "ChatGPT-Jailbreak-Prompts": 1,
+        "Alpaca": 1
+      }
+    }
+  ]
+}

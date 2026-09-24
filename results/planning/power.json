@@ -1,0 +1,396 @@
+{
+  "status": "HYPOTHETICAL DESIGN CALCULATIONS, not experimental metrics",
+  "seed": null,
+  "seed_reason": "Deterministic analytical enumeration; no Monte Carlo used",
+  "ci_reason": "Power is a calculated probability under assumptions, not an estimate",
+  "sample_size_unit": "independent paired positive OR negative evaluation items",
+  "rounding": "sufficient N rounded upward in 25-item steps; not exact minimum",
+  "rows": [
+    {
+      "endpoint": "recall",
+      "delta": 0.02,
+      "discordance": 0.05,
+      "alpha": 0.05,
+      "n_80": 1050,
+      "analytical_power_80": 0.8062631006256521,
+      "n_90": 1375,
+      "analytical_power_90": 0.9045353420092619
+    },
+    {
+      "endpoint": "recall",
+      "delta": 0.02,
+      "discordance": 0.05,
+      "alpha": 0.025,
+      "n_80": 1250,
+      "analytical_power_80": 0.8070446556724831,
+      "n_90": 1600,
+      "analytical_power_90": 0.903520127566313
+    },
+    {
+      "endpoint": "recall",
+      "delta": 0.02,
+      "discordance": 0.1,
+      "alpha": 0.05,
+      "n_80": 2050,
+      "analytical_power_80": 0.801548907616867,
+      "n_90": 2700,
+      "analytical_power_90": 0.9003299929961259
+    },
+    {
+      "endpoint": "recall",
+      "delta": 0.02,
+      "discordance": 0.1,
+      "alpha": 0.025,
+      "n_80": 2475,
+      "analytical_power_80": 0.8039575857671732,
+      "n_90": 3175,
+      "analytical_power_90": 0.9005561422331483
+    },
+    {
+      "endpoint": "recall",
+      "delta": 0.02,
+      "discordance": 0.2,
+      "alpha": 0.05,
+      "n_80": 4025,
+      "analytical_power_80": 0.8009659752697955,
+      "n_90": 5350,
+      "analytical_power_90": 0.9005545226760451
+    },
+    {
+      "endpoint": "recall",
+      "delta": 0.02,
+      "discordance": 0.2,
+      "alpha": 0.025,
+      "n_80": 4850,
+      "analytical_power_80": 0.8010664777039251,
+      "n_90": 6300,
+      "analytical_power_90": 0.9005551302755562
+    },
+    {
+      "endpoint": "recall",
+      "delta": 0.03,
+      "discordance": 0.05,
+      "alpha": 0.05,
+      "n_80": 475,
+      "analytical_power_80": 0.8119094576263106,
+      "n_90": 600,
+      "analytical_power_90": 0.900583966425908
+    },
+    {
+      "endpoint": "recall",
+      "delta": 0.03,
+      "discordance": 0.05,
+      "alpha": 0.025,
+      "n_80": 550,
+      "analytical_power_80": 0.8067279377720443,
+      "n_90": 700,
+      "analytical_power_90": 0.9087002293976477
+    },
+    {
+      "endpoint": "recall",
+      "delta": 0.03,
+      "discordance": 0.1,
+      "alpha": 0.05,
+      "n_80": 925,
+      "analytical_power_80": 0.8026627443291969,
+      "n_90": 1225,
+      "analytical_power_90": 0.9043460802976404
+    },
+    {
+      "endpoint": "recall",
+      "delta": 0.03,
+      "discordance": 0.1,
+      "alpha": 0.025,
+      "n_80": 1100,
+      "analytical_power_80": 0.8008578456452404,
+      "n_90": 1425,
+      "analytical_power_90": 0.9026665252528204
+    },
+    {
+      "endpoint": "recall",
+      "delta": 0.03,
+      "discordance": 0.2,
+      "alpha": 0.05,
+      "n_80": 1800,
+      "analytical_power_80": 0.8000376536505059,
+      "n_90": 2400,
+      "analytical_power_90": 0.9015005220886476
+    },
+    {
+      "endpoint": "recall",
+      "delta": 0.03,
+      "discordance": 0.2,
+      "alpha": 0.025,
+      "n_80": 2175,
+      "analytical_power_80": 0.8020214129461204,
+      "n_90": 2825,
+      "analytical_power_90": 0.9018518630447614
+    },
+    {
+      "endpoint": "recall",
+      "delta": 0.05,
+      "discordance": 0.05,
+      "alpha": 0.05,
+      "n_80": 175,
+      "analytical_power_80": 0.8747046988773841,
+      "n_90": 225,
+      "analytical_power_90": 0.9707399124312435
+    },
+    {
+      "endpoint": "recall",
+      "delta": 0.05,
+      "discordance": 0.05,
+      "alpha": 0.025,
+      "n_80": 200,
+      "analytical_power_80": 0.8762569739798406,
+      "n_90": 250,
+      "analytical_power_90": 0.9686150683927263
+    },
+    {
+      "endpoint": "recall",
+      "delta": 0.05,
+      "discordance": 0.1,
+      "alpha": 0.05,
+      "n_80": 350,
+      "analytical_power_80": 0.8181698288213657,
+      "n_90": 450,
+      "analytical_power_90": 0.9137688364133191
+    },
+    {
+      "endpoint": "recall",
+      "delta": 0.05,
+      "discordance": 0.1,
+      "alpha": 0.025,
+      "n_80": 400,
+      "analytical_power_80": 0.8086575196921245,
+      "n_90": 525,
+      "analytical_power_90": 0.9146653090896117
+    },
+    {
+      "endpoint": "recall",
+      "delta": 0.05,
+      "discordance": 0.2,
+      "alpha": 0.05,
+      "n_80": 675,
+      "analytical_power_80": 0.8113454574725547,
+      "n_90": 875,
+      "analytical_power_90": 0.9029883492710493
+    },
+    {
+      "endpoint": "recall",
+      "delta": 0.05,
+      "discordance": 0.2,
+      "alpha": 0.025,
+      "n_80": 800,
+      "analytical_power_80": 0.8066605976725574,
+      "n_90": 1025,
+      "analytical_power_90": 0.9023294242411025
+    },
+    {
+      "endpoint": "FPR 3% to 1%",
+      "delta": 0.02,
+      "discordance": 0.04,
+      "alpha": 0.05,
+      "n_80": 850,
+      "analytical_power_80": 0.8041336714479006,
+      "n_90": 1100,
+      "analytical_power_90": 0.9062344966529144
+    },
+    {
+      "endpoint": "FPR 3% to 1%",
+      "delta": 0.02,
+      "discordance": 0.04,
+      "alpha": 0.025,
+      "n_80": 1000,
+      "analytical_power_80": 0.807956012352326,
+      "n_90": 1275,
+      "analytical_power_90": 0.9047290600873579
+    },
+    {
+      "endpoint": "FPR 6% to 1%",
+      "delta": 0.05,
+      "discordance": 0.07,
+      "alpha": 0.05,
+      "n_80": 250,
+      "analytical_power_80": 0.84438488808443,
+      "n_90": 300,
+      "analytical_power_90": 0.9118939537755775
+    },
+    {
+      "endpoint": "FPR 6% to 1%",
+      "delta": 0.05,
+      "discordance": 0.07,
+      "alpha": 0.025,
+      "n_80": 275,
+      "analytical_power_80": 0.8138070625475782,
+      "n_90": 350,
+      "analytical_power_90": 0.9129183264221438
+    },
+    {
+      "endpoint": "FPR 1% to 0.5%",
+      "delta": 0.005,
+      "discordance": 0.015,
+      "alpha": 0.05,
+      "n_80": 5000,
+      "analytical_power_80": 0.8017896634589556,
+      "n_90": 6550,
+      "analytical_power_90": 0.9010321390072076
+    },
+    {
+      "endpoint": "FPR 1% to 0.5%",
+      "delta": 0.005,
+      "discordance": 0.015,
+      "alpha": 0.025,
+      "n_80": 5950,
+      "analytical_power_80": 0.801492747777594,
+      "n_90": 7650,
+      "analytical_power_90": 0.9007500765780293
+    }
+  ],
+  "fpr_precision": [
+    {
+      "n_negative": 1500,
+      "hypothetical_fpr": 0.01,
+      "wilson95": [
+        0.006069437504076523,
+        0.016433904601701334
+      ]
+    },
+    {
+      "n_negative": 2000,
+      "hypothetical_fpr": 0.01,
+      "wilson95": [
+        0.006482767876552687,
+        0.015395938459075187
+      ]
+    },
+    {
+      "n_negative": 5000,
+      "hypothetical_fpr": 0.01,
+      "wilson95": [
+        0.007593772813946567,
+        0.013158575092209418
+      ]
+    },
+    {
+      "n_negative": 10000,
+      "hypothetical_fpr": 0.01,
+      "wilson95": [
+        0.008229336148148417,
+        0.012146982255114645
+      ]
+    }
+  ],
+  "normal_n_for_halfwidth": {
+    "0.005": 1522,
+    "0.003": 4226,
+    "0.002": 9508
+  },
+  "illustrative_roc_cutoff_uncertainty": [
+    {
+      "delta": 0.02,
+      "score_correlation_in_each_class": 0.5,
+      "baseline_recall": 0.8,
+      "n_positive": 6500,
+      "alpha": 0.025,
+      "q_positive": 0.21854011786371053,
+      "negative_variance_coefficient": 1.8050384599364662,
+      "n_negative_80": 211787,
+      "n_negative_90": null
+    },
+    {
+      "delta": 0.02,
+      "score_correlation_in_each_class": 0.9,
+      "baseline_recall": 0.8,
+      "n_positive": 6500,
+      "alpha": 0.025,
+      "q_positive": 0.09826188691853788,
+      "negative_variance_coefficient": 0.9516728057922776,
+      "n_negative_80": 35212,
+      "n_negative_90": 55416
+    },
+    {
+      "delta": 0.02,
+      "score_correlation_in_each_class": 0.99,
+      "baseline_recall": 0.8,
+      "n_positive": 6500,
+      "alpha": 0.025,
+      "q_positive": 0.034676508587005106,
+      "negative_variance_coefficient": 0.314173129265763,
+      "n_negative_80": 8536,
+      "n_negative_90": 11656
+    },
+    {
+      "delta": 0.03,
+      "score_correlation_in_each_class": 0.5,
+      "baseline_recall": 0.8,
+      "n_positive": 6500,
+      "alpha": 0.025,
+      "q_positive": 0.21519613489090328,
+      "negative_variance_coefficient": 1.7466903444260415,
+      "n_negative_80": 28302,
+      "n_negative_90": 44169
+    },
+    {
+      "delta": 0.03,
+      "score_correlation_in_each_class": 0.9,
+      "baseline_recall": 0.8,
+      "n_positive": 6500,
+      "alpha": 0.025,
+      "q_positive": 0.09825386926543156,
+      "negative_variance_coefficient": 0.9237208934327703,
+      "n_negative_80": 11589,
+      "n_negative_90": 16055
+    },
+    {
+      "delta": 0.03,
+      "score_correlation_in_each_class": 0.99,
+      "baseline_recall": 0.8,
+      "n_positive": 6500,
+      "alpha": 0.025,
+      "q_positive": 0.03913375379431172,
+      "negative_variance_coefficient": 0.3089284463128308,
+      "n_negative_80": 3479,
+      "n_negative_90": 4637
+    },
+    {
+      "delta": 0.05,
+      "score_correlation_in_each_class": 0.5,
+      "baseline_recall": 0.8,
+      "n_positive": 6500,
+      "alpha": 0.025,
+      "q_positive": 0.20901654094687028,
+      "negative_variance_coefficient": 1.6305993430083237,
+      "n_negative_80": 7052,
+      "n_negative_90": 9612
+    },
+    {
+      "delta": 0.05,
+      "score_correlation_in_each_class": 0.9,
+      "baseline_recall": 0.8,
+      "n_positive": 6500,
+      "alpha": 0.025,
+      "q_positive": 0.1002104203191958,
+      "negative_variance_coefficient": 0.8723307549932051,
+      "n_negative_80": 3518,
+      "n_negative_90": 4680
+    },
+    {
+      "delta": 0.05,
+      "score_correlation_in_each_class": 0.99,
+      "baseline_recall": 0.8,
+      "n_positive": 6500,
+      "alpha": 0.025,
+      "q_positive": 0.05279747904514531,
+      "negative_variance_coefficient": 0.3058725465659673,
+      "n_negative_80": 1199,
+      "n_negative_90": 1580
+    }
+  ],
+  "limitations": [
+    "Paired fixed-threshold outcomes, conditional on trained models and calibration",
+    "Not power for test-set-selected ROC thresholds or the multi-seed treatment effect",
+    "Unknown discordance, clustering and label error require sensitivity analysis",
+    "A 2pp decrease from a 1% baseline is impossible; 3%->1% is a different question"
+  ]
+}

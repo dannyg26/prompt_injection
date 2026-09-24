@@ -1,0 +1,12 @@
+# Research rules
+
+- Do not add product or detector features without a new request. Current work is a literature audit, data repair, and an experiment specification.
+- Every reported experimental metric must identify all seeds and carry a confidence interval with its method and assumptions. Counts, configuration values, and planned budgets are not estimated performance metrics.
+- Never describe repeated seeds on overlapping data as independent additional test examples.
+- Keep dataset/template groups disjoint across partitions; document the operational near-duplicate definition and remaining semantic uncertainty.
+- Preserve immutable original data and superseded outputs for audit, but withdraw contaminated results from current research claims.
+- Label unresolved references, metadata, licenses, and novelty claims UNVERIFIED. Distinguish an author's stated limitation from our inference.
+- Never select cleaning rules, thresholds, models, or hyperparameters from held-out performance. Record exploratory amendments.
+
+- Current launch gate: no detector training, adaptation or scoring until primary component permissions/provenance, independent sample-size design, and human annotation/IAA gates are satisfied. Analytical planning and frozen embedding data audits are authorized.
+- Adaptation labels revealed to algorithms and evaluation-set size are separate pools; never shrink evaluation to the adaptation budget.

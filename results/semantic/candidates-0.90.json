@@ -1,0 +1,92 @@
+[
+  {
+    "left_id": "deepset:test-00000-of-00001-701d16158af87368:103",
+    "right_id": "deepset:test-00000-of-00001-701d16158af87368:113",
+    "cosine": 0.9010928869247437,
+    "label_conflict": false
+  },
+  {
+    "left_id": "deepset:test-00000-of-00001-701d16158af87368:106",
+    "right_id": "deepset:test-00000-of-00001-701d16158af87368:72",
+    "cosine": 0.943130373954773,
+    "label_conflict": true
+  },
+  {
+    "left_id": "deepset:test-00000-of-00001-701d16158af87368:28",
+    "right_id": "deepset:train-00000-of-00001-9564e8b05b4757ab:67",
+    "cosine": 0.9450370073318481,
+    "label_conflict": false
+  },
+  {
+    "left_id": "deepset:test-00000-of-00001-701d16158af87368:71",
+    "right_id": "deepset:train-00000-of-00001-9564e8b05b4757ab:314",
+    "cosine": 0.9293874502182007,
+    "label_conflict": false
+  },
+  {
+    "left_id": "deepset:train-00000-of-00001-9564e8b05b4757ab:110",
+    "right_id": "deepset:train-00000-of-00001-9564e8b05b4757ab:472",
+    "cosine": 0.9199886918067932,
+    "label_conflict": false
+  },
+  {
+    "left_id": "deepset:train-00000-of-00001-9564e8b05b4757ab:123",
+    "right_id": "deepset:train-00000-of-00001-9564e8b05b4757ab:518",
+    "cosine": 0.9405614137649536,
+    "label_conflict": true
+  },
+  {
+    "left_id": "deepset:train-00000-of-00001-9564e8b05b4757ab:178",
+    "right_id": "deepset:train-00000-of-00001-9564e8b05b4757ab:32",
+    "cosine": 0.920355498790741,
+    "label_conflict": false
+  },
+  {
+    "left_id": "deepset:train-00000-of-00001-9564e8b05b4757ab:215",
+    "right_id": "deepset:train-00000-of-00001-9564e8b05b4757ab:308",
+    "cosine": 0.9037092328071594,
+    "label_conflict": false
+  },
+  {
+    "left_id": "deepset:train-00000-of-00001-9564e8b05b4757ab:388",
+    "right_id": "deepset:train-00000-of-00001-9564e8b05b4757ab:463",
+    "cosine": 0.9259088039398193,
+    "label_conflict": false
+  },
+  {
+    "left_id": "deepset:train-00000-of-00001-9564e8b05b4757ab:464",
+    "right_id": "deepset:train-00000-of-00001-9564e8b05b4757ab:480",
+    "cosine": 0.9257126450538635,
+    "label_conflict": true
+  },
+  {
+    "left_id": "deepset:train-00000-of-00001-9564e8b05b4757ab:48",
+    "right_id": "deepset:train-00000-of-00001-9564e8b05b4757ab:489",
+    "cosine": 0.937956690788269,
+    "label_conflict": true
+  },
+  {
+    "left_id": "deepset:train-00000-of-00001-9564e8b05b4757ab:488",
+    "right_id": "deepset:train-00000-of-00001-9564e8b05b4757ab:528",
+    "cosine": 0.9419355392456055,
+    "label_conflict": false
+  },
+  {
+    "left_id": "deepset:train-00000-of-00001-9564e8b05b4757ab:494",
+    "right_id": "deepset:train-00000-of-00001-9564e8b05b4757ab:534",
+    "cosine": 0.9464399814605713,
+    "label_conflict": false
+  },
+  {
+    "left_id": "deepset:train-00000-of-00001-9564e8b05b4757ab:495",
+    "right_id": "deepset:train-00000-of-00001-9564e8b05b4757ab:535",
+    "cosine": 0.931317925453186,
+    "label_conflict": false
+  },
+  {
+    "left_id": "deepset:train-00000-of-00001-9564e8b05b4757ab:63",
+    "right_id": "deepset:train-00000-of-00001-9564e8b05b4757ab:84",
+    "cosine": 0.9077826142311096,
+    "label_conflict": false
+  }
+]
