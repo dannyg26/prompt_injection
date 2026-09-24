@@ -266,3 +266,35 @@ def largest_groups(rows, top=10):
             }
         )
     return result
+
+
+def rows_from_manifest(clone_root, manifest_path):
+    """Rebuild frozen pool rows from the committed manifest plus the pinned raw release.
+
+    Uses no grouping computation, so the result is byte-identical across Python versions.
+    """
+    import csv
+    import gzip
+
+    loaded, _ = load_injecguard(clone_root)
+    by_id = {r["id"]: r for r in loaded}
+    rows = []
+    with gzip.open(manifest_path, "rt", encoding="utf-8", newline="") as handle:
+        for entry in csv.DictReader(handle):
+            base = by_id[entry["id"]]
+            if base["sha"] != entry["text_sha256"]:
+                raise AssertionError(f"Text hash mismatch for {entry['id']}")
+            rows.append(
+                {
+                    "id": entry["id"],
+                    "text": base["text"],
+                    "label": int(entry["label"]),
+                    "source": entry["source"],
+                    "domain": entry["domain"],
+                    "sha": entry["text_sha256"],
+                    "group": entry["group"],
+                    "partition": entry["partition"],
+                }
+            )
+    rows.sort(key=lambda r: r["id"])
+    return rows

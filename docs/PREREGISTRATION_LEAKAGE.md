@@ -69,3 +69,28 @@ For Part B:
 3. HackAPrompt (7 groups) is analyzed only by leave-one-template-out; no inflation interval is computed for it.
 
 This amendment was written after Part A results were seen. It is a design correction for the next experiment, not a reanalysis of Part A. `splitcompare.py` changed after the Part A run; the Part A lock in git history (commit `a93623d`) records the code that produced those results.
+
+## Amendment 3 (2026-09-24): Part B design, locked before any Part B run
+
+This supersedes the Part B sketch above wherever they differ. Everything here was fixed before any Part B model was trained or scored, and no Part B output exists. The runner is `scripts/run_partb.py` (with `src/injection_lab/partb.py` and `transformer.py`); hashes are in `results/leakage/PARTB_LOCK.json`. It runs on Google Colab (GPU) because the project environment has no GPU or Hugging Face access.
+
+- **Data.** The frozen Study 1 pools, rebuilt on Colab from the committed manifest plus the pinned InjecGuard clone. The runner refuses to continue unless the rebuilt file's sha256 equals `pools_sha256` in `results/study/pool_ledger.json`.
+- **Splits.** 5 repeats (split seeds 31000–31004) of a row split and a **randomized** group split (`random_group_split`, Amendment 2); 70/30.
+- **Trained detectors.**
+  - The Study 1 TF-IDF recipe, run on the same new splits.
+  - `microsoft/deberta-v3-small`, fine-tuned once per split with a fixed recipe: AdamW, learning rate 2e-5, weight decay 0.01, **1 epoch**, batch size 32, maximum length 256, 6% linear warmup, balanced class weights, fp16 autocast, gradient clipping at 1.0.
+  - The original sketch said 2 epochs. We changed it to 1 to fit a free Colab session. The choice is based on compute alone; no Part B performance had been seen.
+- **Released detectors, scored only, never trained.**
+  - `protectai/deberta-v3-base-prompt-injection-v2`.
+  - `meta-llama/Llama-Prompt-Guard-2-86M`, if the runner's Hugging Face token has access. If it is not available, the runner records it as unavailable; it is not replaced.
+  - Maximum length 512 for both.
+  - **PIGuard is excluded**, because it was trained on this exact InjecGuard release, so scores on these rows would measure memorization.
+- **Revisions.** Every Hub model is pinned to its commit sha at the first run (`revisions.json`), and that sha is reused on resume.
+- **Primary endpoints.** For each trained detector, the per-source inflation of recall at 1% FPR (row minus group) for TaskTracker, BIPIA and jailbreak-classification, with 95% Nadeau–Bengio intervals (J = 5; test/train = 0.3/0.7). The pooled and HackAPrompt rows are reported but not interpreted as inflation.
+- **Secondary endpoints.**
+  - Design effects: median and range over the group splits.
+  - HackAPrompt leave-one-template-out recall for both trained detectors, with no interval.
+  - For released detectors: per-source recall at 1% FPR over the 5 group-split test sets (mean and range), design effects, and per-HackAPrompt-template recall. Their training data are partly unknown, so no inflation is estimated for them and overlap with these rows cannot be ruled out.
+- **Decision rules.** As before: inflation is established for a source if its interval lies above 0. All results are reported.
+- **Execution.** Resumable: each finished fit is written to Google Drive and skipped on restart. A crash or disconnect is not a new run. Any change to locked files requires a new amendment.
+- **Code changes after Part A.** `pools.py` gained `rows_from_manifest` after Study 1 and Part A ran. Their locks in git history (commits `0f120e6` and `a93623d`) record the code that produced those results.
