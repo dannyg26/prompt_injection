@@ -17,3 +17,9 @@ Not done:
 - No transformer detector: no GPU, and Hugging Face is blocked in the compute environment.
 - The EvoShield author email has still not been sent.
 - Any further detector training (for example, benign-vs-attack label allocation) needs a new preregistration and owner approval under AGENTS.md.
+
+## Study 2 (benchmark leakage) - prepared, not run
+
+- Novelty check: [LEAKAGE_NOVELTY.md](LEAKAGE_NOVELTY.md). Dataset-level leakage is already published (*When Benchmarks Lie*; PIDS-Bench), so we do not claim it. Within-dataset template concentration on the attack side is a candidate gap, UNVERIFIED until both papers are read in full.
+- Data audit: [BENCHMARK_AUDIT.md](BENCHMARK_AUDIT.md). The InjecGuard training file is clean against its public test files, but its validation set consists of test items (disclosed). Attack sources are highly template-concentrated: 5,000 HackAPrompt rows form 6 groups.
+- Preregistration: [PREREGISTRATION_LEAKAGE.md](PREREGISTRATION_LEAKAGE.md), locked in `results/leakage/PREREG_LOCK.json`. **Running requires the owner's AGENTS.md amendment.** Part B (DeBERTa and released detectors) needs a GPU and Hugging Face access.

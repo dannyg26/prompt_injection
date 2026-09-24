@@ -1,0 +1,14 @@
+{
+  "frozen_utc": "2026-09-24T02:16:39+00:00",
+  "authorized": false,
+  "note": "Frozen before any Study 2 fit. Running also requires the owner's AGENTS.md amendment; AGENTS.md is deliberately not hashed so that amendment can be added.",
+  "sha256": {
+    "docs/PREREGISTRATION_LEAKAGE.md": "b51bbd335f23aa5a23a4433f010d68a229f4e4f807037bb537325658c4e3c347",
+    "src/injection_lab/splitcompare.py": "b002483c694ad3af15a5e4260f52cb9f61302c1646b339aa2af24168783e6117",
+    "src/injection_lab/adaptation.py": "a78bb1f1d204a2d9424fa486e02346e6119aab085965732a8615b3d0e9980a3c",
+    "src/injection_lab/pools.py": "c4a679826eb65a794689d0275014aa6905431fdf96cc1927b17fad929e52a615",
+    "src/injection_lab/data.py": "f8d427ce8d2ea239126873740fcc6d8af2332a6b8409c728ec3dc4a5792cff92",
+    "scripts/run_split_comparison.py": "468c9feffdca6b5e1c930aaacd519a884218f0b23e474d8297dddbd649ee1625",
+    "data/processed/study/pools.jsonl": "7e6259023876735e0da6f8a15e1987c2436fba51c254a43dc22101ff7dbfadf2"
+  }
+}

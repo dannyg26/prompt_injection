@@ -17,6 +17,8 @@ Capstone research on spending scarce labels to adapt prompt-injection detectors 
 
 Limitations, stated in advance: upstream labels only with no human IAA, one detector class, a single merged data release, CPU only. The earlier deepset starter results remain [withdrawn](results/INITIAL_FINDINGS.md) and the repaired runs are exploratory ([data repair](docs/DATA_REPAIR.md)).
 
+Next study (prepared, awaiting approval): [benchmark-leakage preregistration](docs/PREREGISTRATION_LEAKAGE.md), [data audit](docs/BENCHMARK_AUDIT.md), [novelty check](docs/LEAKAGE_NOVELTY.md).
+
 Background audit, in reading order: [verified references](docs/VERIFIED_REFERENCES.md), [related work and novelty decision](docs/RELATED_WORK.md), [component provenance and licenses](docs/COMPONENT_PROVENANCE_AUDIT.md), [power analysis](docs/POWER_ANALYSIS.md), and the [v0.3 spec](docs/EXPERIMENT_SPEC.md), which the preregistration supersedes where they differ.
 
 ## Reproduce the study

@@ -1,0 +1,289 @@
+{
+  "status": "fixed-corpus data audit; no model fitted or scored",
+  "injecguard_revision": "cb1531f36bffb38b6493438217b36cda8875da8a",
+  "input_sha256": {
+    "BIPIA_code.json": "892545c5aaec0645b1ded65dc7816b3d70e9ef4eadcba2301a7a3db93676b6e0",
+    "BIPIA_text.json": "75750e7b4e8b34e8f9d88d89b357aeaaf02bd07f9e493ccd37eda74a0cd7c7f8",
+    "NotInject_one.json": "69b535596d95102424e9c5946944feb4f2d596687eb8213f2ecad75478e5ffdd",
+    "NotInject_three.json": "ef01eff0d761d2e34571b3fdbcec08c30cd93efe8d0e1a2eb5c2baeb1873b070",
+    "NotInject_two.json": "6043d94e75b48d8e7682d25dc79eaf45359e1e561ce520e3b8fd5625a91060c6",
+    "train.json": "806ded8bd85782a53d34faffe4fd92b3f2e0b3b431c43578ce77faea6b9ed911",
+    "valid.json": "fdf0f1f83b3e4017a71867e010f8345dc6aa706ef8628fa6a77f23f0f0a6d87b",
+    "wildguard.json": "d884fc834a5a8081a423c49effb7aeb7977e991c1e3e7fb58e0285630d550bad"
+  },
+  "method": "word 5-gram shingle containment of each evaluation item within a single row",
+  "grouping_cutoff": 0.5,
+  "not_audited": "PINT.json is private (Lakera) and absent from the release",
+  "eval_vs_train": {
+    "WildGuard (benign)": {
+      "items": 971,
+      "exact_normalized_match": 0,
+      "containment_ge_0.5": 3,
+      "containment_ge_0.8": 1,
+      "containment_ge_1.0": 1
+    },
+    "BIPIA_text (injection)": {
+      "items": 75,
+      "exact_normalized_match": 0,
+      "containment_ge_0.5": 0,
+      "containment_ge_0.8": 0,
+      "containment_ge_1.0": 0
+    },
+    "BIPIA_code (injection)": {
+      "items": 50,
+      "exact_normalized_match": 0,
+      "containment_ge_0.5": 0,
+      "containment_ge_0.8": 0,
+      "containment_ge_1.0": 0
+    },
+    "NotInject_one (benign)": {
+      "items": 113,
+      "exact_normalized_match": 0,
+      "containment_ge_0.5": 0,
+      "containment_ge_0.8": 0,
+      "containment_ge_1.0": 0
+    },
+    "NotInject_two (benign)": {
+      "items": 113,
+      "exact_normalized_match": 0,
+      "containment_ge_0.5": 0,
+      "containment_ge_0.8": 0,
+      "containment_ge_1.0": 0
+    },
+    "NotInject_three (benign)": {
+      "items": 113,
+      "exact_normalized_match": 0,
+      "containment_ge_0.5": 0,
+      "containment_ge_0.8": 0,
+      "containment_ge_1.0": 0
+    }
+  },
+  "eval_vs_valid": {
+    "WildGuard (benign)": {
+      "items": 971,
+      "exact_normalized_match": 24,
+      "containment_ge_0.5": 25,
+      "containment_ge_0.8": 24,
+      "containment_ge_1.0": 24
+    },
+    "BIPIA_text (injection)": {
+      "items": 75,
+      "exact_normalized_match": 12,
+      "containment_ge_0.5": 12,
+      "containment_ge_0.8": 12,
+      "containment_ge_1.0": 12
+    },
+    "BIPIA_code (injection)": {
+      "items": 50,
+      "exact_normalized_match": 12,
+      "containment_ge_0.5": 12,
+      "containment_ge_0.8": 12,
+      "containment_ge_1.0": 12
+    },
+    "NotInject_one (benign)": {
+      "items": 113,
+      "exact_normalized_match": 16,
+      "containment_ge_0.5": 16,
+      "containment_ge_0.8": 16,
+      "containment_ge_1.0": 16
+    },
+    "NotInject_two (benign)": {
+      "items": 113,
+      "exact_normalized_match": 16,
+      "containment_ge_0.5": 16,
+      "containment_ge_0.8": 16,
+      "containment_ge_1.0": 16
+    },
+    "NotInject_three (benign)": {
+      "items": 113,
+      "exact_normalized_match": 16,
+      "containment_ge_0.5": 16,
+      "containment_ge_0.8": 16,
+      "containment_ge_1.0": 16
+    }
+  },
+  "valid_sources": {
+    "WildGuard": 24,
+    "PINT_chat": 8,
+    "PINT_documents": 8,
+    "PINT_hard_negatives": 8,
+    "BIPIA_text": 12,
+    "BIPIA_code": 12,
+    "PINT_public_prompt_injection": 8,
+    "PINT_internal_prompt_injection": 8,
+    "PINT_jailbreak": 8,
+    "NotInject_one": 16,
+    "NotInject_two": 16,
+    "NotInject_three": 16
+  },
+  "template_concentration_train": {
+    "Alpaca|0": {
+      "rows": 4000,
+      "groups": 3973,
+      "largest_group_rows": 10,
+      "largest_group_share": 0.0025
+    },
+    "BIPIA|0": {
+      "rows": 558,
+      "groups": 186,
+      "largest_group_rows": 170,
+      "largest_group_share": 0.3046594982078853
+    },
+    "BIPIA|1": {
+      "rows": 558,
+      "groups": 186,
+      "largest_group_rows": 170,
+      "largest_group_share": 0.3046594982078853
+    },
+    "ChatGPT-Jailbreak-Prompts|1": {
+      "rows": 79,
+      "groups": 43,
+      "largest_group_rows": 34,
+      "largest_group_share": 0.43037974683544306
+    },
+    "InjecAgent|1": {
+      "rows": 111,
+      "groups": 64,
+      "largest_group_rows": 2,
+      "largest_group_share": 0.018018018018018018
+    },
+    "LLM Augmented set|1": {
+      "rows": 435,
+      "groups": 419,
+      "largest_group_rows": 3,
+      "largest_group_share": 0.006896551724137931
+    },
+    "Prompt-Injection-Mixed-Techniques|1": {
+      "rows": 1174,
+      "groups": 895,
+      "largest_group_rows": 62,
+      "largest_group_share": 0.05281090289608177
+    },
+    "Question Set|0": {
+      "rows": 643,
+      "groups": 500,
+      "largest_group_rows": 114,
+      "largest_group_share": 0.17729393468118196
+    },
+    "Question Set|1": {
+      "rows": 1643,
+      "groups": 553,
+      "largest_group_rows": 499,
+      "largest_group_share": 0.30371272063298843
+    },
+    "StruQ|1": {
+      "rows": 20,
+      "groups": 19,
+      "largest_group_rows": 2,
+      "largest_group_share": 0.1
+    },
+    "TaskTracker|0": {
+      "rows": 11386,
+      "groups": 7557,
+      "largest_group_rows": 36,
+      "largest_group_share": 0.003161777621640611
+    },
+    "TaskTracker|1": {
+      "rows": 3316,
+      "groups": 893,
+      "largest_group_rows": 45,
+      "largest_group_share": 0.013570566948130277
+    },
+    "awesome-chatgpt-prompts|0": {
+      "rows": 170,
+      "groups": 153,
+      "largest_group_rows": 16,
+      "largest_group_share": 0.09411764705882353
+    },
+    "chatbot_instruction_prompts|0": {
+      "rows": 16000,
+      "groups": 15497,
+      "largest_group_rows": 64,
+      "largest_group_share": 0.004
+    },
+    "grok-conversation-harmless|0": {
+      "rows": 4000,
+      "groups": 3384,
+      "largest_group_rows": 100,
+      "largest_group_share": 0.025
+    },
+    "hackaprompt-dataset|1": {
+      "rows": 5000,
+      "groups": 6,
+      "largest_group_rows": 2845,
+      "largest_group_share": 0.569
+    },
+    "jailbreak-classification|0": {
+      "rows": 517,
+      "groups": 501,
+      "largest_group_rows": 10,
+      "largest_group_share": 0.019342359767891684
+    },
+    "jailbreak-classification|1": {
+      "rows": 527,
+      "groups": 313,
+      "largest_group_rows": 155,
+      "largest_group_share": 0.29411764705882354
+    },
+    "no_robots|0": {
+      "rows": 1500,
+      "groups": 1499,
+      "largest_group_rows": 2,
+      "largest_group_share": 0.0013333333333333333
+    },
+    "open-instruct|0": {
+      "rows": 12000,
+      "groups": 9160,
+      "largest_group_rows": 1237,
+      "largest_group_share": 0.10308333333333333
+    },
+    "over-defense|0": {
+      "rows": 762,
+      "groups": 690,
+      "largest_group_rows": 29,
+      "largest_group_share": 0.03805774278215223
+    },
+    "prompt-injections|0": {
+      "rows": 343,
+      "groups": 324,
+      "largest_group_rows": 3,
+      "largest_group_share": 0.008746355685131196
+    },
+    "prompt-injections|1": {
+      "rows": 203,
+      "groups": 133,
+      "largest_group_rows": 6,
+      "largest_group_share": 0.029556650246305417
+    },
+    "safe-guard-prompt-injection|0": {
+      "rows": 5740,
+      "groups": 4679,
+      "largest_group_rows": 303,
+      "largest_group_share": 0.05278745644599303
+    },
+    "safe-guard-prompt-injection|1": {
+      "rows": 2496,
+      "groups": 1445,
+      "largest_group_rows": 322,
+      "largest_group_share": 0.12900641025641027
+    },
+    "ultrachat_200k|0": {
+      "rows": 3000,
+      "groups": 2968,
+      "largest_group_rows": 12,
+      "largest_group_share": 0.004
+    },
+    "vigil-jailbreak-ada-002|1": {
+      "rows": 104,
+      "groups": 46,
+      "largest_group_rows": 54,
+      "largest_group_share": 0.5192307692307693
+    },
+    "xtest-v2-copy|0": {
+      "rows": 450,
+      "groups": 407,
+      "largest_group_rows": 12,
+      "largest_group_share": 0.02666666666666667
+    }
+  }
+}
