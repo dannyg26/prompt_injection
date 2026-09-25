@@ -43,3 +43,14 @@ Study 3 tests exactly this, on their released benchmark (github.com/ShirePyDev/P
 - **GPU:** Colab A100. The primary arms are 4 × 5 = 20 DeBERTa-base fits and the dose arm adds 10. Estimated 15–25 minutes per fit, so roughly 8–12 A100 hours. A timing pilot on one fit comes first.
 - **Remaining novelty check:** WAInjectBench (arXiv 2510.01354, App. B adaptation) and EvoShield (MDPI Mathematics, open access) must be read before the preregistration.
 - **Owner approval** in AGENTS.md before any fit.
+
+## Novelty check (2026-09-25; 16 papers read in full, page-cited notes in docs/literature/)
+
+No paper read tests benign augmentation matched to an external distribution as a fix for detector over-defense:
+
+- **PIDS-Bench** (pp. 1, 14, 19, 20) states the question is open.
+- **EvoShield** adapts on LLM-labelled stream samples of either class. Over-defense is not an endpoint, and it has no before/after benign false-positive rate (evoshield-2026.md).
+- **WAInjectBench v2** (§6, p. 8) adapts with malicious plus benign in-domain data for embedding detectors whose FPR was already 0. It has no benign-only, curated or threshold arm (wainjectbench-2025.md).
+- **CAPTURE** and **InjecGuard** (MOF augmentation) are adjacent only.
+
+The strongest wording allowed is "not found in the 16 papers we read". PIDS-Bench was published on 28 Aug 2026. Before submission, check papers citing it (Google Scholar "Cited by") for any later answer.
