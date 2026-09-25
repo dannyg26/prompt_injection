@@ -36,6 +36,18 @@ def resolve_revision(repo_id, token=None):
     return model_info(repo_id, token=token).sha
 
 
+def can_download(repo_id, revision, token=None):
+    """True only if the model files themselves are accessible (gated repos expose metadata
+    to everyone, so resolving a revision is not proof of access)."""
+    from huggingface_hub import hf_hub_download
+
+    try:
+        hf_hub_download(repo_id, "config.json", revision=revision, token=token)
+        return True
+    except Exception:
+        return False
+
+
 def finetune(
     train_rows,
     seed,

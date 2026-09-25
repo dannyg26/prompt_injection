@@ -2,10 +2,10 @@
   "frozen_utc": "2026-09-24T14:21:19+00:00",
   "note": "Frozen before any Part B fit or score. pools.jsonl is rebuilt from the manifest and checked against pool_ledger.json. AGENTS.md is not hashed so approvals can be recorded.",
   "sha256": {
-    "docs/PREREGISTRATION_LEAKAGE.md": "fddf39efd7a0afc6fce1d39c1bb2d77688c245b879d2066666e7c2e2948c0d4d",
+    "docs/PREREGISTRATION_LEAKAGE.md": "c587e692ce6bfb48c53f08ed82eb7176244328da352c886f7b21872c9b5d2a2c",
     "src/injection_lab/splitcompare.py": "f2bf267c492b4f00db92f7ae4f907904008803bb927e6abe5acfbdf2c1bf1283",
     "src/injection_lab/partb.py": "4e21d1628c84110f82e05528937352a8f3bd9c1e6d533844280ee22deb3334c6",
-    "src/injection_lab/transformer.py": "1130bb9ead51f4afcadf0aa86b4d38117cfc5a4520711ed493b37f09213097ce",
+    "src/injection_lab/transformer.py": "6575c0654a71c84822d10fadc99ca54d7026daddd1bdfafd813504eb0088d329",
     "src/injection_lab/adaptation.py": "a78bb1f1d204a2d9424fa486e02346e6119aab085965732a8615b3d0e9980a3c",
     "src/injection_lab/pools.py": "7f3b6ffdf532a2ad7b967290721870f7f3993010acdc66698657a5bd4d8fdebc",
     "src/injection_lab/data.py": "f8d427ce8d2ea239126873740fcc6d8af2332a6b8409c728ec3dc4a5792cff92",
@@ -14,5 +14,7 @@
     "results/study/pool_manifest.csv.gz": "286ce37d8299b9ae956eb5ee424730cd33fea13398c3225ab460ed66ce5ec014",
     "results/study/pool_ledger.json": "b546cbfd2eb3a96c991b974d0bede9e7fc4cf54918c16d16f3053210b3e3f057",
     "notebooks/study2_partb_colab.ipynb": "53d41ff2e0689defce752deb52af416e0647859474c92a8bd25fed0cdfbbe74f"
-  }
+  },
+  "amended_utc": "2026-09-25T14:30:34+00:00",
+  "amendment": "4: gated-model access check; no results seen; completed fits reused"
 }

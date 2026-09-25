@@ -94,3 +94,7 @@ This supersedes the Part B sketch above wherever they differ. Everything here wa
 - **Decision rules.** As before: inflation is established for a source if its interval lies above 0. All results are reported.
 - **Execution.** Resumable: each finished fit is written to Google Drive and skipped on restart. A crash or disconnect is not a new run. Any change to locked files requires a new amendment.
 - **Code changes after Part A.** `pools.py` gained `rows_from_manifest` after Study 1 and Part A ran. Their locks in git history (commits `0f120e6` and `a93623d`) record the code that produced those results.
+
+## Amendment 4 (2026-09-25): gated-model access check
+
+The first Colab execution completed every trained-detector fit and the ProtectAI scoring, which were saved to Drive, then crashed on `meta-llama/Llama-Prompt-Guard-2-86M`. A gated repository exposes its metadata publicly, so pinning a revision succeeded even though the model files were not accessible. No results had been analyzed or seen. The fix checks that the model files can actually be downloaded (`can_download`) on every run. An inaccessible detector is recorded in `unavailable_detectors.json` and excluded, as Amendment 3 already specified; it is not replaced. Nothing about the design or analysis changes. Finished fits are reused from Drive, not re-run.
