@@ -2,15 +2,15 @@
 
 Capstone research on template concentration in public prompt-injection data and its consequences for evaluation and for benign-label adaptation. **Broad domain adaptation is already studied; global novelty of the narrower comparison is not claimed.**
 
-## Findings (two preregistered studies; one linear detector; details and limits in the paper)
+## Findings (two preregistered studies; details and limits in the paper)
 
 **Report: [paper/PAPER.md](paper/PAPER.md).**
 
 - **Audit.** Attack data in the InjecGuard release are highly template-concentrated: 5,000 HackAPrompt attacks form 6 lexical groups, while benign sources are close to one row per group ([audit](docs/BENCHMARK_AUDIT.md)).
-- **Study 2 (template leakage).** Row-random splits raised recall at 1% FPR relative to group splits on TaskTracker (+4.2 points, 95% CI +0.8 to +7.6) and BIPIA (+8.0, +3.8 to +12.2); jailbreak-classification showed no detected inflation. Held-out HackAPrompt templates got 0-100% recall (median 33%) against 100% under row splits. Example-level intervals were about 1.2 to 1.5 times too narrow. A splitter defect invalidates the HackAPrompt interval and the pooled primary estimate ([results](docs/STUDY2_RESULTS.md), [preregistration](docs/PREREGISTRATION_LEAKAGE.md)).
+- **Study 2 (template leakage; TF-IDF, DeBERTa-v3-small, ProtectAI v2).** With a corrected group splitter, row splits did **not** measurably inflate recall at 1% FPR on TaskTracker, BIPIA or jailbreak-classification for either trained detector; all intervals include 0. Our earlier Part A inflation result did not replicate and is withdrawn. On the template-heavy HackAPrompt source, held-out-template recall ranged from 0% to 100% (TF-IDF, median 34%) and from 11% to 100% (DeBERTa, median 92%), against about 100% under row splits. Design effects were 1.2–2.6 on the indirect and jailbreak sources and 10–400 on HackAPrompt. Descriptively, ProtectAI v2 caught 27–30% of document-embedded injections at 1% FPR ([Part B results](docs/STUDY2_PARTB_RESULTS.md), [withdrawn Part A](docs/STUDY2_RESULTS.md), [preregistration](docs/PREREGISTRATION_LEAKAGE.md)).
 - **Study 1 (benign-label adaptation).** With 200 benign target labels, matched retraining did not beat threshold adjustment (+0.10 points, 97.5% CI −0.18 to +0.49) or generic retraining. The detector barely separated document-embedded attacks from clean text (AUROC 0.648) ([preregistration](docs/PREREGISTRATION.md), [tables](results/study/RESULTS.md)).
 
-Not established: behavior of transformer detectors (Part B not run), human-verified labels, and novelty relative to prior dataset-level work (UNVERIFIED; see [novelty check](docs/LEAKAGE_NOVELTY.md)). The earlier deepset starter results remain [withdrawn](results/INITIAL_FINDINGS.md).
+Not established: human-verified labels, behavior of other architectures and of Prompt Guard 2 (gated, not accessed), and novelty relative to prior dataset-level work (UNVERIFIED; see [novelty check](docs/LEAKAGE_NOVELTY.md)). The earlier deepset starter results remain [withdrawn](results/INITIAL_FINDINGS.md).
 
 Background audit: [verified references](docs/VERIFIED_REFERENCES.md), [related work](docs/RELATED_WORK.md), [component licenses](docs/COMPONENT_PROVENANCE_AUDIT.md), [power analysis](docs/POWER_ANALYSIS.md), [status](docs/STATUS.md).
 

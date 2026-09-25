@@ -1,24 +1,22 @@
 # Template Concentration in Public Prompt-Injection Data: Consequences for Evaluation and for Benign-Label Adaptation
 
-*Capstone report draft, 2026-09-24. Author: Danny G. Two preregistered studies, each run once under a hash lock. AI assistance: study code, analysis and drafting were produced with an AI coding assistant under the author's direction; see Section 9.*
+*Capstone report draft, 2026-09-25. Author: Danny G. Two preregistered studies, each run once under a hash lock. AI assistance: study code, analysis and drafting were produced with an AI coding assistant under the author's direction; see Section 9.*
 
 ## Abstract
 
-Public prompt-injection datasets reuse attack templates heavily. We measure how much this matters, using the public InjecGuard training release, word-shingle grouping, and a word+character TF-IDF logistic-regression detector. All findings are for this single linear detector.
+Public prompt-injection datasets reuse attack templates heavily. We measure how much this matters, using the public InjecGuard training release, word-shingle grouping, two detectors trained here (word+character TF-IDF logistic regression, and DeBERTa-v3-small), and one released detector (ProtectAI v2).
 
 **Audit.** Attack data are far more template-concentrated than benign data. In the 76,735-row release, 5,000 HackAPrompt attacks form 6 lexical groups, while benign sources are close to one row per group.
 
-**Study 2: row splits versus template splits.** Over 20 repeated 70/30 splits, row-random splitting gave higher recall at 1% FPR than splitting by group:
+**Study 2: row splits versus template-group splits.** With a corrected, randomized group splitter (5 repeats), row-random splitting did **not** measurably inflate recall at 1% FPR on TaskTracker, BIPIA or jailbreak-classification, for either trained detector. All six 95% Nadeau–Bengio intervals include zero. For DeBERTa on TaskTracker the interval, −1.2 to +1.5 points, excludes large inflation. An earlier run with a defective splitter had reported inflation on two sources; that result did not replicate and is withdrawn.
 
-- TaskTracker: +4.2 points (95% Nadeau–Bengio CI +0.8 to +7.6)
-- BIPIA: +8.0 (+3.8 to +12.2)
-- jailbreak-classification: +1.4 (−2.3 to +5.1; no inflation detected)
+The template effect appeared instead on the template-concentrated source. Holding out each HackAPrompt template in turn gave recalls from 0% to 100% for TF-IDF (median 34%) and from 11% to 100% for DeBERTa (median 92%), against about 100% for both under row splits. Design effects for attack recall were 1.2–2.6 on the indirect and jailbreak sources, and 10–400 on HackAPrompt, so example-level intervals were too narrow.
 
-Holding out each HackAPrompt template in turn gave recalls from 0% to 100% (median 33%), against 100% under row splits. Example-level variance of attack recall was understated by a factor of 1.5 to 2.3. The design effects imply intervals about 1.2 to 1.5 times too narrow. A post-hoc check found a defect in our group splitter that invalidates the HackAPrompt interval and confounds the pooled primary estimate, so those numbers are not interpreted.
+Descriptively, the released ProtectAI v2 detector found 27% (TaskTracker) and 30% (BIPIA) of document-embedded injections at 1% FPR on these data, against 85–99% of direct attacks.
 
 **Study 1: benign-label adaptation.** With 200 labeled benign documents from a new domain, retraining on them did not improve target recall at 1% FPR over threshold adjustment (+0.10 points, 97.5% CI −0.18 to +0.49) or over generic retraining (+0.15, −0.16 to +0.47). The source detector barely separated document-embedded injections from clean documents (AUROC 0.648), and benign labels carry no information about attacks.
 
-**Scope.** Labels are upstream, with no human agreement study. Detector classes other than TF-IDF are untested. The within-dataset framing overlaps published dataset-level work, and its novelty is unverified.
+**Scope.** Labels are upstream, with no human agreement study. Study 1 used only the linear detector. The within-dataset framing overlaps published dataset-level work, and its novelty is unverified.
 
 ## 1. Introduction
 
@@ -32,7 +30,8 @@ Two practical questions motivated this work.
 Contributions, each scoped to the data and detector used:
 
 - A reproducible grouping and audit of the InjecGuard release. It quantifies template concentration on the attack side (Section 3).
-- A preregistered comparison of row and group splits (Study 2). It shows recall inflation on two indirect-injection sources, wide per-template variation on HackAPrompt, and design effects above 1 (Section 5).
+- A preregistered comparison of row and group splits with a linear and a transformer detector (Study 2). It found no measurable inflation on sources with small groups, wide per-template variation on the template-concentrated source, and design effects above 1. It also reports a replication failure of our own earlier result (Section 5).
+- A descriptive measurement of a released detector on document-embedded injections (Section 5.4).
 - A preregistered equal-budget comparison of three ways to spend benign labels (Study 1). It found a null result, and the cause is a recall floor (Section 4).
 - Two practical notes on thresholds: a 1% threshold cannot be set reliably from fewer than about 100 benign labels, and labels reused for fitting and thresholding raise false alarms (Section 4.3).
 
@@ -107,61 +106,97 @@ Retraining with source-calibrated thresholds left BIPIA and NotInject false-alar
 
 ## 5. Study 2: row-random versus template-group splits
 
-**Design** (docs/PREREGISTRATION_LEAKAGE.md, locked, run once with owner approval).
+**Design** (docs/PREREGISTRATION_LEAKAGE.md with Amendments 1–4, each locked before the corresponding run).
 
-- **Pool.** All 61,819 rows, with 20 repeats of 70/30 splits (split seeds 31000–31019).
-- **Splits.** Row split: random rows, stratified by label. Group split: whole groups.
-- **Detector and metric.** The same TF-IDF detector is fit on the train side and scored once. The metric is recall at the evaluation-ROC point with FPR ≤ 1% over all benign test rows.
-- **Inference.** Inflation is the mean of (row − group) over repeats, with Nadeau–Bengio corrected intervals, because repeats overlap. The design effect is the cluster (ratio-estimator) variance of recall divided by its binomial variance.
-- **Amendment 1.** The first run crashed while writing output; no results were produced. The fix serialized undefined values as null.
+- **Pool.** The 61,819 study rows, split 70/30. The metric is recall at the evaluation-ROC point with FPR ≤ 1% over all benign test rows. Inflation is the mean of (row − group) over repeats, with Nadeau–Bengio corrected intervals, because repeats overlap. The design effect is the cluster (ratio-estimator) variance of recall divided by its binomial variance.
+- **Part A** (CPU). TF-IDF, 20 repeats, group splitter that placed the largest groups first.
+- **Part B** (Colab A100). TF-IDF and DeBERTa-v3-small, fine-tuned with a fixed recipe and no tuning (1 epoch, learning rate 2e-5, maximum length 256). 5 repeats with a **randomized** group splitter (Amendment 2). HackAPrompt leave-one-template-out for both. ProtectAI v2 scored, not retrained. Prompt Guard 2 was gated, unavailable, and excluded as specified. PIGuard was excluded because it was trained on this release.
+- **Amendments.** Amendment 1 fixed a crash while writing output. Amendment 4 added a gated-access check after a crash. Neither followed any seen result, and completed fits were reused.
 
-### 5.1 Results
+### 5.1 Part A, and why its main result is withdrawn
 
-| Recall at 1% FPR (%) | Row split | Group split | Inflation (points) [95% CI] | Design effect, median [range] |
-| --- | ---: | ---: | --- | --- |
-| TaskTracker | 84.5 | 80.3 | +4.2 [+0.8, +7.6] | 1.5 [1.4, 1.6] |
-| BIPIA | 91.2 | 83.2 | +8.0 [+3.8, +12.2] | 2.3 [1.6, 2.5] |
-| jailbreak-classification | 88.4 | 87.0 | +1.4 [−2.3, +5.1] | 1.5 [1.1, 1.7] |
+Part A reported TF-IDF inflation of +4.2 [+0.8, +7.6] points on TaskTracker and +8.0 [+3.8, +12.2] on BIPIA. A post-hoc check showed that its largest-first splitter put the same large groups on the test side in every repeat. For example, the same single HackAPrompt template was in all 20 group-split test sets, which also invalidated Part A's HackAPrompt interval and confounded its pooled estimate. With the randomized splitter in Part B, the same TF-IDF detector showed −0.9 [−11.8, +10.1] on TaskTracker and +0.8 [−9.3, +10.8] on BIPIA. The Part A per-source findings did not replicate and are withdrawn from our claims. They remain in docs/STUDY2_RESULTS.md for the record.
 
-Leave-one-template-out on HackAPrompt (7 groups; descriptive, no interval). The study pools contain 7 HackAPrompt groups and the full release 6, because grouping is computed over different row sets.
+### 5.2 Part B: inflation (primary endpoint)
 
-| Held-out template (rows) | 2,219 | 769 | 678 | 597 | 305 | 195 | 96 |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Recall at 1% FPR (%) | 82.6 | 58.9 | 0.0 | 33.0 | 100.0 | 3.1 | 0.0 |
+| Detector | Source | Row split | Group split | Inflation (points) [95% CI] |
+| --- | --- | ---: | ---: | --- |
+| TF-IDF | TaskTracker | 84.2 | 85.1 | −0.9 [−11.8, +10.1] |
+| TF-IDF | BIPIA | 90.7 | 89.9 | +0.8 [−9.3, +10.8] |
+| TF-IDF | jailbreak-classification | 88.2 | 89.7 | −1.5 [−4.1, +1.1] |
+| DeBERTa-v3-small | TaskTracker | 98.0 | 97.9 | +0.2 [−1.2, +1.5] |
+| DeBERTa-v3-small | BIPIA | 96.9 | 98.6 | −1.6 [−6.2, +2.9] |
+| DeBERTa-v3-small | jailbreak-classification | 94.5 | 92.4 | +2.1 [−3.4, +7.6] |
 
-Under row splits, HackAPrompt recall was 100% in every repeat. The 678-row template that scored 0% is written in Unicode mathematical letters separated by slashes.
+No source met the preregistered rule for established inflation. With 5 repeats the TF-IDF intervals are wide, so small inflation cannot be ruled out for that detector.
 
-![Study 2 results](figures/study2_template_leakage.png)
+### 5.3 Part B: held-out HackAPrompt templates and design effects
 
-### 5.2 A defect in our design, and what it invalidates
+Recall at 1% FPR (%), each template held out in turn. There are 7 templates, and no interval is claimed. The pools contain 7 HackAPrompt groups while the full release has 6, because grouping was computed over different row sets.
 
-The preregistered group splitter placed the largest groups first. As a result, the same 195-row HackAPrompt template was in the test side of all 20 group splits (verified post hoc). Two consequences follow:
+| Template (rows) | 2,219 | 769 | 678 | 597 | 305 | 195 | 96 | Median |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| TF-IDF | 83.0 | 44.0 | 0.0 | 33.5 | 100.0 | 4.1 | 0.0 | 33.5 |
+| DeBERTa-v3-small | 98.3 | 92.2 | 73.0 | 100.0 | 100.0 | 29.2 | 11.5 | 92.2 |
+| ProtectAI v2 (not retrained)† | 97.7 | 100.0 | 100.0 | 100.0 | 100.0 | 100.0 | 43.8 | 100.0 |
 
-1. **The HackAPrompt inflation interval is invalid.** The reported interval, +94.8 [+92.9, +96.7], describes training variation around one template.
-2. **The preregistered pooled primary estimate is confounded.** Row-split tests contain about 1,450 easy HackAPrompt positives, and group-split tests contain 195 hard ones. The pooled estimate is +18.8 [+17.0, +20.7]; it formally meets the preregistered rule, but we do not interpret its size.
+Under row splits both trained detectors reached about 100% HackAPrompt recall. The 678-row template on which TF-IDF scored 0% is written in Unicode mathematical letters separated by slashes; DeBERTa detected 73% of it.
 
-The per-source rows above for TaskTracker, BIPIA and jailbreak-classification are unaffected: their test groups varied across repeats, with a mean pairwise Jaccard of 0.34 for BIPIA. Amendment 2 (written after these results) specifies a randomized splitter and per-source endpoints for any further run.
+†ProtectAI v2's training data may include HackAPrompt, so its row is not evidence of generalization to unseen templates.
+
+Design effects for attack recall on group splits (median over repeats):
+
+| Source | TF-IDF | DeBERTa | ProtectAI v2 |
+| --- | ---: | ---: | ---: |
+| TaskTracker | 1.6 | 1.2 | 1.1 |
+| BIPIA | 1.4 | 2.6 | 2.6 |
+| jailbreak-classification | 1.2 | 1.2 | 1.4 |
+| HackAPrompt | 402 | 147 | 10.6 |
+
+Ranges are in docs/STUDY2_PARTB_RESULTS.md.
+
+![Study 2 Part B](figures/study2_partb.png)
+
+### 5.4 A released detector on document-embedded injections (descriptive)
+
+On the test sides of the 5 randomized group splits, ProtectAI v2's recall at 1% FPR was as follows. Values are the mean [min, max] over splits; no interval was prespecified.
+
+| Source | Recall (%) |
+| --- | --- |
+| TaskTracker | 27.1 [23.4, 30.1] |
+| BIPIA | 29.8 [19.5, 40.0] |
+| jailbreak-classification | 85.2 [81.7, 89.0] |
+| HackAPrompt | 99.0 [97.7, 100.0] |
+
+Two caveats: the 1% FPR point is defined on this study's benign mix, not the vendor's, and overlap between its training data and these rows cannot be ruled out.
 
 ## 6. Discussion
 
-**Evaluation.** For this detector, splitting rows at random rather than by group raised recall at 1% FPR by a few points on two indirect-injection sources. It raised recall far more on a template-dominated attack source, where per-template recall ranged from 0% to 100%. With 6–7 independent templates, the HackAPrompt data cannot support a narrow recall estimate at all. Row counts in the thousands suggest otherwise. Example-level intervals for attack recall were too narrow on every source where a design effect could be estimated. For benchmark authors, the actionable points are:
+**Evaluation.** Under a correct group splitter, random row splits did not measurably inflate recall on sources whose rows are close to independent (1.5–3 rows per group), for either a linear or a transformer detector. Template reuse mattered where it was extreme. On HackAPrompt, row splits reported about 100%, while recall on held-out templates ranged from 0% to 100% (TF-IDF) and from 11% to 100% (DeBERTa). With 6–7 independent templates, the data cannot support a narrow recall estimate at all, whatever the row count. Example-level intervals for attack recall were too narrow wherever a design effect could be estimated.
 
-- report the number of independent groups alongside row counts;
-- split by group or template;
+For benchmark authors, the actionable points are:
+
+- report independent group counts alongside row counts;
+- split by group or template, especially for template-heavy attack sources;
 - compute intervals at the group level.
 
 These points extend, rather than replace, the dataset-level evidence in prior work.
+
+**Our own replication failure.** Part A's positive result disappeared when the splitter was corrected. Group splitting is itself a design choice that can produce spurious effects: a deterministic assignment of large groups can fix which templates are tested, so results then depend on a handful of groups.
+
+**Released detector.** At a 1% FPR operating point on these data, ProtectAI v2 caught under a third of document-embedded injections while catching nearly all direct attacks. This is consistent with Study 1, where a detector trained on direct prompts barely separated document-embedded injections from clean text, though both measurements come from one data release.
 
 **Adaptation.** Study 1's null result follows from the recall floor. A detector with an AUROC of 0.65 on the target cannot be fixed by labels that describe only the benign class. The study does not show that matched adaptation is ineffective in general, and it does not test attack-labeled or transformer-based adaptation.
 
 ## 7. Limitations
 
-- **One detector class.** Every model result is for TF-IDF logistic regression with fixed, untuned hyperparameters. Transformer detectors may behave differently. Study 2 Part B, which covers DeBERTa and released detectors, is specified but not run; it needs a GPU and Hugging Face access.
+- **Detectors.** Study 1 used only TF-IDF logistic regression. Study 2 adds one small transformer, fine-tuned for 1 epoch with an untuned recipe, and one released detector. Other architectures and recipes may behave differently, and Prompt Guard 2 could not be accessed.
+- **Few repeats.** Part B used 5 repeats, so the TF-IDF inflation intervals are about ±10 points wide.
 - **Labels.** Labels are upstream, with no human annotation or inter-annotator agreement. TaskTracker and BIPIA labels come from how the data were constructed.
 - **Single release.** One merged data release, with domains defined by source string. Nested component licenses remain partly UNVERIFIED.
 - **Lexical grouping.** Groups approximate templates.
-- **Study 2 design defect.** It is described in Section 5.2. The pooled primary result is not interpretable.
-- **Exploratory analyses.** Some analyses are post hoc and labeled so: Study 1's AUROC and per-template observations, and the Study 2 splitter check.
+- **Study 2 design defect and withdrawal.** Part A's splitter defect and the withdrawal of its result are described in Section 5.1.
+- **Exploratory analyses.** Some analyses are post hoc and labeled so: Study 1's AUROC and per-template observations, and the Part A splitter check. Released-detector results are descriptive, without intervals.
 - **Novelty unverified.** Novelty relative to *When Benchmarks Lie* and PIDS-Bench has not been confirmed against their full texts.
 - **Construct.** Recall here is text-classification recall, not agent attack success.
 
@@ -174,14 +209,15 @@ From a clone of the InjecGuard release at `cb1531f`, run these scripts:
 3. `scripts/analyze_adaptation_study.py`
 4. `scripts/exploratory_diagnostics.py`
 5. `scripts/audit_benchmark_overlap.py`
-6. `scripts/run_split_comparison.py`
-7. `scripts/plot_adaptation_study.py` and `scripts/plot_study2.py`
+6. `scripts/run_split_comparison.py` (Part A)
+7. `notebooks/study2_partb_colab.ipynb`, which runs `scripts/run_partb.py` (Part B, GPU)
+8. `scripts/plot_adaptation_study.py` and `scripts/plot_study2_partb.py`
 
-Hashes and commits are recorded in `results/study/PREREG_LOCK.json`, `results/study/run_log.json` and `results/leakage/PREREG_LOCK.json`. The environment was Python 3.11.15 with scikit-learn 1.7.2, numpy 2.2.6 and scipy 1.15.3, on 4 CPU cores. Runtimes were 16.4 minutes for Study 1's fits and about 10 minutes for Study 2. The test suite has 41 tests. Scripts refuse to overwrite outputs.
+Hashes and commits are recorded in `results/study/PREREG_LOCK.json`, `results/study/run_log.json`, `results/leakage/PREREG_LOCK.json` and `results/leakage/PARTB_LOCK.json`. Part B ran at commit `93e5ec9` on an NVIDIA A100 (Python 3.13.15, torch 2.11.0), with model revisions pinned in `results/leakage/partb/revisions.json`. The environment was Python 3.11.15 with scikit-learn 1.7.2, numpy 2.2.6 and scipy 1.15.3, on 4 CPU cores. Runtimes were 16.4 minutes for Study 1's fits and about 10 minutes for Study 2 Part A. The test suite has 43 tests. Scripts refuse to overwrite outputs.
 
 ## 9. Disclosures
 
-The project owner authorized both studies as exceptions to a standing gate that requires human annotation and full licensing clearance first (AGENTS.md). Those gates remain unmet and are reported as limitations. An AI coding assistant wrote most of the code, analyses and text under the author's direction. The author is responsible for verifying and defending every design choice before submission.
+The project owner authorized each study (and each part of Study 2) as exceptions to a standing gate that requires human annotation and full licensing clearance first (AGENTS.md). Those gates remain unmet and are reported as limitations. An AI coding assistant wrote most of the code, analyses and text under the author's direction. The author is responsible for verifying and defending every design choice before submission.
 
 ## References
 

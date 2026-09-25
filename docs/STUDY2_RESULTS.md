@@ -1,3 +1,5 @@
+> **WITHDRAWN (2026-09-25).** The per-source inflation results below (TaskTracker +4.2, BIPIA +8.0) did not replicate in Part B with the corrected, randomized group splitter: −0.9 [−11.8, +10.1] and +0.8 [−9.3, +10.8]. See [STUDY2_PARTB_RESULTS.md](STUDY2_PARTB_RESULTS.md). This page is kept unchanged below for the audit record and must not be cited as current evidence.
+
 # Study 2 Part A: row-random vs template-group splits (results)
 
 Locked run after Amendment 1 (commit `a93623d`). Raw output: `results/leakage/split_comparison.json` and `RESULTS.md`. Linear TF-IDF detector; 20 repeats per split type (split seeds 31000-31019); 70/30 splits. Repeats overlap, so intervals are Nadeau–Bengio corrected; they are not independent replications. Upstream labels only, no IAA (see AGENTS.md gates).

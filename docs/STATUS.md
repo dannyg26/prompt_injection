@@ -30,3 +30,11 @@ Not done:
 - `paper/PAPER.md` now reports the audit, Study 1 and Study 2 together, with figures, the Study 2 design defect and all limitations.
 - Amendment 2 fixes the group splitter for any future run (`random_group_split`, tested); Part A was not refitted.
 - Still required for a submission: Part B (transformer and released detectors; needs a GPU and Hugging Face), a human-labeled agreement sample, and a full-text read of the two closest papers.
+
+## Study 2 Part B - run and reported (2026-09-25)
+
+- Ran on Colab A100 at commit `93e5ec9` under Amendments 3-4. Results: [STUDY2_PARTB_RESULTS.md](STUDY2_PARTB_RESULTS.md).
+- No row-split inflation was established on TaskTracker, BIPIA or jailbreak-classification for TF-IDF or DeBERTa. **The Part A per-source inflation result is withdrawn**; it did not replicate with the corrected splitter.
+- HackAPrompt held-out templates: TF-IDF 0-100% (median 34%), DeBERTa 11-100% (median 92%). Design effects are above 1 throughout.
+- ProtectAI v2, descriptive: 27% TaskTracker and 30% BIPIA recall at 1% FPR. Prompt Guard 2 was gated and not accessed.
+- Remaining before submission: human-labeled agreement sample, full-text read of the two closest papers, and advisor review.

@@ -1,0 +1,362 @@
+{
+  "inflation": {
+    "tfidf|pooled": {
+      "primary": false,
+      "repeats": 5,
+      "row_mean": 0.9329637841832964,
+      "group_mean": 0.7363158345964655,
+      "inflation_mean": 0.19664794958683085,
+      "ci95_nadeau_bengio": [
+        -0.09033121911653802,
+        0.4836271182901997
+      ]
+    },
+    "tfidf|hackaprompt-dataset": {
+      "primary": false,
+      "repeats": 5,
+      "row_mean": 1.0,
+      "group_mean": 0.6358048829071778,
+      "inflation_mean": 0.36419511709282215,
+      "ci95_nadeau_bengio": [
+        -0.4779280522085466,
+        1.206318286394191
+      ]
+    },
+    "tfidf|jailbreak-classification": {
+      "primary": true,
+      "repeats": 5,
+      "row_mean": 0.8818616883214091,
+      "group_mean": 0.8968980752796348,
+      "inflation_mean": -0.015036386958225668,
+      "ci95_nadeau_bengio": [
+        -0.04119840305792659,
+        0.011125629141475253
+      ]
+    },
+    "tfidf|TaskTracker": {
+      "primary": true,
+      "repeats": 5,
+      "row_mean": 0.842441475970559,
+      "group_mean": 0.8510968836568227,
+      "inflation_mean": -0.008655407686263805,
+      "ci95_nadeau_bengio": [
+        -0.11812643883150348,
+        0.10081562345897588
+      ]
+    },
+    "tfidf|BIPIA": {
+      "primary": true,
+      "repeats": 5,
+      "row_mean": 0.9069233434600147,
+      "group_mean": 0.8993525716133529,
+      "inflation_mean": 0.007570771846661639,
+      "ci95_nadeau_bengio": [
+        -0.09326462286102455,
+        0.10840616655434782
+      ]
+    },
+    "deberta|pooled": {
+      "primary": false,
+      "repeats": 5,
+      "row_mean": 0.98810051736881,
+      "group_mean": 0.9499769473270747,
+      "inflation_mean": 0.03812357004173528,
+      "ci95_nadeau_bengio": [
+        -0.03548591519435085,
+        0.1117330552778214
+      ]
+    },
+    "deberta|hackaprompt-dataset": {
+      "primary": false,
+      "repeats": 5,
+      "row_mean": 0.9998600419874037,
+      "group_mean": 0.9325002393572728,
+      "inflation_mean": 0.06735980263013083,
+      "ci95_nadeau_bengio": [
+        -0.10349791691910287,
+        0.23821752217936454
+      ]
+    },
+    "deberta|jailbreak-classification": {
+      "primary": true,
+      "repeats": 5,
+      "row_mean": 0.9447163925421551,
+      "group_mean": 0.9237625443521342,
+      "inflation_mean": 0.020953848190020753,
+      "ci95_nadeau_bengio": [
+        -0.03426968296575643,
+        0.07617737934579794
+      ]
+    },
+    "deberta|TaskTracker": {
+      "primary": true,
+      "repeats": 5,
+      "row_mean": 0.9803775254533861,
+      "group_mean": 0.9786747144911534,
+      "inflation_mean": 0.001702810962232637,
+      "ci95_nadeau_bengio": [
+        -0.01174880837741976,
+        0.015154430301885033
+      ]
+    },
+    "deberta|BIPIA": {
+      "primary": true,
+      "repeats": 5,
+      "row_mean": 0.9693762018614193,
+      "group_mean": 0.9856521739130436,
+      "inflation_mean": -0.016275972051624166,
+      "ci95_nadeau_bengio": [
+        -0.061719578348371384,
+        0.029167634245123055
+      ]
+    }
+  },
+  "design_effect": {
+    "tfidf|hackaprompt-dataset": {
+      "median": 402.2009995791492,
+      "range": [
+        17.024927977905282,
+        871.2068185177591
+      ],
+      "defined_repeats": 3
+    },
+    "tfidf|jailbreak-classification": {
+      "median": 1.2361528807574702,
+      "range": [
+        1.1385521820434918,
+        1.4922045855379182
+      ],
+      "defined_repeats": 5
+    },
+    "tfidf|TaskTracker": {
+      "median": 1.5966360444480032,
+      "range": [
+        1.3175337497294166,
+        1.7060066868874941
+      ],
+      "defined_repeats": 5
+    },
+    "tfidf|BIPIA": {
+      "median": 1.3907142857142851,
+      "range": [
+        1.1267150664817682,
+        14.894258362478707
+      ],
+      "defined_repeats": 5
+    },
+    "deberta|hackaprompt-dataset": {
+      "median": 146.5289814494918,
+      "range": [
+        9.09701260785033,
+        355.80862316394104
+      ],
+      "defined_repeats": 3
+    },
+    "deberta|jailbreak-classification": {
+      "median": 1.1944973544973543,
+      "range": [
+        1.0940858587535425,
+        1.48886209478506
+      ],
+      "defined_repeats": 5
+    },
+    "deberta|TaskTracker": {
+      "median": 1.2101540611097632,
+      "range": [
+        1.0319354581235267,
+        1.588408822975275
+      ],
+      "defined_repeats": 5
+    },
+    "deberta|BIPIA": {
+      "median": 2.5632896736888986,
+      "range": [
+        1.472757292239957,
+        3.6538220551378404
+      ],
+      "defined_repeats": 2
+    }
+  },
+  "loto": {
+    "tfidf": [
+      {
+        "group": "g:2553c4aa575363250f66",
+        "rows": 678,
+        "recall_at_1pct_fpr": 0.0
+      },
+      {
+        "group": "g:2df28917cef47215d71d",
+        "rows": 769,
+        "recall_at_1pct_fpr": 0.43953185955786733
+      },
+      {
+        "group": "g:39d9ced4ea7d351bd1b2",
+        "rows": 305,
+        "recall_at_1pct_fpr": 1.0
+      },
+      {
+        "group": "g:4dd9ff1709c9f2dbe669",
+        "rows": 195,
+        "recall_at_1pct_fpr": 0.041025641025641026
+      },
+      {
+        "group": "g:5193198376a2b96b65c2",
+        "rows": 597,
+        "recall_at_1pct_fpr": 0.33500837520938026
+      },
+      {
+        "group": "g:d36c64c4ff13e462676b",
+        "rows": 2219,
+        "recall_at_1pct_fpr": 0.8296529968454258
+      },
+      {
+        "group": "g:ee4efb8674a6f2cd1f00",
+        "rows": 96,
+        "recall_at_1pct_fpr": 0.0
+      }
+    ],
+    "deberta": [
+      {
+        "group": "g:2553c4aa575363250f66",
+        "rows": 678,
+        "recall_at_1pct_fpr": 0.7300884955752213
+      },
+      {
+        "group": "g:2df28917cef47215d71d",
+        "rows": 769,
+        "recall_at_1pct_fpr": 0.9219765929778934
+      },
+      {
+        "group": "g:39d9ced4ea7d351bd1b2",
+        "rows": 305,
+        "recall_at_1pct_fpr": 1.0
+      },
+      {
+        "group": "g:4dd9ff1709c9f2dbe669",
+        "rows": 195,
+        "recall_at_1pct_fpr": 0.2923076923076923
+      },
+      {
+        "group": "g:5193198376a2b96b65c2",
+        "rows": 597,
+        "recall_at_1pct_fpr": 1.0
+      },
+      {
+        "group": "g:d36c64c4ff13e462676b",
+        "rows": 2219,
+        "recall_at_1pct_fpr": 0.9828751689950428
+      },
+      {
+        "group": "g:ee4efb8674a6f2cd1f00",
+        "rows": 96,
+        "recall_at_1pct_fpr": 0.11458333333333333
+      }
+    ]
+  },
+  "released": {
+    "deberta-v3-base-prompt-injection-v2": {
+      "recall_at_1pct_fpr_over_group_splits": {
+        "pooled": {
+          "mean": 0.6909428524790023,
+          "range": [
+            0.42232142857142857,
+            0.848279326802311
+          ]
+        },
+        "hackaprompt-dataset": {
+          "mean": 0.9897189114090079,
+          "range": [
+            0.9772727272727273,
+            1.0
+          ]
+        },
+        "jailbreak-classification": {
+          "mean": 0.8521404137188725,
+          "range": [
+            0.8166666666666667,
+            0.89
+          ]
+        },
+        "TaskTracker": {
+          "mean": 0.2706702012304145,
+          "range": [
+            0.23367198838896952,
+            0.30140845070422534
+          ]
+        },
+        "BIPIA": {
+          "mean": 0.2981177268508603,
+          "range": [
+            0.19540229885057472,
+            0.4
+          ]
+        }
+      },
+      "design_effect_median": {
+        "hackaprompt-dataset": 10.589860770789816,
+        "jailbreak-classification": 1.4025035766922658,
+        "TaskTracker": 1.1474967740287723,
+        "BIPIA": 2.5757413603684887
+      },
+      "hackaprompt_per_template": [
+        {
+          "group": "g:2553c4aa575363250f66",
+          "rows": 678,
+          "recall_at_1pct_fpr": 1.0
+        },
+        {
+          "group": "g:2df28917cef47215d71d",
+          "rows": 769,
+          "recall_at_1pct_fpr": 1.0
+        },
+        {
+          "group": "g:39d9ced4ea7d351bd1b2",
+          "rows": 305,
+          "recall_at_1pct_fpr": 1.0
+        },
+        {
+          "group": "g:4dd9ff1709c9f2dbe669",
+          "rows": 195,
+          "recall_at_1pct_fpr": 1.0
+        },
+        {
+          "group": "g:5193198376a2b96b65c2",
+          "rows": 597,
+          "recall_at_1pct_fpr": 1.0
+        },
+        {
+          "group": "g:d36c64c4ff13e462676b",
+          "rows": 2219,
+          "recall_at_1pct_fpr": 0.9774673276250563
+        },
+        {
+          "group": "g:ee4efb8674a6f2cd1f00",
+          "rows": 96,
+          "recall_at_1pct_fpr": 0.4375
+        }
+      ],
+      "note": "No training here; training data of released detectors is partly unknown, so no inflation is estimated. Overlap with these rows cannot be ruled out."
+    }
+  },
+  "run": {
+    "commit": "93e5ec981938fae61e5a804ec776b2e5c7ab5157",
+    "finished_utc": "2026-09-25T14:37:20+00:00",
+    "revisions": {
+      "microsoft/deberta-v3-small": "a36c739020e01763fe789b4b85e2df55d6180012",
+      "protectai/deberta-v3-base-prompt-injection-v2": "90c9989b1a342275dd0d1a95aad283c04e075671",
+      "meta-llama/Llama-Prompt-Guard-2-86M": "a8ded8e697ce7c355e395a0df51f94adb4a2fd27"
+    },
+    "recipe": {
+      "learning_rate": 2e-05,
+      "epochs": 1,
+      "max_length": 256,
+      "batch_size": 32,
+      "warmup_fraction": 0.06,
+      "weight_decay": 0.01,
+      "class_weighting": "balanced (inverse frequency), matching the linear detector"
+    },
+    "python": "3.13.15",
+    "torch": "2.11.0+cu128",
+    "gpu": "NVIDIA A100-SXM4-40GB"
+  }
+}
