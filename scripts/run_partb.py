@@ -20,6 +20,7 @@ from injection_lab.transformer import (
     FINETUNE_MODEL,
     RECIPE,
     RELEASED_DETECTORS,
+    can_download,
     finetune,
     load_released,
     resolve_revision,
@@ -92,11 +93,17 @@ def main():
                 revisions[repo] = None
                 print(f"{repo}: unavailable ({type(exc).__name__}); gated={gated}")
         write_json(revisions_path, revisions)
-    released = {
-        repo.split("/")[1]: (repo, label)
-        for repo, label, _ in RELEASED_DETECTORS
-        if revisions[repo]
-    }
+    # Access is checked on every run: a pinned sha does not imply access to gated files.
+    released = {}
+    for repo, label, gated in RELEASED_DETECTORS:
+        if revisions[repo] and can_download(repo, revisions[repo], token):
+            released[repo.split("/")[1]] = (repo, label)
+        else:
+            print(f"{repo}: files not accessible (gated={gated}); recorded as unavailable")
+    write_json(
+        out / "unavailable_detectors.json",
+        sorted(r for r, _, _ in RELEASED_DETECTORS if r.split("/")[1] not in released),
+    )
 
     def deberta(train_rows, seed):
         return finetune(train_rows, seed, FINETUNE_MODEL, revisions[FINETUNE_MODEL])
