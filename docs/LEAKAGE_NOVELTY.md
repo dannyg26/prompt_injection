@@ -1,3 +1,5 @@
+> **Superseded (2026-09-25)** by [NOVELTY_VERDICT.md](NOVELTY_VERDICT.md), which is based on full, page-cited reads of 14 papers (docs/literature/). The snippet-based statements below are kept for the record only. In particular, the InjecGuard row's validation-set statement is **not** supported by arXiv v3 of that paper.
+
 # Novelty check: benchmark leakage in prompt-injection detection
 
 Checked 2026-09-24. **Method limit:** arxiv.org, Semantic Scholar, LessWrong and the arXiv mirrors are blocked from the compute environment. Claims below come from search-engine extracts of each paper's own text and are marked **UNVERIFIED (full text not read)**. They must be confirmed by reading the PDFs before any novelty claim appears in the report.
