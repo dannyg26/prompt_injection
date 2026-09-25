@@ -10,3 +10,4 @@ artifacts/
 .env
 *.joblib
 
+literature/pdfs/
