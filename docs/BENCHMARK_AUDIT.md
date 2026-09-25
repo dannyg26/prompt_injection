@@ -14,7 +14,7 @@ Containment is the share of an evaluation item's word 5-gram shingles found insi
 | NotInject one / two / three | 113 each | 0 / 0 / 0 | 16 / 16 / 16 |
 | PINT | private | not audited | 48 PINT items in valid.json |
 
-**Finding.** The public training file is effectively clean against the public evaluation files. The 144-item validation set used for checkpoint selection (`train.py`) consists of exact evaluation items. The InjecGuard/PIGuard paper says validation samples were selected from these datasets. That makes this a disclosed, bounded selection bias (about 14% of each NotInject subset, 16% of BIPIA text attacks, 24% of BIPIA code attacks and 2.5% of WildGuard were seen during selection), not undisclosed contamination. We do not infer misconduct.
+**Finding.** The public training file is effectively clean against the public evaluation files. The 144-item validation set used for checkpoint selection (`train.py`) consists of exact evaluation items. The arXiv v3 paper does not mention a validation or checkpoint-selection set at all (searched all 17 pages; docs/literature/injecguard-2024.md); whether the ACL 2025 version or the repository README discloses it is UNVERIFIED. We do not infer misconduct: using benchmark items for checkpoint selection is a bounded selection effect (about 14% of each NotInject subset, 16% of BIPIA text attacks, 24% of BIPIA code attacks and 2.5% of WildGuard were seen during selection). *Corrected 2026-09-25: an earlier version said the paper disclosed this; that came from a search-engine snippet, not the paper.*
 
 ## 2. Template concentration inside the training pool
 

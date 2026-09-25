@@ -58,7 +58,7 @@ Domain adaptation for injection detection is studied by CAPTURE, WAInjectBench (
 | chatbot_instruction_prompts, benign | 16,000 | 15,497 | 0.4% |
 | TaskTracker, benign | 11,386 | 7,557 | 0.3% |
 
-The training file is effectively disjoint from the public evaluation files: at most 1 of 1,435 evaluation items is contained in a training row. The 144-item validation set used for checkpoint selection consists of exact evaluation items (for example, 16 of each 113-item NotInject subset). InjecGuard's paper states that validation samples were drawn from these datasets. We report this as a disclosed selection effect and do not infer misconduct.
+The training file is effectively disjoint from the public evaluation files: at most 1 of 1,435 evaluation items is contained in a training row. The 144-item validation set used for checkpoint selection consists of exact evaluation items (for example, 16 of each 113-item NotInject subset). The InjecGuard paper (arXiv v3) does not describe a validation set; whether another version discloses this is UNVERIFIED. We report it as a bounded selection effect and do not infer misconduct.
 
 **Study pools.** After admission, deduplication (1,952 exact duplicates and 5 label conflicts removed) and removal of 66 evaluation-domain rows that shared a group with source data, 61,819 rows remain.
 
