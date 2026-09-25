@@ -53,9 +53,9 @@
   | Detector | IID F1 | IID recall | hb-FPR | Obf. recall | Struct.-shift FPR | ROC-AUC |
   | --- | --- | --- | --- | --- | --- | --- |
   | ProtectAI | 0.9036 | 0.858 | 0.216 | 0.906 | 0.4525 | 0.9741 |
-  | DeBERTa-PI | 0.8044 | 0.944 | 0.804 | — | 1.000 | 0.8712 |
+  | DeBERTa-PI | 0.8044 | 0.944 | 0.804 | 0.970 | 1.000 | 0.8712 |
 
-  - The extracted row for DeBERTa-PI obfuscated recall reads 0.970. The table has four ProtectAI/DeBERTa-PI rows, including swept thresholds: ProtectAI τ=0.002 and DeBERTa-PI τ=0.986.
+  - Table 7 also has diagnostic rows at the validation-F1-swept thresholds: ProtectAI τ=0.002 and DeBERTa-PI τ=0.986.
   - Per-origin hb-FPR with example-level 95% bootstrap intervals (p. 17, Table 18): ProtectAI ext-sourced 0.083 [0.065, 0.101] and curated 0.410 [0.372, 0.448]; DeBERTa-PI ext-sourced 0.825 [0.799, 0.849] and curated 0.773 [0.740, 0.807].
   - **Recall on externally sourced indirect-injection data (TaskTracker, BIPIA)** and **recall at a fixed low FPR for released detectors**: not found after reading §IV–§VII and Appendices A–F. The released detectors are reported only at τ=0.5 and at a validation-F1-swept τ.
   - The only fixed-FPR recall figures are for the internal detectors on the IID split. Quote: "at an IID benign FPR of 0.01, DeBERTa-v3-FT recalls 0.984 of injections and DistilBERT 0.963" (p. 15, §VI-E1).
