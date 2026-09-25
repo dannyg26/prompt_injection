@@ -1,0 +1,28 @@
+{
+  "assumptions": {
+    "baseline_ext_fpr": 0.3144,
+    "seed_sd": 0.0525,
+    "n_external_rows": 872,
+    "row_design_effect": 2.0,
+    "two_sided_alpha_per_contrast": 0.025,
+    "power": 0.8,
+    "source": "PIDS-Bench published values; planning inputs, not measured here"
+  },
+  "by_seeds": {
+    "3": {
+      "se_difference": 0.046552026729891685,
+      "mde_normal": 0.14352101384964833,
+      "mde_seed_t": 0.33824735154127356
+    },
+    "4": {
+      "se_difference": 0.04031523774573843,
+      "mde_normal": 0.12429284397069373,
+      "mde_seed_t": 0.2078253391762001
+    },
+    "5": {
+      "se_difference": 0.036059044851414604,
+      "mde_normal": 0.11117089929409842,
+      "mde_seed_t": 0.159971283188985
+    }
+  }
+}
