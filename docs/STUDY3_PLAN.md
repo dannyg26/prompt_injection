@@ -1,6 +1,6 @@
 # Study 3 plan: does distribution-matched benign augmentation fix external over-defense?
 
-Draft, 2026-09-25. **Not preregistered yet, and no model has been run.**
+Draft, 2026-09-25. **Superseded by the locked design in docs/PREREGISTRATION_STUDY3.md** (the dose arm was dropped because PIDS-Bench's script asserts 419/116 rows; A2L replaced the transfer check). No model has been run.
 
 ## Question (the authors' own words)
 

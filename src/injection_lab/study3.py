@@ -216,3 +216,42 @@ def seed_t_interval(diffs, level):
     diffs = np.asarray(diffs, float)
     half = stats.t.ppf(0.5 + level / 2, len(diffs) - 1) * diffs.std(ddof=1) / np.sqrt(len(diffs))
     return [float(diffs.mean() - half), float(diffs.mean() + half)]
+
+
+def named_rng(name):
+    """Independent, reproducible stream per analysis, so no interval depends on which
+    other analyses ran first."""
+    digest = int(hashlib.sha256(name.encode("utf-8")).hexdigest()[:8], 16)
+    return np.random.default_rng([BOOTSTRAP_SEED, digest])
+
+
+def decide(boot_ci, t_ci, complete):
+    """Preregistered decision: established only if BOTH 97.5% intervals exclude 0 and all
+    primary arms are complete; 'fragile' if exactly one interval excludes 0."""
+    if not complete:
+        return {
+            "status": "incomplete",
+            "established_reduction": None,
+            "established_increase": None,
+            "fragile": None,
+            "reduction_beyond_5_points": None,
+        }
+    below = [boot_ci[1] < 0, t_ci[1] < 0]
+    above = [boot_ci[0] > 0, t_ci[0] > 0]
+    return {
+        "status": "complete",
+        "established_reduction": all(below),
+        "established_increase": all(above),
+        "fragile": any(below) != all(below) or any(above) != all(above),
+        "reduction_beyond_5_points": boot_ci[1] < -0.05 and t_ci[1] < -0.05,
+    }
+
+
+def cross_containment_hits(candidates, references):
+    """Indices of candidates with word 5-gram containment >= 0.5 (min 3 shared shingles)
+    to any reference: the grouping definition used for inference, applied as a filter."""
+    from injection_lab.pools import containment_edges
+
+    n = len(candidates)
+    edges = containment_edges(list(candidates) + list(references))
+    return {i for pair in edges for i in pair if i < n and any(j >= n for j in pair)}

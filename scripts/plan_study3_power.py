@@ -18,14 +18,26 @@ from injection_lab.data import write_json  # noqa: E402
 P0, SEED_SD, N_ROWS, ALPHA, POWER = 0.3144, 0.0525, 872, 0.025, 0.80
 
 
-def mde(n_seeds, rho_design_effect=2.0):
-    # Per-arm variance of the seed-mean FPR: seed component + row component. Arms are
-    # trained on different data, so seed pairing is assumed to remove no variance.
-    row_var = P0 * (1 - P0) / N_ROWS * rho_design_effect / n_seeds  # conservative
-    se_diff = np.sqrt(2 * (SEED_SD**2 / n_seeds + row_var))
+def mde(n_seeds, seed_corr, row_design_effect=2.0):
+    """Normal and seed-t minimum detectable reduction for the paired seed-mean difference.
+
+    Seed component: 2 (1 - seed_corr) SD^2 / n_seeds (seed_corr = correlation of the two
+    arms' per-seed rates; arms train on different data, so 0 is the cautious case).
+    Row component: rows are shared by all seeds and both arms, so it is NOT divided by
+    n_seeds; 2 p (1 - p) deff / N treats the two arms' row errors as independent, which
+    is conservative because paired rows are positively correlated.
+    """
+    seed_var = 2 * (1 - seed_corr) * SEED_SD**2 / n_seeds
+    row_var = 2 * P0 * (1 - P0) * row_design_effect / N_ROWS
+    se = float(np.sqrt(seed_var + row_var))
     z = stats.norm.ppf(1 - ALPHA / 2) + stats.norm.ppf(POWER)
     t = stats.t.ppf(1 - ALPHA / 2, n_seeds - 1) + stats.t.ppf(POWER, n_seeds - 1)
-    return {"se_difference": se_diff, "mde_normal": z * se_diff, "mde_seed_t": t * se_diff}
+    return {
+        "se_difference": se,
+        "mde_normal": z * se,
+        "mde_seed_t": t * se,
+        "true_reduction_needed_for_upper_bound_below_minus_0.05_seed_t": t * se + 0.05,
+    }
 
 
 plan = {
@@ -38,7 +50,8 @@ plan = {
         "power": POWER,
         "source": "PIDS-Bench published values; planning inputs, not measured here",
     },
-    "by_seeds": {n: mde(n) for n in (3, 4, 5)},
+    "note": "Decisions require both intervals, so the seed-t column is the binding one.",
+    "by_seed_correlation": {str(r): {str(n): mde(n, r) for n in (3, 5)} for r in (0.0, 0.5)},
 }
 write_json(Path("results/study3/power_planning.json"), plan)
-print(json.dumps(plan["by_seeds"], indent=1))
+print(json.dumps(plan["by_seed_correlation"], indent=1))

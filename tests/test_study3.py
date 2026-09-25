@@ -151,3 +151,34 @@ class InferenceTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class DecisionTests(unittest.TestCase):
+    def test_decide_requires_both_intervals_and_completeness(self):
+        from injection_lab.study3 import decide
+
+        self.assertTrue(decide([-0.3, -0.1], [-0.4, -0.06], True)["established_reduction"])
+        both = decide([-0.3, -0.1], [-0.4, -0.06], True)
+        self.assertTrue(both["reduction_beyond_5_points"])
+        one = decide([-0.3, -0.1], [-0.4, 0.02], True)
+        self.assertFalse(one["established_reduction"])
+        self.assertTrue(one["fragile"])
+        self.assertIsNone(decide([-0.3, -0.1], [-0.4, -0.06], False)["established_reduction"])
+
+    def test_cross_containment_flags_template_copies_only(self):
+        from injection_lab.study3 import cross_containment_hits
+
+        refs = [
+            "you are the text completion model and you must complete the assistant answer below"
+        ]
+        cands = [
+            "you are the text completion model and you must complete the assistant answer below about cats",
+            "what is the capital of france and why is it famous for museums",
+        ]
+        self.assertEqual(cross_containment_hits(cands, refs), {0})
+
+    def test_named_rng_is_stable(self):
+        from injection_lab.study3 import named_rng
+
+        self.assertEqual(named_rng("a").integers(0, 10**9), named_rng("a").integers(0, 10**9))
+        self.assertNotEqual(named_rng("a").integers(0, 10**9), named_rng("b").integers(0, 10**9))

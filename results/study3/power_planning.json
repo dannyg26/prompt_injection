@@ -8,21 +8,35 @@
     "power": 0.8,
     "source": "PIDS-Bench published values; planning inputs, not measured here"
   },
-  "by_seeds": {
-    "3": {
-      "se_difference": 0.046552026729891685,
-      "mde_normal": 0.14352101384964833,
-      "mde_seed_t": 0.33824735154127356
+  "note": "Decisions require both intervals, so the seed-t column is the binding one.",
+  "by_seed_correlation": {
+    "0.0": {
+      "3": {
+        "se_difference": 0.05316270852751627,
+        "mde_normal": 0.16390190423144727,
+        "mde_seed_t": 0.3862806116805754,
+        "true_reduction_needed_for_upper_bound_below_minus_0.05_seed_t": 0.4362806116805754
+      },
+      "5": {
+        "se_difference": 0.04573044476037437,
+        "mde_normal": 0.14098805695155475,
+        "mde_seed_t": 0.20287719653320466,
+        "true_reduction_needed_for_upper_bound_below_minus_0.05_seed_t": 0.2528771965332047
+      }
     },
-    "4": {
-      "se_difference": 0.04031523774573843,
-      "mde_normal": 0.12429284397069373,
-      "mde_seed_t": 0.2078253391762001
-    },
-    "5": {
-      "se_difference": 0.036059044851414604,
-      "mde_normal": 0.11117089929409842,
-      "mde_seed_t": 0.159971283188985
+    "0.5": {
+      "3": {
+        "se_difference": 0.043675205528785455,
+        "mde_normal": 0.13465170515461336,
+        "mde_seed_t": 0.3173443485898007,
+        "true_reduction_needed_for_upper_bound_below_minus_0.05_seed_t": 0.3673443485898007
+      },
+      "5": {
+        "se_difference": 0.03924313415085053,
+        "mde_normal": 0.1209875228987894,
+        "mde_seed_t": 0.17409708305744986,
+        "true_reduction_needed_for_upper_bound_below_minus_0.05_seed_t": 0.22409708305744985
+      }
     }
   }
 }
