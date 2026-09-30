@@ -1,0 +1,913 @@
+{
+  "status": "complete",
+  "commit": "1e31220246176ef54dcd9879362b6be4360def16",
+  "pids_commit": "87dc835566b930ee921240874a4939b2c266c2fe",
+  "seeds": [
+    13,
+    42,
+    123,
+    2024,
+    7777
+  ],
+  "arms_complete": [
+    "A0_none",
+    "A1_curated",
+    "A2_matched",
+    "A3_source_only",
+    "A2L_matched_lmsys_only"
+  ],
+  "arms_failed_or_missing": [],
+  "n_external": 872,
+  "n_external_unrestored_excluded": 0,
+  "n_external_groups": 763,
+  "confirmatory": [
+    {
+      "contrast": "A2_matched - A1_curated",
+      "metric": "ext_fpr_0.5",
+      "n_rows": 872,
+      "estimate": -0.2637614678899083,
+      "per_seed_difference": [
+        -0.21100917431192662,
+        -0.29701834862385323,
+        -0.286697247706422,
+        -0.2809633027522936,
+        -0.24311926605504586
+      ],
+      "bootstrap_ci97.5": [
+        -0.3202564654623578,
+        -0.20952325901458846
+      ],
+      "seed_t_ci97.5": [
+        -0.3197800685147171,
+        -0.20774286726509938
+      ],
+      "status": "complete",
+      "established_reduction": true,
+      "established_increase": false,
+      "fragile": false,
+      "reduction_beyond_5_points": true
+    },
+    {
+      "contrast": "A2_matched - A0_none",
+      "metric": "ext_fpr_0.5",
+      "n_rows": 872,
+      "estimate": -0.26788990825688075,
+      "per_seed_difference": [
+        -0.2786697247706422,
+        -0.1823394495412844,
+        -0.26146788990825687,
+        -0.26720183486238536,
+        -0.34977064220183485
+      ],
+      "bootstrap_ci97.5": [
+        -0.3362524126307287,
+        -0.19928363322832765
+      ],
+      "seed_t_ci97.5": [
+        -0.36096639163602584,
+        -0.17481342487773563
+      ],
+      "status": "complete",
+      "established_reduction": true,
+      "established_increase": false,
+      "fragile": false,
+      "reduction_beyond_5_points": true
+    }
+  ],
+  "secondary_contrasts": [
+    {
+      "contrast": "A2_matched - A3_source_only [ext_fpr_0.5]",
+      "n_rows": 872,
+      "estimate": -0.08073394495412842,
+      "per_seed_difference": [
+        -0.07224770642201836,
+        -0.09288990825688075,
+        -0.11697247706422019,
+        -0.04701834862385321,
+        -0.07454128440366972
+      ],
+      "bootstrap_ci95": [
+        -0.11056985500730586,
+        -0.05444206843936175
+      ],
+      "seed_t_ci95": [
+        -0.11304170682622854,
+        -0.048426183082028354
+      ]
+    },
+    {
+      "contrast": "A2L_matched_lmsys_only - A2_matched [ext_fpr_0.5]",
+      "n_rows": 872,
+      "estimate": -0.007568807339449542,
+      "per_seed_difference": [
+        -0.014908256880733939,
+        -0.016055045871559627,
+        -0.0011467889908256881,
+        0.0011467889908256881,
+        -0.006880733944954129
+      ],
+      "bootstrap_ci95": [
+        -0.021514818880351255,
+        0.004906973463641243
+      ],
+      "seed_t_ci95": [
+        -0.01725778823547184,
+        0.002120173556572762
+      ]
+    },
+    {
+      "contrast": "A2L_matched_lmsys_only - A1_curated [ext_fpr_oasst1_dolly_0.5]",
+      "n_rows": 208,
+      "estimate": -0.07788461538461539,
+      "per_seed_difference": [
+        -0.038461538461538464,
+        -0.08653846153846152,
+        -0.07692307692307693,
+        -0.09615384615384615,
+        -0.09134615384615385
+      ],
+      "bootstrap_ci95": [
+        -0.12153110047846889,
+        -0.039995145631067985
+      ],
+      "seed_t_ci95": [
+        -0.10663772013356163,
+        -0.04913151063566915
+      ]
+    },
+    {
+      "contrast": "A2L_matched_lmsys_only - A1_curated [ext_fpr_lmsys_0.5]",
+      "n_rows": 664,
+      "estimate": -0.33192771084337347,
+      "per_seed_difference": [
+        -0.28463855421686746,
+        -0.38403614457831325,
+        -0.3539156626506024,
+        -0.3373493975903615,
+        -0.2996987951807229
+      ],
+      "bootstrap_ci95": [
+        -0.3908042069154197,
+        -0.2758487909039385
+      ],
+      "seed_t_ci95": [
+        -0.38199280162330457,
+        -0.28186262006344237
+      ]
+    },
+    {
+      "contrast": "A2_matched - A1_curated [ext_fpr_tau_val]",
+      "n_rows": 872,
+      "estimate": -0.2568807339449541,
+      "per_seed_difference": [
+        -0.22018348623853212,
+        -0.27522935779816515,
+        -0.28555045871559637,
+        -0.2821100917431193,
+        -0.22133027522935778
+      ],
+      "bootstrap_ci95": [
+        -0.3071158256880734,
+        -0.2099016383574837
+      ],
+      "seed_t_ci95": [
+        -0.29808858925250353,
+        -0.21567287863740475
+      ]
+    },
+    {
+      "contrast": "A2_matched - A1_curated [curated_fpr_0.5]",
+      "n_rows": 600,
+      "estimate": 0.36033333333333334,
+      "per_seed_difference": [
+        0.31166666666666665,
+        0.38333333333333336,
+        0.385,
+        0.30833333333333335,
+        0.41333333333333333
+      ],
+      "bootstrap_ci95": [
+        0.14499154135338346,
+        0.594121862348178
+      ],
+      "seed_t_ci95": [
+        0.3013742650807598,
+        0.41929240158590686
+      ]
+    },
+    {
+      "contrast": "A2_matched - A1_curated [test_recall_0.5]",
+      "n_rows": 2070,
+      "estimate": 0.0008695652173912327,
+      "per_seed_difference": [
+        0.0038647342995169476,
+        0.004347826086956608,
+        -0.0014492753623188692,
+        -0.005797101449275366,
+        0.0033816425120772875
+      ],
+      "bootstrap_ci95": [
+        -0.003679008377410305,
+        0.005811208401373945
+      ],
+      "seed_t_ci95": [
+        -0.004585331075949181,
+        0.006324461510731823
+      ]
+    },
+    {
+      "contrast": "A2_matched - A1_curated [context_term_attack_recall_0.5]",
+      "n_rows": 1025,
+      "estimate": -0.0019512195121951237,
+      "per_seed_difference": [
+        0.0019512195121951237,
+        -0.0019512195121951237,
+        -0.0029268292682926855,
+        -0.0029268292682926855,
+        -0.0039024390243902474
+      ],
+      "bootstrap_ci95": [
+        -0.006896717029788048,
+        0.0007889741058546627
+      ],
+      "seed_t_ci95": [
+        -0.004792156285648939,
+        0.0008897172612586917
+      ]
+    },
+    {
+      "contrast": "A2_matched - A1_curated [obfuscated_recall_0.5]",
+      "n_rows": 405,
+      "estimate": 0.003950617283950519,
+      "per_seed_difference": [
+        0.0,
+        0.014814814814814725,
+        0.0024691358024692134,
+        0.0,
+        0.0024691358024691024
+      ],
+      "bootstrap_ci95": [
+        -0.004390243902439028,
+        0.013141007782173409
+      ],
+      "seed_t_ci95": [
+        -0.0037445725951868927,
+        0.011645807163088108
+      ]
+    },
+    {
+      "contrast": "A2_matched - A1_curated [context_term_obfuscated_recall_0.5]",
+      "n_rows": 153,
+      "estimate": 0.0,
+      "per_seed_difference": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "bootstrap_ci95": [
+        0.0,
+        0.0
+      ],
+      "seed_t_ci95": [
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "descriptive": {
+    "A0_none": {
+      "ext_fpr_0.5": {
+        "n_rows": 872,
+        "estimate": 0.3254587155963303,
+        "ci95": [
+          0.26542412133261833,
+          0.3840228586986532
+        ]
+      },
+      "ext_fpr_tau_val": {
+        "n_rows": 872,
+        "estimate": 0.31995412844036697,
+        "ci95": [
+          0.2671321922198301,
+          0.3731239572635713
+        ]
+      },
+      "ext_fpr_lmsys_0.5": {
+        "n_rows": 664,
+        "estimate": 0.3846385542168675,
+        "ci95": [
+          0.31727609427609427,
+          0.4551539079599923
+        ]
+      },
+      "ext_fpr_oasst1_dolly_0.5": {
+        "n_rows": 208,
+        "estimate": 0.13653846153846153,
+        "ci95": [
+          0.09169828799249533,
+          0.18277717019822282
+        ]
+      },
+      "curated_fpr_0.5": {
+        "n_rows": 600,
+        "estimate": 0.5283333333333333,
+        "ci95": [
+          0.24848598130841143,
+          0.7779762084118015
+        ]
+      },
+      "test_recall_0.5": {
+        "n_rows": 2070,
+        "estimate": 0.9867632850241546,
+        "ci95": [
+          0.9793496258113332,
+          0.9932538851905678
+        ]
+      },
+      "test_fpr_0.5": {
+        "n_rows": 1848,
+        "estimate": 0.013311688311688311,
+        "ci95": [
+          0.006531078923476996,
+          0.02122079247445447
+        ]
+      },
+      "context_term_attack_recall_0.5": {
+        "n_rows": 1025,
+        "estimate": 0.9951219512195122,
+        "ci95": [
+          0.9881352218903173,
+          1.0
+        ]
+      },
+      "obfuscated_recall_0.5": {
+        "n_rows": 405,
+        "estimate": 0.9841975308641975,
+        "ci95": [
+          0.9699726398192864,
+          0.9947124850835323
+        ]
+      },
+      "context_term_obfuscated_recall_0.5": {
+        "n_rows": 153,
+        "estimate": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ]
+      },
+      "test_f1_0.5": {
+        "estimate": 0.9874296743000777,
+        "ci95_seed_t": [
+          0.9858332851224563,
+          0.9890260634776991
+        ]
+      },
+      "per_seed": [
+        {
+          "seed": 13,
+          "tau_val": 0.962,
+          "fit_minutes": 49.92451577186584,
+          "attempts": 1,
+          "oracle_frontier_any_tau_f1_0.95_extfpr_0.10": false
+        },
+        {
+          "seed": 42,
+          "tau_val": 0.362,
+          "fit_minutes": 49.93546038866043,
+          "attempts": 1,
+          "oracle_frontier_any_tau_f1_0.95_extfpr_0.10": false
+        },
+        {
+          "seed": 123,
+          "tau_val": 0.228,
+          "fit_minutes": 49.63783045609792,
+          "attempts": 1,
+          "oracle_frontier_any_tau_f1_0.95_extfpr_0.10": false
+        },
+        {
+          "seed": 2024,
+          "tau_val": 0.116,
+          "fit_minutes": 49.79963341156642,
+          "attempts": 1,
+          "oracle_frontier_any_tau_f1_0.95_extfpr_0.10": false
+        },
+        {
+          "seed": 7777,
+          "tau_val": 0.962,
+          "fit_minutes": 49.777030022939044,
+          "attempts": 1,
+          "oracle_frontier_any_tau_f1_0.95_extfpr_0.10": false
+        }
+      ]
+    },
+    "A1_curated": {
+      "ext_fpr_0.5": {
+        "n_rows": 872,
+        "estimate": 0.3213302752293578,
+        "ci95": [
+          0.27467389316150487,
+          0.36973806592298103
+        ]
+      },
+      "ext_fpr_tau_val": {
+        "n_rows": 872,
+        "estimate": 0.3149082568807339,
+        "ci95": [
+          0.2667414652857691,
+          0.3601096029451428
+        ]
+      },
+      "ext_fpr_lmsys_0.5": {
+        "n_rows": 664,
+        "estimate": 0.38072289156626504,
+        "ci95": [
+          0.32743907943345224,
+          0.4379110932439472
+        ]
+      },
+      "ext_fpr_oasst1_dolly_0.5": {
+        "n_rows": 208,
+        "estimate": 0.13173076923076923,
+        "ci95": [
+          0.08833589865024867,
+          0.17981721698113198
+        ]
+      },
+      "curated_fpr_0.5": {
+        "n_rows": 600,
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "test_recall_0.5": {
+        "n_rows": 2070,
+        "estimate": 0.9883091787439614,
+        "ci95": [
+          0.9814803879519783,
+          0.9942336799837036
+        ]
+      },
+      "test_fpr_0.5": {
+        "n_rows": 1848,
+        "estimate": 0.012662337662337663,
+        "ci95": [
+          0.006131942879621744,
+          0.020011096296216967
+        ]
+      },
+      "context_term_attack_recall_0.5": {
+        "n_rows": 1025,
+        "estimate": 0.9970731707317073,
+        "ci95": [
+          0.992137178330789,
+          1.0
+        ]
+      },
+      "obfuscated_recall_0.5": {
+        "n_rows": 405,
+        "estimate": 0.9837037037037037,
+        "ci95": [
+          0.9718448323635356,
+          0.9938402192395355
+        ]
+      },
+      "context_term_obfuscated_recall_0.5": {
+        "n_rows": 153,
+        "estimate": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ]
+      },
+      "test_f1_0.5": {
+        "estimate": 0.9884990198806619,
+        "ci95_seed_t": [
+          0.9875099338253382,
+          0.9894881059359856
+        ]
+      },
+      "per_seed": [
+        {
+          "seed": 13,
+          "tau_val": 0.246,
+          "fit_minutes": 48.918901173273724,
+          "attempts": 1,
+          "oracle_frontier_any_tau_f1_0.95_extfpr_0.10": false
+        },
+        {
+          "seed": 42,
+          "tau_val": 0.802,
+          "fit_minutes": 48.72650748888652,
+          "attempts": 1,
+          "oracle_frontier_any_tau_f1_0.95_extfpr_0.10": false
+        },
+        {
+          "seed": 123,
+          "tau_val": 0.5660000000000001,
+          "fit_minutes": 48.39415190617243,
+          "attempts": 1,
+          "oracle_frontier_any_tau_f1_0.95_extfpr_0.10": false
+        },
+        {
+          "seed": 2024,
+          "tau_val": 0.47400000000000003,
+          "fit_minutes": 48.415470190842946,
+          "attempts": 1,
+          "oracle_frontier_any_tau_f1_0.95_extfpr_0.10": false
+        },
+        {
+          "seed": 7777,
+          "tau_val": 0.924,
+          "fit_minutes": 48.4156733751297,
+          "attempts": 1,
+          "oracle_frontier_any_tau_f1_0.95_extfpr_0.10": false
+        }
+      ]
+    },
+    "A2_matched": {
+      "ext_fpr_0.5": {
+        "n_rows": 872,
+        "estimate": 0.057568807339449544,
+        "ci95": [
+          0.03644273748054348,
+          0.08079976066752943
+        ]
+      },
+      "ext_fpr_tau_val": {
+        "n_rows": 872,
+        "estimate": 0.05802752293577982,
+        "ci95": [
+          0.03677140039893918,
+          0.08192957766704481
+        ]
+      },
+      "ext_fpr_lmsys_0.5": {
+        "n_rows": 664,
+        "estimate": 0.06355421686746988,
+        "ci95": [
+          0.038386881868131884,
+          0.094270295481099
+        ]
+      },
+      "ext_fpr_oasst1_dolly_0.5": {
+        "n_rows": 208,
+        "estimate": 0.038461538461538464,
+        "ci95": [
+          0.017391304347826087,
+          0.0624390243902439
+        ]
+      },
+      "curated_fpr_0.5": {
+        "n_rows": 600,
+        "estimate": 0.36033333333333334,
+        "ci95": [
+          0.14616417075747218,
+          0.6056953385127634
+        ]
+      },
+      "test_recall_0.5": {
+        "n_rows": 2070,
+        "estimate": 0.9891787439613526,
+        "ci95": [
+          0.9823607307708139,
+          0.9947188346223416
+        ]
+      },
+      "test_fpr_0.5": {
+        "n_rows": 1848,
+        "estimate": 0.013852813852813853,
+        "ci95": [
+          0.0067200604407359876,
+          0.02204249094406379
+        ]
+      },
+      "context_term_attack_recall_0.5": {
+        "n_rows": 1025,
+        "estimate": 0.9951219512195122,
+        "ci95": [
+          0.9871015621384267,
+          1.0
+        ]
+      },
+      "obfuscated_recall_0.5": {
+        "n_rows": 405,
+        "estimate": 0.9876543209876543,
+        "ci95": [
+          0.9764683712681052,
+          0.9964574551622326
+        ]
+      },
+      "context_term_obfuscated_recall_0.5": {
+        "n_rows": 153,
+        "estimate": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ]
+      },
+      "test_f1_0.5": {
+        "estimate": 0.9884141414103155,
+        "ci95_seed_t": [
+          0.9866570230658582,
+          0.9901712597547727
+        ]
+      },
+      "per_seed": [
+        {
+          "seed": 13,
+          "tau_val": 0.462,
+          "fit_minutes": 48.69594502051671,
+          "attempts": 1,
+          "oracle_frontier_any_tau_f1_0.95_extfpr_0.10": true
+        },
+        {
+          "seed": 42,
+          "tau_val": 0.124,
+          "fit_minutes": 48.79561715920766,
+          "attempts": 1,
+          "oracle_frontier_any_tau_f1_0.95_extfpr_0.10": true
+        },
+        {
+          "seed": 123,
+          "tau_val": 0.544,
+          "fit_minutes": 48.44642756779989,
+          "attempts": 1,
+          "oracle_frontier_any_tau_f1_0.95_extfpr_0.10": true
+        },
+        {
+          "seed": 2024,
+          "tau_val": 0.47600000000000003,
+          "fit_minutes": 48.459207880496976,
+          "attempts": 1,
+          "oracle_frontier_any_tau_f1_0.95_extfpr_0.10": true
+        },
+        {
+          "seed": 7777,
+          "tau_val": 0.916,
+          "fit_minutes": 48.45918771823247,
+          "attempts": 1,
+          "oracle_frontier_any_tau_f1_0.95_extfpr_0.10": true
+        }
+      ]
+    },
+    "A3_source_only": {
+      "ext_fpr_0.5": {
+        "n_rows": 872,
+        "estimate": 0.13830275229357797,
+        "ci95": [
+          0.10365913791333174,
+          0.1778377870078657
+        ]
+      },
+      "ext_fpr_tau_val": {
+        "n_rows": 872,
+        "estimate": 0.1426605504587156,
+        "ci95": [
+          0.11438030744436868,
+          0.17644670363828338
+        ]
+      },
+      "ext_fpr_lmsys_0.5": {
+        "n_rows": 664,
+        "estimate": 0.15632530120481927,
+        "ci95": [
+          0.11123592581589391,
+          0.20218016903731184
+        ]
+      },
+      "ext_fpr_oasst1_dolly_0.5": {
+        "n_rows": 208,
+        "estimate": 0.08076923076923077,
+        "ci95": [
+          0.04853202016430174,
+          0.11554418179259877
+        ]
+      },
+      "curated_fpr_0.5": {
+        "n_rows": 600,
+        "estimate": 0.38433333333333336,
+        "ci95": [
+          0.16628714643752243,
+          0.6344754318046449
+        ]
+      },
+      "test_recall_0.5": {
+        "n_rows": 2070,
+        "estimate": 0.9874396135265701,
+        "ci95": [
+          0.9804363868086496,
+          0.9936175596001025
+        ]
+      },
+      "test_fpr_0.5": {
+        "n_rows": 1848,
+        "estimate": 0.013095238095238096,
+        "ci95": [
+          0.006151386468258533,
+          0.020686832193435818
+        ]
+      },
+      "context_term_attack_recall_0.5": {
+        "n_rows": 1025,
+        "estimate": 0.9951219512195122,
+        "ci95": [
+          0.9880850623240083,
+          1.0
+        ]
+      },
+      "obfuscated_recall_0.5": {
+        "n_rows": 405,
+        "estimate": 0.9846913580246913,
+        "ci95": [
+          0.9713544710964067,
+          0.9946347975372957
+        ]
+      },
+      "context_term_obfuscated_recall_0.5": {
+        "n_rows": 153,
+        "estimate": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ]
+      },
+      "test_f1_0.5": {
+        "estimate": 0.987869245318571,
+        "ci95_seed_t": [
+          0.9865067854021131,
+          0.9892317052350289
+        ]
+      },
+      "per_seed": [
+        {
+          "seed": 13,
+          "tau_val": 0.932,
+          "fit_minutes": 48.661791654427844,
+          "attempts": 1,
+          "oracle_frontier_any_tau_f1_0.95_extfpr_0.10": true
+        },
+        {
+          "seed": 42,
+          "tau_val": 0.802,
+          "fit_minutes": 48.54750840266546,
+          "attempts": 1,
+          "oracle_frontier_any_tau_f1_0.95_extfpr_0.10": true
+        },
+        {
+          "seed": 123,
+          "tau_val": 0.5760000000000001,
+          "fit_minutes": 48.48460183143616,
+          "attempts": 1,
+          "oracle_frontier_any_tau_f1_0.95_extfpr_0.10": true
+        },
+        {
+          "seed": 2024,
+          "tau_val": 0.006,
+          "fit_minutes": 48.56143629153569,
+          "attempts": 1,
+          "oracle_frontier_any_tau_f1_0.95_extfpr_0.10": true
+        },
+        {
+          "seed": 7777,
+          "tau_val": 0.42,
+          "fit_minutes": 48.50789054234823,
+          "attempts": 1,
+          "oracle_frontier_any_tau_f1_0.95_extfpr_0.10": true
+        }
+      ]
+    },
+    "A2L_matched_lmsys_only": {
+      "ext_fpr_0.5": {
+        "n_rows": 872,
+        "estimate": 0.05,
+        "ci95": [
+          0.03293201210618436,
+          0.06925812760197377
+        ]
+      },
+      "ext_fpr_tau_val": {
+        "n_rows": 872,
+        "estimate": 0.050688073394495416,
+        "ci95": [
+          0.03340869728864318,
+          0.06983100042936881
+        ]
+      },
+      "ext_fpr_lmsys_0.5": {
+        "n_rows": 664,
+        "estimate": 0.04879518072289157,
+        "ci95": [
+          0.029626840696117807,
+          0.07297357446467238
+        ]
+      },
+      "ext_fpr_oasst1_dolly_0.5": {
+        "n_rows": 208,
+        "estimate": 0.05384615384615385,
+        "ci95": [
+          0.028708133971291867,
+          0.08365384615384615
+        ]
+      },
+      "curated_fpr_0.5": {
+        "n_rows": 600,
+        "estimate": 0.31166666666666665,
+        "ci95": [
+          0.08619124559341956,
+          0.5526022052586937
+        ]
+      },
+      "test_recall_0.5": {
+        "n_rows": 2070,
+        "estimate": 0.9879227053140096,
+        "ci95": [
+          0.9802133593167782,
+          0.9938255226404896
+        ]
+      },
+      "test_fpr_0.5": {
+        "n_rows": 1848,
+        "estimate": 0.013203463203463203,
+        "ci95": [
+          0.006437045028809903,
+          0.02122418101279009
+        ]
+      },
+      "context_term_attack_recall_0.5": {
+        "n_rows": 1025,
+        "estimate": 0.9957073170731707,
+        "ci95": [
+          0.9877265979311877,
+          1.0
+        ]
+      },
+      "obfuscated_recall_0.5": {
+        "n_rows": 405,
+        "estimate": 0.9876543209876543,
+        "ci95": [
+          0.9766743081709514,
+          0.9960300223570744
+        ]
+      },
+      "context_term_obfuscated_recall_0.5": {
+        "n_rows": 153,
+        "estimate": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ]
+      },
+      "test_f1_0.5": {
+        "estimate": 0.9880654185922892,
+        "ci95_seed_t": [
+          0.986921352239223,
+          0.9892094849453555
+        ]
+      },
+      "per_seed": [
+        {
+          "seed": 13,
+          "tau_val": 0.47400000000000003,
+          "fit_minutes": 48.5100348631541,
+          "attempts": 1,
+          "oracle_frontier_any_tau_f1_0.95_extfpr_0.10": true
+        },
+        {
+          "seed": 42,
+          "tau_val": 0.532,
+          "fit_minutes": 48.5713685075442,
+          "attempts": 1,
+          "oracle_frontier_any_tau_f1_0.95_extfpr_0.10": true
+        },
+        {
+          "seed": 123,
+          "tau_val": 0.874,
+          "fit_minutes": 48.548359688123064,
+          "attempts": 1,
+          "oracle_frontier_any_tau_f1_0.95_extfpr_0.10": true
+        },
+        {
+          "seed": 2024,
+          "tau_val": 0.888,
+          "fit_minutes": 48.51086839834849,
+          "attempts": 1,
+          "oracle_frontier_any_tau_f1_0.95_extfpr_0.10": true
+        },
+        {
+          "seed": 7777,
+          "tau_val": 0.242,
+          "fit_minutes": 48.46375428835551,
+          "attempts": 1,
+          "oracle_frontier_any_tau_f1_0.95_extfpr_0.10": true
+        }
+      ]
+    }
+  },
+  "interval_method": "Rates: percentile bootstrap resampling near-duplicate groups (external and curated hard-benign rows: word 5-gram containment >= 0.5, transitive, computed within each set; test and obfuscated rows: parent_seed_id) and, independently, the 5 seeds with replacement; contrasts pair the same rows and seed indices. Confirmatory: 10000 replicates at 97.5% (Bonferroni over 2) plus a Student-t (df 4) interval over the 5 per-seed differences; both must exclude 0. Secondary: 2000 replicates, 95%. F1: Student-t over seeds. Each analysis uses its own RNG stream (named_rng). All seeds share one dataset, so seeds are not independent test examples; a 5-seed bootstrap understates seed variance, which is why the t-interval is also required.",
+  "finished_utc": "2026-09-30T13:08:08+00:00"
+}
