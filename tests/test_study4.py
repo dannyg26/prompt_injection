@@ -79,9 +79,48 @@ class AttackTests(unittest.TestCase):
 class DecisionTests(unittest.TestCase):
     def test_bonferroni_level_and_noninferiority(self):
         self.assertAlmostEqual(CONFIRMATORY_LEVEL, 1 - 0.05 / len(CONFIRMATORY))
-        self.assertTrue(noninferior(-0.049))
-        self.assertFalse(noninferior(-0.051))
+        self.assertTrue(noninferior(-0.019))
+        self.assertFalse(noninferior(-0.021))
 
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class BlockTests(unittest.TestCase):
+    def test_index_blocks_ranges_and_max(self):
+        from injection_lab.study4 import index_blocks
+
+        blocks = list(index_blocks(iter(range(25)), 5, 7, 20))
+        self.assertEqual([(lo, hi) for lo, hi, _ in blocks], [(5, 12), (12, 19), (19, 20)])
+        self.assertEqual(blocks[0][2], list(range(5, 12)))
+        self.assertEqual(blocks[2][2], [19])
+
+    def test_index_blocks_partial_final_block_and_early_stop(self):
+        from injection_lab.study4 import index_blocks
+
+        blocks = list(index_blocks(iter(range(10)), 2, 5, 100))
+        self.assertEqual([(lo, hi, len(r)) for lo, hi, r in blocks], [(2, 7, 5), (7, 12, 3)])
+        seen = []
+        for lo, hi, rows in index_blocks(iter(range(1000)), 0, 10, 1000):
+            seen.append(lo)
+            if len(seen) == 2:
+                break
+        self.assertEqual(seen, [0, 10])
+
+
+class RecipeTests(unittest.TestCase):
+    def test_recipe_success_needs_relative_and_absolute(self):
+        from injection_lab.study4 import recipe_success
+
+        self.assertTrue(recipe_success(True, True, True, [0.08, 0.09], [0.05, 0.07]))
+        self.assertFalse(recipe_success(True, True, True, [0.08, 0.25], [0.05, 0.07]))
+        self.assertFalse(recipe_success(True, False, True, [0.08, 0.09], [0.05, 0.07]))
+        self.assertIsNone(recipe_success(None, True, True, [0.0, 0.0], [0.0, 0.0]))
+
+    def test_wilson_known_value(self):
+        from injection_lab.study4 import wilson
+
+        lo, hi = wilson(190, 200)
+        self.assertAlmostEqual(lo, 0.9102, places=3)
+        self.assertAlmostEqual(hi, 0.9726, places=3)

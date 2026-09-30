@@ -1,12 +1,14 @@
-"""Study 4 runner (Colab GPU): realistic (detector-mined) and combined benign augmentation.
+"""Study 4 runner (Colab GPU): detector-mined and combined benign augmentation.
 
 Stages (each resumable, all state on Drive):
-  pools   verify lock -> PIDS-Bench with restored LMSYS test rows -> mine benign rows that a
-          released detector (ProtectAI v2) flags, with a generic hygiene filter and no
-          PIDS-Bench selection rules -> disjointness filters -> B1/B2/B3 pools, framed
-          attack set, composition report, blind audit export. No detector is trained.
+  pools   verify lock -> PIDS-Bench with restored LMSYS test rows -> mine same-corpus rows
+          that a released detector (ProtectAI v2, pinned) flags, generic hygiene filter, no
+          PIDS-Bench selection rules or test composition -> disjointness and label-conflict
+          filters -> B1/B3 pools; A2/A3 pools copied from Study 3; framed attack and framed
+          benign sets; composition report; blind audit export. No detector is trained.
   fits    per seed, per arm: PIDS-Bench's own training function in a subprocess (reused
-          from run_study3), our scoring (adds the framed attacks), delete the model.
+          from run_study3), our scoring, delete the model. Scores stay in the private folder
+          until the analysis stage; only fit times are displayed.
   analyze confirmatory and secondary analyses -> public/study4_results.json.
 Fixed by docs/PREREGISTRATION_STUDY4.md. LMSYS text never enters this git repository.
 
@@ -52,29 +54,34 @@ from injection_lab.study4 import (  # noqa: E402
     CONFIRMATORY,
     CONFIRMATORY_LEVEL,
     CONFIRMATORY_REPS,
-    LMSYS_BLOCK,
+    FRAMING_PREFIXES,
     LMSYS_MAX_INDEX,
-    LMSYS_MIN_MINED,
+    LMSYS_START,
+    LMSYS_STEP,
     MINING_DETECTOR,
     MINING_THRESHOLD,
+    N_TRAIN,
+    N_VAL,
     NONINFERIORITY_MARGIN,
     POOL_SEED,
     SEEDS,
-    framed_attacks,
+    framed,
     generic_filter,
+    index_blocks,
     mix_pools,
     moderation_flagged,
     noninferior,
+    recipe_success,
     split_train_val,
     uniform_draw,
 )
 
 LOCK = REPO / "results/study4/PREREG_LOCK.json"
 APPROVAL = "PREREGISTRATION_STUDY4.md may be fit and scored"
-LMSYS_START = 200_000  # PIDS-Bench scanned only [0, 200000)
 AUDIT_N = 200
 SECONDARY_REPS = 2000
 DATA = s3.DATA
+STUDY3_POOLS = ("A2_matched", "A3_source_only")
 
 
 def verify():
@@ -114,95 +121,68 @@ def load_frame(path, cell):
     ]
 
 
-def mine(token, revisions, bench_keys, hb):
-    """Score generic-filtered rows with the released detector; keep those it flags."""
-    from datasets import load_dataset
+class Miner:
+    """Scores generic-filtered texts with the pinned released detector; keeps flagged ones."""
 
-    from injection_lab.transformer import load_released, score
+    def __init__(self, token, bench_keys, hb):
+        from injection_lab.transformer import load_released
 
-    repo, label = MINING_DETECTOR
-    model, tok, idx = load_released(repo, label, revisions["mining_detector"]["sha"], token)
-    stats = {}
-    mined = []
+        repo, label, sha = MINING_DETECTOR
+        self.model, self.tok, self.idx = load_released(repo, label, sha, token)
+        self.bench_keys, self.hb = bench_keys, hb
+        self.stats, self.mined = {}, []
 
-    def run(source, texts):
-        keep = []
-        for t in texts:
-            if t.lower() in bench_keys or hb._normalize_text(t).lower() in bench_keys:
-                continue
-            keep.append(t)
-        probs = score(model, tok, keep, positive_index=idx, max_length=512) if keep else []
-        hits = [t for t, p in zip(keep, probs) if p >= MINING_THRESHOLD]
-        st = stats.setdefault(source, {"passed_filter": 0, "scored": 0, "flagged": 0})
+    def run(self, source, texts):
+        from injection_lab.transformer import score
+
+        keep = [
+            t
+            for t in texts
+            if t.lower() not in self.bench_keys
+            and self.hb._normalize_text(t).lower() not in self.bench_keys
+        ]
+        probs = score(self.model, self.tok, keep, positive_index=self.idx, max_length=512)
+        hits = [t for t, p in zip(keep, probs) if p >= MINING_THRESHOLD] if keep else []
+        st = self.stats.setdefault(
+            source, {"passed_filter": 0, "not_in_benchmark": 0, "flagged": 0}
+        )
         st["passed_filter"] += len(texts)
-        st["scored"] += len(keep)
+        st["not_in_benchmark"] += len(keep)
         st["flagged"] += len(hits)
-        mined.extend({"text": t, "source": source} for t in hits)
+        self.mined.extend({"text": t, "source": source} for t in hits)
 
-    stream = load_dataset(
-        s3.HF_REPOS["lmsys"][0],
-        split="train",
-        streaming=True,
-        token=token,
-        revision=revisions["lmsys"]["sha"],
-    )
-    block, end, lmsys_scanned = [], LMSYS_START + LMSYS_BLOCK, 0
-    for i, row in enumerate(stream):
-        if i < LMSYS_START:
-            continue
-        if i >= end:
-            run("lmsys", block)
-            block = []
-            s3.log(f"mining: LMSYS rows [{LMSYS_START}, {end}) done, {len(mined)} flagged so far")
-            n_lmsys = sum(1 for r in mined if r["source"] == "lmsys")
-            if n_lmsys >= LMSYS_MIN_MINED or end >= LMSYS_MAX_INDEX:
-                break
-            end += LMSYS_BLOCK
-        lmsys_scanned = i + 1
-        if str(row.get("language", "")).strip().lower() != "english" or row.get("redacted"):
-            continue
-        first = next(
-            (
-                m.get("content", "")
-                for m in row.get("conversation") or []
-                if m.get("role") == "user"
-            ),
-            "",
-        )
-        text = generic_filter(first, moderation_flagged(row.get("openai_moderation")))
-        if text:
-            block.append(text)
-    else:
-        run("lmsys", block)
-    stats["lmsys"]["stream_index_end"] = lmsys_scanned
-    texts = []
-    for split in ("train", "validation"):
-        ds = load_dataset(
-            s3.HF_REPOS["oasst1"][0], split=split, revision=revisions["oasst1"]["sha"]
-        )
-        for row in ds:
-            role, lang = str(row.get("role", "")).lower(), str(row.get("lang", "")).lower()
-            if role == "prompter" and lang == "en":
-                t = generic_filter(row.get("text", ""))
-                if t:
-                    texts.append(t)
-    run("oasst1", texts)
-    ds = load_dataset(s3.HF_REPOS["dolly"][0], split="train", revision=revisions["dolly"]["sha"])
-    run("dolly", [t for t in (generic_filter(r.get("instruction", "")) for r in ds) if t])
-    model.to("cpu")
-    return mined, stats
+
+def disjoint_universe(mined, eval_texts, train_attack_texts, hb):
+    """Disjointness from evaluation rows, label-conflict removal against training attacks,
+    then within-pool near-duplicate removal. Returns (universe, filter counts)."""
+    texts = [r["text"] for r in mined]
+    hits_eval = cross_containment_hits(texts, eval_texts)
+    hits_attack = cross_containment_hits(texts, train_attack_texts)
+    rows = [r for i, r in enumerate(mined) if i not in hits_eval and i not in hits_attack]
+    keep = semantic_keep_mask([r["text"] for r in rows], eval_texts)
+    after_semantic = [r for r, k in zip(rows, keep) if k]
+    universe = hb.semantic_dedup(after_semantic)
+    counts = {
+        "mined": len(mined),
+        "removed_containment_vs_eval": len(hits_eval),
+        "removed_containment_vs_train_attacks": len(hits_attack - hits_eval),
+        "removed_char_tfidf_vs_eval": len(rows) - len(after_semantic),
+        "removed_within_pool": len(after_semantic) - len(universe),
+        "available": len(universe),
+    }
+    return universe, counts
 
 
 def build_pools(pids_root, private, public, study3_private, token):
     done = private / "pools_done.json"
     if done.exists():
         return json.loads(done.read_text(encoding="utf-8"))
-    from injection_lab.transformer import resolve_revision
+    from datasets import load_dataset
+    from transformers import AutoTokenizer
 
     hb = s3.load_pids_module(pids_root, "data_builder/build_hard_benign.py", "pids_hb4")
     revisions = s3.hf_revisions(token)
-    repo = MINING_DETECTOR[0]
-    revisions["mining_detector"] = {"repo": repo, "sha": resolve_revision(repo, token)}
+    revisions["mining_detector"] = {"repo": MINING_DETECTOR[0], "sha": MINING_DETECTOR[2]}
     data = pids_root / DATA
     bench = [r["text"] for f in data.rglob("*.csv") for r in s3.read_rows(f) if r.get("text")]
     bench_keys = {hb._normalize_text(t).lower() for t in bench} | {
@@ -214,20 +194,60 @@ def build_pools(pids_root, private, public, study3_private, token):
         for r in s3.read_rows(data / f)
         if r["text"].strip()
     ]
-    mined, mining_stats = mine(token, revisions, bench_keys, hb)
-    texts = [r["text"] for r in mined]
-    hits = cross_containment_hits(texts, eval_texts)
-    rows = [r for i, r in enumerate(mined) if i not in hits]
-    keep = semantic_keep_mask([r["text"] for r in rows], eval_texts)
-    after_semantic = [r for r, k in zip(rows, keep) if k]
-    universe = hb.semantic_dedup(after_semantic)
-    filters = {
-        "mined": len(mined),
-        "removed_containment_vs_eval": len(hits),
-        "removed_char_tfidf_vs_eval": len(rows) - len(after_semantic),
-        "removed_within_pool": len(after_semantic) - len(universe),
-        "available": len(universe),
-    }
+    train_attack_texts = [r["text"] for r in s3.read_rows(data / "train.csv") if r["label"] == "1"]
+    miner = Miner(token, bench_keys, hb)
+
+    oasst = []
+    for split in ("train", "validation"):
+        ds = load_dataset(
+            s3.HF_REPOS["oasst1"][0], split=split, revision=revisions["oasst1"]["sha"]
+        )
+        for row in ds:
+            role, lang = str(row.get("role", "")).lower(), str(row.get("lang", "")).lower()
+            if role == "prompter" and lang == "en":
+                t = generic_filter(row.get("text", ""))
+                if t:
+                    oasst.append(t)
+    miner.run("oasst1", oasst)
+    ds = load_dataset(s3.HF_REPOS["dolly"][0], split="train", revision=revisions["dolly"]["sha"])
+    miner.run("dolly", [t for t in (generic_filter(r.get("instruction", "")) for r in ds) if t])
+
+    stream = load_dataset(
+        s3.HF_REPOS["lmsys"][0],
+        split="train",
+        streaming=True,
+        token=token,
+        revision=revisions["lmsys"]["sha"],
+    )
+    universe, counts, lmsys_range = [], {}, None
+    for _lo, hi, rows in index_blocks(stream, LMSYS_START, LMSYS_STEP, LMSYS_MAX_INDEX):
+        texts = []
+        for row in rows:
+            if str(row.get("language", "")).strip().lower() != "english" or row.get("redacted"):
+                continue
+            first = next(
+                (
+                    m.get("content", "")
+                    for m in row.get("conversation") or []
+                    if m.get("role") == "user"
+                ),
+                "",
+            )
+            t = generic_filter(first, moderation_flagged(row.get("openai_moderation")))
+            if t:
+                texts.append(t)
+        miner.run("lmsys", texts)
+        lmsys_range = [LMSYS_START, hi]
+        universe, counts = disjoint_universe(miner.mined, eval_texts, train_attack_texts, hb)
+        s3.log(f"mining: LMSYS [{LMSYS_START}, {hi}) done; {counts['available']} rows available")
+        if counts["available"] >= N_TRAIN + N_VAL:
+            break  # preregistered: extend the scan range only while short
+    miner.model.to("cpu")
+    if counts.get("available", 0) < N_TRAIN + N_VAL:
+        raise SystemExit(
+            f"Only {counts.get('available', 0)} mined rows after filters up to index "
+            f"{LMSYS_MAX_INDEX}; preregistered stop before any fit"
+        )
     for r in universe:
         r["cell"] = f"mined|{r['source']}"
 
@@ -236,22 +256,16 @@ def build_pools(pids_root, private, public, study3_private, token):
         "train": load_frame(data / "hard_negative_train.csv", "curated"),
         "val": load_frame(data / "hard_negative_val.csv", "curated"),
     }
-    matched = {
-        split: load_frame(study3_private / f"A2_matched_hard_negative_{split}.csv", "matched")
-        for split in ("train", "val")
-    }
-    mined_split = {"train": b1_train, "val": b1_val}
-    pools = {
-        "B1_mined": (b1_train, b1_val),
-        "B2_curated_matched": mix_pools(curated, matched, POOL_SEED + 10),
-        "B3_curated_mined": mix_pools(curated, mined_split, POOL_SEED + 20),
-        "A2_matched": (matched["train"], matched["val"]),
-    }
-    manifest, composition = [], {"external_test": None}
+    b3_train, b3_val = mix_pools(curated, {"train": b1_train, "val": b1_val}, POOL_SEED + 20)
+    pools = {"B1_mined": (b1_train, b1_val), "B3_curated_mined": (b3_train, b3_val)}
+    for arm in STUDY3_POOLS:  # same rows, same order, same file as Study 3
+        for split in ("train", "val"):
+            name = f"{arm}_hard_negative_{split}.csv"
+            shutil.copy(study3_private / name, assert_outside_repo(private / name, REPO))
+    manifest, source_mix = [], {}
     hb_rows = s3.read_rows(data / s3.EVAL_FILES["hard_benign"])
     ext_texts = [r["text"] for r in hb_rows if r["source_type"] == "real" and r["text"].strip()]
-    composition["external_test"] = s3.profile(ext_texts, hb)
-    source_mix = {}
+    composition = {"external_test": s3.profile(ext_texts, hb)}
     for arm, (train, val) in pools.items():
         for split, rows_ in (("train", train), ("val", val)):
             write_frame(private / f"{arm}_hard_negative_{split}.csv", rows_, arm, split)
@@ -270,14 +284,26 @@ def build_pools(pids_root, private, public, study3_private, token):
             mix[r["cell"]] = mix.get(r["cell"], 0) + 1
         source_mix[arm] = mix
 
-    attacks = [r for r in s3.read_rows(data / s3.EVAL_FILES["test"]) if r["label"] == "1"]
-    framed, prefix_idx = framed_attacks([r["text"] for r in attacks], POOL_SEED + 30)
-    framed_path = assert_outside_repo(private / "framed_attacks.csv", REPO)
-    with open(framed_path, "w", encoding="utf-8", newline="") as handle:
-        writer = csv.writer(handle)
-        writer.writerow(["text", "label", "parent_seed_id", "prefix_index"])
-        for r, t, p in zip(attacks, framed, prefix_idx):
-            writer.writerow([t, 1, r["parent_seed_id"], p])
+    tok = AutoTokenizer.from_pretrained(
+        s3.HF_REPOS["deberta"][0], revision=revisions["deberta"]["sha"]
+    )
+    test = s3.read_rows(data / s3.EVAL_FILES["test"])
+    framed_summary = {}
+    for kind, label, seed in (("attack", "1", POOL_SEED + 30), ("benign", "0", POOL_SEED + 31)):
+        base = [r for r in test if r["label"] == label]
+        texts, prefix_idx = framed([r["text"] for r in base], seed)
+        lengths = [len(tok(t, truncation=False)["input_ids"]) for t in texts]
+        path = assert_outside_repo(private / f"framed_{kind}.csv", REPO)
+        with open(path, "w", encoding="utf-8", newline="") as handle:
+            writer = csv.writer(handle)
+            writer.writerow(["text", "label", "parent_seed_id", "prefix_index", "truncated"])
+            for r, t, p, n in zip(base, texts, prefix_idx, lengths):
+                writer.writerow([t, label, r["parent_seed_id"], p, int(n > 512)])
+        framed_summary[kind] = {
+            "n": len(texts),
+            "prefix_counts": np.bincount(prefix_idx, minlength=len(FRAMING_PREFIXES)).tolist(),
+            "share_truncated_past_512_tokens": float(np.mean([n > 512 for n in lengths])),
+        }
 
     audit = uniform_draw(b1_train + b1_val, AUDIT_N, POOL_SEED + 40)
     audit_path = assert_outside_repo(private / "audit_B1_blind.csv", REPO)
@@ -289,11 +315,12 @@ def build_pools(pids_root, private, public, study3_private, token):
 
     result = {
         "hf_revisions": revisions,
-        "mining": mining_stats,
-        "filters": filters,
+        "mining": miner.stats,
+        "lmsys_range_scanned": lmsys_range,
+        "filters": counts,
         "source_mix": source_mix,
         "composition": composition,
-        "framed_attacks": {"n": len(framed), "prefix_counts": np.bincount(prefix_idx).tolist()},
+        "framed": framed_summary,
         "audit_ids": [
             {"audit_id": f"b{i:03d}", "text_sha256": fingerprint(r["text"])}
             for i, r in enumerate(audit)
@@ -305,8 +332,8 @@ def build_pools(pids_root, private, public, study3_private, token):
     return result
 
 
-def score(model_dir, root, arm, best_threshold, framed_texts):
-    """Study 3's scorer (same settings), plus the framed attack set."""
+def score(model_dir, root, arm, best_threshold, extra):
+    """Study 3's scorer (same settings), plus the framed attack and framed benign sets."""
     import torch
     from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
@@ -339,20 +366,25 @@ def score(model_dir, root, arm, best_threshold, framed_texts):
         name: probs([str(r["text"]) for r in s3.read_rows(data / f)])
         for name, f in s3.EVAL_FILES.items()
     }
-    scores["framed"] = probs(framed_texts)
-    val = s3.read_rows(data / "val.csv") + s3.read_rows(data / "hard_negative_val.csv")
+    for name, texts in extra.items():
+        scores[name] = probs(texts)
+    val = s3.read_rows(data / "val.csv")
+    if arm != "A0_none":
+        val += s3.read_rows(data / "hard_negative_val.csv")
     val_probs = probs([str(r["text"]) for r in val])
     tau, _ = best_threshold(val_probs, np.array([int(r["label"]) for r in val]))
+    gpu = torch.cuda.get_device_name(0) if device.type == "cuda" else "cpu"
     model.to("cpu")
     if device.type == "cuda":
         torch.cuda.empty_cache()
-    return scores, float(tau)
+    return scores, float(tau), gpu
 
 
-def run_one(arm, seed, pids_root, private, work, public, best_threshold, framed_texts):
-    """One fit + score; one identical retry, then the arm is marked failed."""
-    out = public / "scores" / f"{arm}_seed{seed}.npz"
-    failed = public / "scores" / f"{arm}_seed{seed}.failed"
+def run_one(arm, seed, pids_root, private, work, best_threshold, extra):
+    """One fit + score; one identical retry, then the arm is marked failed. Scores are kept
+    in the private folder until the analysis stage (blinding)."""
+    out = private / "scores" / f"{arm}_seed{seed}.npz"
+    failed = private / "scores" / f"{arm}_seed{seed}.failed"
     if out.exists() or failed.exists():
         return None
     root = s3.arm_root(pids_root, arm, private, work)
@@ -364,9 +396,11 @@ def run_one(arm, seed, pids_root, private, work, public, best_threshold, framed_
         start = time.time()
         if s3.fit(arm, seed, root, fit_dir, log_path):
             seconds = time.time() - start
-            scores, tau = score(fit_dir / "model", root, arm, best_threshold, framed_texts)
+            scores, tau, gpu = score(fit_dir / "model", root, arm, best_threshold, extra)
             out.parent.mkdir(parents=True, exist_ok=True)
-            np.savez_compressed(out, tau=tau, fit_seconds=seconds, attempts=attempt, **scores)
+            np.savez_compressed(
+                out, tau=tau, fit_seconds=seconds, attempts=attempt, gpu=gpu, **scores
+            )
             shutil.rmtree(fit_dir)
             return seconds / 60
         s3.log(f"{arm} seed {seed}: attempt {attempt} failed")
@@ -381,41 +415,50 @@ def analyze(pids_root, private, public, head, unrestored, study3_public):
     hb = s3.read_rows(data / s3.EVAL_FILES["hard_benign"])
     test = s3.read_rows(data / s3.EVAL_FILES["test"])
     y = np.array([int(r["label"]) for r in test])
-    framed_rows = s3.read_rows(private / "framed_attacks.csv")
+    fa_rows = s3.read_rows(private / "framed_attack.csv")
+    fb_rows = s3.read_rows(private / "framed_benign.csv")
     present = np.array([bool(r["text"].strip()) for r in hb])
     ext = np.array([r["source_type"] == "real" for r in hb]) & present
     cur = np.array([r["source_type"] == "curated" for r in hb])
     lm = np.array([r["source"].startswith("lmsys") for r in hb])
     hb_arr = np.array(hb, dtype=object)
+    prefix = np.array([int(r["prefix_index"]) for r in fa_rows])
+    untrunc = np.array([r["truncated"] == "0" for r in fa_rows])
     groups = {
         "ext": s3.near_duplicate_groups([r["text"] for r in hb_arr[ext]], "e"),
         "cur": s3.near_duplicate_groups([r["text"] for r in hb_arr[cur]], "c"),
         "test": np.array([r["parent_seed_id"] or f"t{i}" for i, r in enumerate(test)]),
-        "framed": np.array([r["parent_seed_id"] or f"f{i}" for i, r in enumerate(framed_rows)]),
+        "fa": np.array([r["parent_seed_id"] or f"fa{i}" for i, r in enumerate(fa_rows)]),
+        "fb": np.array([r["parent_seed_id"] or f"fb{i}" for i, r in enumerate(fb_rows)]),
     }
     arms = [
-        a for a in ARMS if all((public / "scores" / f"{a}_seed{s}.npz").exists() for s in SEEDS)
+        a for a in ARMS if all((private / "scores" / f"{a}_seed{s}.npz").exists() for s in SEEDS)
     ]
     complete = len(arms) == len(ARMS)
-    runs = {a: [np.load(public / "scores" / f"{a}_seed{s}.npz") for s in SEEDS] for a in arms}
-    lm_e = lm[ext]
+    runs = {a: [np.load(private / "scores" / f"{a}_seed{s}.npz") for s in SEEDS] for a in arms}
+    all_fa = np.ones(len(fa_rows), bool)
+    all_fb = np.ones(len(fb_rows), bool)
     endpoints = {
-        # name: (score key, row mask, group key, use tau_val, sub-mask within group key)
+        # name: (score key, row mask, group key, use tau_val, sub-mask of the group array)
         "ext_fpr_0.5": ("hard_benign", ext, "ext", False, None),
         "ext_fpr_tau_val": ("hard_benign", ext, "ext", True, None),
-        "ext_fpr_lmsys_0.5": ("hard_benign", ext & lm, "ext", False, lm_e),
-        "ext_fpr_oasst1_dolly_0.5": ("hard_benign", ext & ~lm, "ext", False, ~lm_e),
+        "ext_fpr_lmsys_0.5": ("hard_benign", ext & lm, "ext", False, lm[ext]),
+        "ext_fpr_oasst1_dolly_0.5": ("hard_benign", ext & ~lm, "ext", False, ~lm[ext]),
         "curated_fpr_0.5": ("hard_benign", cur, "cur", False, None),
-        "test_recall_0.5": ("test", y == 1, "test", False, None),
-        "test_fpr_0.5": ("test", y == 0, "test", False, None),
-        "framed_attack_recall_0.5": (
-            "framed",
-            np.ones(len(framed_rows), bool),
-            "framed",
-            False,
-            None,
-        ),
+        "test_recall_0.5": ("test", y == 1, "test", False, y == 1),
+        "test_fpr_0.5": ("test", y == 0, "test", False, y == 0),
+        "framed_attack_recall_0.5": ("framed_attack", all_fa, "fa", False, None),
+        "framed_attack_recall_untruncated_0.5": ("framed_attack", untrunc, "fa", False, untrunc),
+        "framed_benign_fpr_0.5": ("framed_benign", all_fb, "fb", False, None),
     }
+    for k in range(len(FRAMING_PREFIXES)):
+        endpoints[f"framed_attack_recall_prefix{k}_0.5"] = (
+            "framed_attack",
+            prefix == k,
+            "fa",
+            False,
+            prefix == k,
+        )
 
     def flags(arm, key):
         split, mask, _, use_tau, _ = endpoints[key]
@@ -425,55 +468,66 @@ def analyze(pids_root, private, public, head, unrestored, study3_public):
         )
 
     def grp(key):
-        split, mask, gkey, _, within = endpoints[key]
-        if gkey in ("ext", "cur"):
-            return groups[gkey] if within is None else groups[gkey][within]
-        return groups[gkey][mask]
+        _, _, gkey, _, sub = endpoints[key]
+        return groups[gkey] if sub is None else groups[gkey][sub]
 
     descriptive = {}
     for arm in arms:
         f1s = np.array([f1_at(r["test"], y, THRESHOLD) for r in runs[arm]])
-        descriptive[arm] = {
-            k: s3.rate_interval(flags(arm, k), grp(k), f"s4:{arm}:{k}") for k in endpoints
-        }
-        descriptive[arm]["test_f1_0.5"] = {
+        d = {k: s3.rate_interval(flags(arm, k), grp(k), f"s4:{arm}:{k}") for k in endpoints}
+        for k in ("ext_fpr_0.5", "curated_fpr_0.5"):
+            d[k]["ci95_seed_t_over_seed_rates"] = seed_t_interval(flags(arm, k).mean(1), 0.95)
+        d["test_f1_0.5"] = {
             "estimate": float(f1s.mean()),
             "ci95_seed_t": seed_t_interval(f1s, 0.95),
         }
-        plain = flags(arm, "test_recall_0.5")
-        framed = flags(arm, "framed_attack_recall_0.5")
-        descriptive[arm]["framing_recall_drop_0.5"] = s3.contrast(
-            framed, plain, groups["framed"], f"s4:{arm}:framing_drop", SECONDARY_REPS, 0.95
+        d["framing_recall_change_0.5"] = s3.contrast(
+            flags(arm, "framed_attack_recall_0.5"),
+            flags(arm, "test_recall_0.5"),
+            groups["fa"],
+            f"s4:{arm}:framing_recall_change",
+            SECONDARY_REPS,
+            0.95,
         )
-        descriptive[arm]["per_seed"] = [
+        d["framing_benign_fpr_change_0.5"] = s3.contrast(
+            flags(arm, "framed_benign_fpr_0.5"),
+            flags(arm, "test_fpr_0.5"),
+            groups["fb"],
+            f"s4:{arm}:framing_fpr_change",
+            SECONDARY_REPS,
+            0.95,
+        )
+        d["per_seed"] = [
             {
                 "seed": s,
                 "tau_val": float(r["tau"]),
                 "fit_minutes": float(r["fit_seconds"]) / 60,
                 "attempts": int(r["attempts"]),
+                "gpu": str(r["gpu"]),
             }
             for s, r in zip(SEEDS, runs[arm])
         ]
+        descriptive[arm] = d
 
-    level_tag = f"{int(CONFIRMATORY_LEVEL * 10000) / 100:g}"
+    tag = f"{int(round(CONFIRMATORY_LEVEL * 10000)) / 100:g}"
     confirmatory = []
     for a, b, key, kind in CONFIRMATORY:
         name = f"{a} - {b} [{key}]"
         entry = {"contrast": name, "kind": kind}
         if a in arms and b in arms:
-            fa, fb = flags(a, key), flags(b, key)
+            fa_, fb_ = flags(a, key), flags(b, key)
             boot = joint_bootstrap_diff(
-                fa, fb, grp(key), CONFIRMATORY_REPS, named_rng("s4:" + name)
+                fa_, fb_, grp(key), CONFIRMATORY_REPS, named_rng("s4:" + name)
             )
-            per_seed = fa.mean(1) - fb.mean(1)
+            per_seed = fa_.mean(1) - fb_.mean(1)
             bci = percentile_interval(boot, CONFIRMATORY_LEVEL)
             tci = seed_t_interval(per_seed, CONFIRMATORY_LEVEL)
             entry.update(
                 {
-                    "estimate": float(fa.mean() - fb.mean()),
+                    "estimate": float(fa_.mean() - fb_.mean()),
                     "per_seed_difference": per_seed.tolist(),
-                    f"bootstrap_ci{level_tag}": bci,
-                    f"seed_t_ci{level_tag}": tci,
+                    f"bootstrap_ci{tag}": bci,
+                    f"seed_t_ci{tag}": tci,
                 }
             )
             if kind == "difference":
@@ -491,45 +545,61 @@ def analyze(pids_root, private, public, head, unrestored, study3_public):
             entry.update(decide(None, None, False))
         confirmatory.append(entry)
 
+    recipe = None
+    if complete:
+        b3 = descriptive["B3_curated_mined"]
+        recipe = recipe_success(
+            confirmatory[1].get("established_reduction"),
+            confirmatory[2].get("established_reduction"),
+            confirmatory[3].get("noninferior"),
+            [b3["ext_fpr_0.5"]["ci95"][1], b3["ext_fpr_0.5"]["ci95_seed_t_over_seed_rates"][1]],
+            [
+                b3["curated_fpr_0.5"]["ci95"][1],
+                b3["curated_fpr_0.5"]["ci95_seed_t_over_seed_rates"][1],
+            ],
+        )
+
     secondary_specs = [
+        ("B1_mined", "A1_curated", "ext_fpr_0.5"),
         ("B1_mined", "A2_matched", "ext_fpr_0.5"),
-        ("B2_curated_matched", "A2_matched", "ext_fpr_0.5"),
-        ("B2_curated_matched", "A1_curated", "ext_fpr_0.5"),
-        ("B2_curated_matched", "A2_matched", "curated_fpr_0.5"),
+        ("A3_source_only", "A1_curated", "ext_fpr_0.5"),
         ("B3_curated_mined", "A1_curated", "curated_fpr_0.5"),
         ("B1_mined", "A1_curated", "ext_fpr_oasst1_dolly_0.5"),
-        ("B1_mined", "A1_curated", "test_recall_0.5"),
-        ("B1_mined", "A1_curated", "framed_attack_recall_0.5"),
-        ("A2_matched", "A1_curated", "framed_attack_recall_0.5"),
-        ("B2_curated_matched", "A1_curated", "framed_attack_recall_0.5"),
-        ("B1_mined", "A1_curated", "test_fpr_0.5"),
+        ("B1_mined", "A0_none", "test_recall_0.5"),
+        ("B1_mined", "A0_none", "test_fpr_0.5"),
+        ("B1_mined", "A0_none", "framed_attack_recall_0.5"),
+        ("A1_curated", "A0_none", "framed_attack_recall_0.5"),
+        ("A3_source_only", "A0_none", "framed_attack_recall_0.5"),
+        ("B3_curated_mined", "A0_none", "framed_benign_fpr_0.5"),
+        ("A2_matched", "A0_none", "framed_benign_fpr_0.5"),
     ]
     secondary = []
     for a, b, key in secondary_specs:
         if a in arms and b in arms:
             name = f"{a} - {b} [{key}]"
-            secondary.append(
-                {
-                    "contrast": name,
-                    **s3.contrast(
-                        flags(a, key), flags(b, key), grp(key), "s4:" + name, SECONDARY_REPS, 0.95
-                    ),
-                }
+            res = s3.contrast(
+                flags(a, key), flags(b, key), grp(key), "s4:" + name, SECONDARY_REPS, 0.95
             )
+            secondary.append({"contrast": name, "exploratory": True, **res})
 
-    replication = {}
-    for arm in ("A1_curated", "A2_matched"):
-        if arm not in arms or study3_public is None:
+    replication = {"note": "descriptive per-seed values; no interval", "arms": {}}
+    for arm in ("A0_none", "A1_curated", "A2_matched", "A3_source_only"):
+        if arm not in arms:
             continue
-        rows = []
+        rows, missing = [], []
         for s, r in zip(SEEDS, runs[arm]):
             path = study3_public / "scores" / f"{arm}_seed{s}.npz"
             if not path.exists():
+                missing.append(s)
                 continue
             old = np.load(path)
+            if len(old["hard_benign"]) != len(r["hard_benign"]):
+                missing.append(s)
+                continue
             rows.append(
                 {
                     "seed": s,
+                    "gpu_study4": str(r["gpu"]),
                     "max_abs_score_diff_hard_benign": float(
                         np.abs(old["hard_benign"] - r["hard_benign"]).max()
                     ),
@@ -537,7 +607,7 @@ def analyze(pids_root, private, public, head, unrestored, study3_public):
                     "study4_ext_fpr_0.5": float((r["hard_benign"][ext] >= THRESHOLD).mean()),
                 }
             )
-        replication[arm] = rows
+        replication["arms"][arm] = {"seeds": rows, "missing_seeds": missing}
 
     report = {
         "status": "complete" if complete else "incomplete",
@@ -548,22 +618,25 @@ def analyze(pids_root, private, public, head, unrestored, study3_public):
         "arms_failed_or_missing": [a for a in ARMS if a not in arms],
         "n_external": int(ext.sum()),
         "n_external_unrestored_excluded": int(unrestored),
-        "n_framed_attacks": len(framed_rows),
+        "n_framed_attacks": len(fa_rows),
+        "n_framed_benign": len(fb_rows),
         "confirmatory_level": CONFIRMATORY_LEVEL,
         "confirmatory": confirmatory,
-        "secondary_contrasts": secondary,
+        "recipe_success_B3": recipe,
+        "secondary_contrasts_exploratory": secondary,
         "descriptive": descriptive,
         "replication_vs_study3": replication,
         "interval_method": (
             "As Study 3: percentile bootstrap resampling near-duplicate groups (external and "
             "curated hard-benign rows: word 5-gram containment >= 0.5, transitive, within each "
-            "set; test and framed attacks: parent_seed_id) and, independently, the 5 seeds; "
-            "contrasts pair rows and seed indices. Confirmatory: 4 contrasts at "
-            f"{CONFIRMATORY_LEVEL:.4f} (Bonferroni), {CONFIRMATORY_REPS} replicates, plus a "
+            "set; test and framed rows: parent_seed_id) and, independently, the 5 seeds; "
+            f"contrasts pair rows and seed indices. Confirmatory: {len(CONFIRMATORY)} contrasts "
+            f"at {CONFIRMATORY_LEVEL:.4f} (Bonferroni), {CONFIRMATORY_REPS} replicates, plus a "
             "Student-t (df 4) interval over per-seed differences; both must agree. "
-            f"Non-inferiority margin {NONINFERIORITY_MARGIN} on recall. Secondary: "
-            f"{SECONDARY_REPS} replicates, 95%. Seeds share one dataset and are not "
-            "independent test examples."
+            f"Non-inferiority margin {NONINFERIORITY_MARGIN} on recall (two-sided 99% lower "
+            "bound = one-sided 99.5%). Secondary contrasts are exploratory: "
+            f"{SECONDARY_REPS} replicates, 95%, uncorrected. Seeds share one dataset and are "
+            "not independent test examples."
         ),
         "finished_utc": datetime.now(UTC).isoformat(timespec="seconds"),
     }
@@ -574,9 +647,7 @@ def analyze(pids_root, private, public, head, unrestored, study3_public):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--out", required=True, help="Drive folder for Study 4 state")
-    parser.add_argument(
-        "--study3-out", required=True, help="Drive folder of Study 3 (pools, scores)"
-    )
+    parser.add_argument("--study3-out", required=True, help="Drive folder of Study 3")
     parser.add_argument("--stage", choices=("pools", "pilot", "all"), required=True)
     parser.add_argument("--pids-root", default="/content/pidsbench")
     parser.add_argument("--work", default="/content/study4_work")
@@ -589,8 +660,9 @@ def main():
     work = assert_outside_repo(args.work, REPO)
     study3 = assert_outside_repo(args.study3_out, REPO)
     study3_private = study3 / "private_lmsys_text_do_not_share"
-    if not (study3_private / "A2_matched_hard_negative_train.csv").exists():
-        raise SystemExit(f"Study 3 matched pool not found in {study3_private}")
+    for arm in STUDY3_POOLS:
+        if not (study3_private / f"{arm}_hard_negative_train.csv").exists():
+            raise SystemExit(f"Study 3 pool {arm} not found in {study3_private}")
     private = out / "private_lmsys_text_do_not_share"
     public = out / "public"
     for d in (private, public, work):
@@ -598,14 +670,15 @@ def main():
     pids_root, unrestored = s3.ensure_pids(Path(args.pids_root), token)
     s3.log(f"PIDS-Bench ready; {unrestored} LMSYS test rows unrestored")
     pools = build_pools(pids_root, private, public, study3_private, token)
-    s3.log(f"mining: {json.dumps(pools['mining'])}")
-    s3.log(
-        f"filters: {json.dumps(pools['filters'])}; source mix: {json.dumps(pools['source_mix'])}"
-    )
+    s3.log(f"mining: {json.dumps(pools['mining'])}; LMSYS range {pools['lmsys_range_scanned']}")
+    s3.log(f"filters: {json.dumps(pools['filters'])}; mix: {json.dumps(pools['source_mix'])}")
     if args.stage == "pools":
         s3.log("pools stage complete; see public/pool_manifest.json (no detector trained)")
         return
-    framed_texts = [r["text"] for r in s3.read_rows(private / "framed_attacks.csv")]
+    extra = {
+        "framed_attack": [r["text"] for r in s3.read_rows(private / "framed_attack.csv")],
+        "framed_benign": [r["text"] for r in s3.read_rows(private / "framed_benign.csv")],
+    }
     best_threshold = s3.load_pids_module(
         pids_root, "src/baselines/deberta_v3_hardneg.py", "pids_hardneg4"
     ).best_threshold
@@ -613,7 +686,7 @@ def main():
     if args.stage == "pilot":
         plan = [("B1_mined", SEEDS[0])]
     for arm, seed in plan:
-        result = run_one(arm, seed, pids_root, private, work, public, best_threshold, framed_texts)
+        result = run_one(arm, seed, pids_root, private, work, best_threshold, extra)
         if result == "failed":
             s3.log(f"{arm} seed {seed}: FAILED twice; arm marked incomplete")
         elif result is not None:
@@ -621,8 +694,7 @@ def main():
     if args.stage == "pilot":
         s3.log("pilot complete")
         return
-    study3_public = study3 / "public"
-    report = analyze(pids_root, private, public, head, unrestored, study3_public)
+    report = analyze(pids_root, private, public, head, unrestored, study3 / "public")
     s3.log(f"analysis written: status {report['status']}")
 
 

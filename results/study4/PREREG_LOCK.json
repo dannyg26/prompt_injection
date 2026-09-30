@@ -1,0 +1,16 @@
+{
+  "frozen_utc": "2026-09-30T21:05:06+00:00",
+  "note": "Frozen before any Study 4 pool draw, fit or score, after an internal hostile review (22 findings addressed). Covers every repository module the run imports. AGENTS.md is not hashed so the owner's approval can be recorded. PIDS-Bench is pinned by commit in scripts/run_study3.py; the mining detector by revision in src/injection_lab/study4.py.",
+  "sha256": {
+    "docs/PREREGISTRATION_STUDY4.md": "5014e39398a613fc81b01d615abd3500d23a61c099281ed8c8d0fd9b39dbb3f1",
+    "src/injection_lab/study4.py": "41792c7f5860451dee99cd50f5a53478ce689232aaba6d09344e5fe217013fe0",
+    "scripts/run_study4.py": "f29437d6bd3471517c013e9ae3de92a0253d40c24505a3be6a244aab0dbbbf85",
+    "notebooks/study4_colab.ipynb": "4497dad346d12369888793c6d8e011fc2d2c033d8d25e1a4d406fde5f9f293f9",
+    "scripts/run_study3.py": "0663548c57385ffd60c422325d33b0b34b923dbbd72215b9687ef478549f918c",
+    "src/injection_lab/study3.py": "53033c8c60890b1c459169ffd99965dcb9ee6be04f1d4f7f2b2146c3daf79367",
+    "src/injection_lab/transformer.py": "6575c0654a71c84822d10fadc99ca54d7026daddd1bdfafd813504eb0088d329",
+    "src/injection_lab/pools.py": "7f3b6ffdf532a2ad7b967290721870f7f3993010acdc66698657a5bd4d8fdebc",
+    "src/injection_lab/curation.py": "0aeba0e4ed2569b24bf4a34b33d49407a2d173320d5a6517db414a0ac920d1cb",
+    "src/injection_lab/data.py": "f8d427ce8d2ea239126873740fcc6d8af2332a6b8409c728ec3dc4a5792cff92"
+  }
+}
