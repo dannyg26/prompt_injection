@@ -1,108 +1,105 @@
-# Study 5 design draft: style vs content, off-corpus transfer, second model, framing
+# Study 5 design draft v2: provenance shortcut, attack safety, transfer, framing
 
-**Status: design draft for pre-mortem review, 2026-10-02. Not a preregistration. Nothing has been run.**
+**Status: design draft v2 for a second pre-mortem, 2026-10-02. Not a preregistration. Nothing has been run.** v1 was reviewed by a pre-mortem (6 blocking findings). This version replaces it; v1 remains in the git history.
 
-## Purpose
+## Key facts that reshape the study (verified)
 
-Study 5 should resolve, in one run, every **major** objection raised by the independent review of Studies 3–4 (2026-10-02). The minor ones are documentation fixes, already applied.
-
-| Review objection | How Study 5 answers it |
-| --- | --- |
-| D1. Style confound: all PIDS-Bench benign training rows are GPT-4o-mini paraphrases, while every added row is raw human text | S1 (test-side style) and S2 (train-side style) |
-| D10. External validity: same corpora, one model | S3 and S4 (WildChat, a corpus never used by PIDS-Bench); second model family (DistilBERT) |
-| D2 and D9. Framing test lacks sensitivity, neutral control and prefix variety | S5: factorial prefixes with neutral controls, released detectors, raw and paraphrased rows |
-| D6. One pool draw | A second independent draw of the A3 pool |
-| D8. Nondeterminism; models deleted | Deterministic kernels requested; every evaluation set built **before** fitting and scored at fit time; A0 checkpoints kept privately |
-| D4. Unaudited labels | Blind audits of the paraphrased pool and of the new WildChat test set (200 rows each), plus a second annotator for IAA |
-| D5. Mining detector chosen with known FPR | Not re-run here; disclosed as a limitation of Study 4 (B1 is exploratory) |
-
-## Paraphrasing (owner's decision: both paraphrasers)
-
-- **Prompt.** We use PIDS-Bench's exact prompt (`data_builder/config_v3.yaml`): "Rewrite the following prompt preserving its intent while using diverse wording: {text}". Temperature 0.7, one paraphrase per row.
-- **OASST1/Dolly rows → GPT-4o-mini via the OpenAI API.** This is PIDS-Bench's own paraphraser. Both corpora's licences permit it, and the cost is a few dollars.
-- **LMSYS rows → an open model run in the owner's Colab (Qwen2.5-7B-Instruct, pinned revision).** LMSYS-Chat-1M text may not be sent to a third-party API under its licence. The two-paraphraser setup is analysed per paraphraser as well as pooled.
-- **Validity check.** A paraphrase is valid if it is non-empty, 20–1000 characters, not a refusal, and has char TF-IDF cosine ≥ 0.3 to its source. Invalid outputs are regenerated once, then dropped and counted.
+1. **Every row of PIDS-Bench's train and test, in both classes, is a GPT-4o-mini paraphrase** (`generator_model`: train has 12,846 benign + 14,247 attack rows; test has 1,848 + 2,070). The detector has never seen raw human text of either class. Every row added in Studies 3–4 was raw human benign text, so those arms may have learned "raw text = benign". That shortcut would be exploitable by raw-style attacks, which no Study 3–4 recall metric measured.
+2. **The raw source text of 2,864 of the 3,918 test rows is recoverable from PIDS-Bench's own repo.** `parent_seed_id` `{source}_seed_{i}` indexes row *i* of `data/real_prompts/{source}.csv`.
+   - Verified by char TF-IDF cosine between test rows and their mapped source rows: median 0.36–0.66 per source, against 0.05 for random pairs.
+   - Raw seeds by class:
+     - attacks: SPML 1,125 and deepset 24 test rows;
+     - benign: Alpaca 852, ChatBot-Instructions 607, ShareGPT 182 and StackExchange 74 test rows.
+   - Unmapped: templates and Qualifire.
+   - So raw and paraphrased versions of the **same content** exist for both classes, and **no paraphrasing is needed on the test side**. This removes v1's paraphraser×corpus confound (B3) and its content-drift problem (B4) for every test-side contrast.
+3. **NotInject** (InjecGuard; 339 benign LLM-generated sentences with 1–3 trigger words) is already in `data/raw/injecguard/datasets/`. It is an independent over-defense benchmark that can be scored zero-shot.
+4. **PIDS-Bench's paraphrasing** (`config_v3.yaml`): GPT-4o-mini, prompt "Rewrite the following prompt preserving its intent while using diverse wording: {text}", **temperature 0.9**, 1–3 rounds per row.
 
 ## Arms
 
-Each arm uses DeBERTa-v3-base with PIDS-Bench's recipe, seeds 13, 42, 123, 2024 and 7777, and adds 419 training / 116 validation rows.
+All arms use DeBERTa-v3-base with PIDS-Bench's recipe and their `train_and_tune`/`run_train`, unmodified. Each augmented arm adds 419 training / 116 validation rows. Deterministic kernels are requested only if the pilot shows a slowdown of at most 1.3×; otherwise per-row scores are kept and seeds are treated as unpaired.
 
-| Arm | Added rows | Role |
+| Arm | Added rows | Seeds | Role |
+| --- | --- | --- | --- |
+| A0 | none | 8 | baseline; test-side provenance tests |
+| O-raw | 535 random OASST1+Dolly benign rows (raw), disjoint from the benchmark and from Study 3–4 pools | 8 | raw-text augmentation |
+| O-para | **the same 535 rows paraphrased by GPT-4o-mini with PIDS-Bench's exact prompt, temperature 0.9, rounds drawn 1–3 as in PIDS-Bench** | 8 | train-side style test |
+| W | 535 random English WildChat first user turns (raw); template share capped; disjoint from the test set | 5 | off-corpus raw text |
+
+That is 29 fits × about 49 minutes ≈ 24 A100 hours, plus about 3 hours of headroom and scoring.
+
+- **Why OASST1/Dolly and not A3 (LMSYS).** The pool must be paraphrased with PIDS-Bench's own paraphraser (GPT-4o-mini). LMSYS text may not be sent to a third-party API, but OASST1 (Apache-2.0) and Dolly (CC BY-SA 3.0) may; their licence terms are UNVERIFIED here. The OASST1/Dolly external rows (n = 208) also showed the effect in Studies 3–4.
+- **Same rows in both arms.** O-raw and O-para are the same rows. Rows whose paraphrase fails validation (empty, refusal, length outside 20–1000 characters, or lost any PIDS context term or injection keyword the source had) are dropped from **both** arms and topped up from a common reserve.
+- **Cut from v1, on the pre-mortem's advice:** DistilBERT, A2p and the second A3 draw. The hours go to more seeds instead.
+
+## Evaluation sets (all frozen before any fit; all scored for every arm)
+
+| Set | Content | Purpose |
 | --- | --- | --- |
-| A0 | none | baseline; test-side style test |
-| A3r | Study 3 A3 pool (raw, random same-corpus) | content reference |
-| A3p | **the same A3 rows, paraphrased** | **train-side style test** |
-| A3r2 | second independent draw of random same-corpus rows | pool-draw variance |
-| A2p | Study 3 A2 matched pool, paraphrased | does matched selection survive paraphrasing? |
-| W | 535 random English WildChat first user turns (generic filter, disjoint) | **off-corpus raw text** |
+| External hard-benign | 872 raw rows | primary over-defense (Studies 3–5 comparable) |
+| Paired provenance set, benign | unique raw benign seeds + their paraphrased test rows | test-side style |
+| Paired provenance set, attacks | unique raw SPML/deepset attack seeds + their paraphrased test rows | **raw-attack recall** |
+| Curated hard-benign, test.csv, obfuscated, domain/structural OOD | as before | continuity; domain-OOD benign is raw, non-security text |
+| NotInject | 339 benign | independent over-defense benchmark |
+| Framing sets | below | S6 |
 
-That is 6 arms × 5 seeds = 30 DeBERTa fits, about 25 A100 hours.
+## Confirmatory contrasts (Holm within each family, α = 0.05; "established" also needs bootstrap and seed-t to agree)
 
-**Second model family:** PIDS-Bench's own DistilBERT code (unmodified) for A0, A3r, A3p and W × 5 seeds. That is 20 fits, about 3 A100 hours (to be timed in the pilot).
+**Family P: provenance shortcut (test side, A0 only).** Paired at seed level; the bootstrap resamples seeds (content units) and models.
+- **P1.** A0's FPR on raw benign seeds − FPR on their paraphrases.
+- **P2.** A0's recall on raw attack seeds − recall on their paraphrases. *Negative means raw attacks evade the baseline.*
 
-## Evaluation sets (all built and frozen before any fit)
+**Family T: train side.**
+- **T1.** O-para − O-raw on external FPR. Positive means the gain from adding raw rows depends on their raw style.
+- **T2.** O-raw − A0 on **raw-attack recall**, non-inferiority, margin 0.02. *Failure means raw-text augmentation opens a raw-attack hole.*
+- **T3.** O-raw − A0 on external FPR, as a replication of the Studies 3–4 effect with a new pool.
 
-| Set | Rows | Purpose |
-| --- | --- | --- |
-| External hard-benign test, raw | 872 | primary over-defense endpoint (as Studies 3–4) |
-| External hard-benign test, paraphrased | 872 | test-side style |
-| Curated hard-benign | 600 | as before |
-| test.csv attacks / benign | 2,070 / 1,848 | recall and FPR |
-| **WildChat security-adjacent benign** | about 870 | new-corpus over-defense test. Built with PIDS-Bench's selection rules from WildChat rows disjoint from W's pool. Labels audited (200) |
-| Framing sets | see S5 | — |
+**Family X: transfer.**
+- **X1.** W − O-raw on external FPR. About 0 means any raw user text works; positive means same-corpus content matters.
+- **X2.** O-raw − A0 on NotInject FPR, testing transfer to an independent over-defense benchmark.
 
-## Confirmatory contrasts (Bonferroni over 5, 99%; both bootstrap and seed-t intervals must agree, as before)
+**Equivalence.** "No difference" is claimed only via TOST with margin ±0.05 at 90%, using Welch intervals over seeds (seeds are not reproducible, so they are unpaired). Otherwise a null is reported as inconclusive.
 
-- **S1, test-side style.** A0's external FPR on the paraphrased external rows minus the same rows raw (paired by row).
-  - Reading: strongly negative means raw human style drives over-defense; about 0 means style is not the driver.
-- **S2, train-side style.** A3p − A3r on raw external FPR.
-  - Reading: about 0 means content (corpus) drives the gain. Positive and approaching A0 means style drives it.
-- **S3, off-corpus raw text.** W − A0 on raw external FPR.
-  - Reading: negative means any raw user text helps, whatever the corpus.
-- **S4, transfer to a new corpus.** A3r − A0 on WildChat security-adjacent FPR.
-  - Reading: negative means the same-corpus pool's benefit generalises beyond its own corpora.
-- **S5, framing.** ProtectAI v2 (pinned, released) on raw benign rows: FPR with security-vocabulary-only prefixes minus FPR with neutral prefixes.
-  - The bootstrap is two-way, clustered by prefix and by row.
+**Threshold-free secondary metrics:** AUROC and FPR at 95% recall for external benign versus raw attacks and versus paraphrased attacks, per arm.
 
-## S5 framing design
+## S6 framing (secondary; one confirmatory test)
 
-- **Prefixes.** Three binary factors: security vocabulary, authority claim, and processing instruction. That gives 8 cells, the all-zero cell being neutral. Each cell gets 8 hand-written prefixes, 64 in total, length-matched within ±15%. All prefixes are fixed in code before any score.
-- **Rows.** 1,000 raw benign rows (OASST1/Dolly, disjoint from the benchmark and from all pools); the 1,848 paraphrased test.csv benign rows; and the 2,070 test.csv attacks. Each row appears once per cell, with a seeded random prefix from that cell.
-- **Detectors.**
-  - Released: ProtectAI v2 (pinned) and Prompt Guard 2 if accessible (recorded as unavailable otherwise).
-  - Trained: every Study 5 arm, scored at fit time.
-- **Analysis.** Per-cell FPR and recall with two-way cluster bootstrap intervals, plus main effects of each factor. A mixed-effects logistic model is a secondary analysis.
+- **Cells:** four, each with 24 prefixes written before any score:
+  - neutral;
+  - security vocabulary;
+  - authority claim;
+  - processing instruction (injection-like by construction; stated as such).
+- **Length matching:** prefixes are matched in length across cells (±15%).
+- **Rows:** 1,000 paraphrased test.csv benign rows, and the same rows' raw seeds where they can be recovered.
+- **Confirmatory (F1):** A0's FPR on paraphrased benign rows with the security-vocabulary cell − the neutral cell. The bootstrap is two-way clustered by prefix and by row. This replicates Study 4's setting with a neutral control.
+- **Secondary:** ProtectAI v2 (pinned) and every arm on every cell; mixed-effects logistic regression with a prefix random effect.
 
-## Pre-mortem: every outcome yields a reportable result
+## Power (from Studies 3–4 per-seed SDs; planning only)
 
-| Outcome | Paper's headline |
+- **External FPR.** Per-seed SDs are about 0.05–0.06 for A0-like arms and about 0.02–0.03 for augmented arms.
+- **Unpaired Welch, 8 vs 8 seeds.** For T1 (both arms augmented, SD about 0.03), the 95% half-width is about 0.032. The detectable difference is about 0.045, which is 24% of the about 0.19 gain to be explained.
+- **P1/P2** are paired within A0 over hundreds of seeds, so they have high power.
+- **Equivalence at ±0.05** is reachable for T1, but not for contrasts that involve A0.
+
+## Pre-mortem: every outcome pattern
+
+| Pattern | Headline |
 | --- | --- |
-| S1 strongly negative, S2 positive | PIDS-Bench's over-defense is largely a paraphrase-style artifact: detectors trained on LLM-paraphrased benign data flag raw human text. A benchmark-validity finding with a recommendation for benchmark builders. |
-| S1 about 0, S2 about 0, S3 negative | Content, not style: raw user text from any corpus fixes over-defense. The practical recipe is validated off-corpus. |
-| S1 about 0, S2 about 0, S3 about 0, S4 negative | Corpus-specific content matters. Matched data transfers to a new corpus, but random off-corpus text does not. |
-| Mixed (e.g. S1 negative but S2 about 0) | Style explains test-side behaviour but not the training fix; both mechanisms are quantified. |
-| S5 positive | Security vocabulary alone triggers over-defense in released detectors (with neutral controls). |
-| S5 about 0 | The 0.83 effect in Study 4 was a "prepended human sentence" artifact, not security framing. |
+| P1 > 0, T1 > 0 | A provenance shortcut: detectors trained on LLM-paraphrased data treat raw text as suspicious, or once augmented as benign. A benchmark-validity finding with a practical warning. |
+| P2 < 0 or T2 fails | **Security finding:** raw human-written attacks evade (or augmentation opens a raw-attack hole). |
+| P1 ≈ 0, T1 equivalent to 0, X1 ≈ 0 | Content, not style: real user text fixes over-defense, transfers off-corpus, and is attack-safe if T2 holds. |
+| X2 < 0 | The fix transfers to an independent over-defense benchmark. |
+| F1 > 0 vs neutral | Security vocabulary itself triggers over-defense. F1 ≈ 0 means Study 4's 0.83 was not security-specific. |
 
-## Budget
+## Requirements from the owner
 
-| Item | Estimate |
-| --- | --- |
-| DeBERTa fits | about 25 A100 h |
-| DistilBERT fits | about 3 h |
-| Paraphrasing and WildChat building | about 1–2 h |
-| Framing scoring | about 1 h |
-| **Total** | **about 30 A100 hours** |
-| OpenAI API cost | a few US dollars |
+- An OpenAI key as the Colab Secret `OPENAI_API_KEY`; cost about $1–3.
+- The WildChat-1M terms accepted on Hugging Face (UNVERIFIED terms).
+- The Study 3/4 audits, plus a 100-row audit of the O-para paraphrases (label preserved?) and a second annotator on 50 rows of each audit for IAA.
 
-**Requires from the owner:**
-- an OpenAI API key (Colab Secret `OPENAI_API_KEY`);
-- the WildChat-1M licence accepted on Hugging Face (licence terms UNVERIFIED here);
-- the audits.
+## Not addressed (stated limitations)
 
-## What Study 5 does not fix
-
-- One benchmark (PIDS-Bench).
-- No optimised or adaptive attacker.
-- Detector-mined pool (Study 4 B1) remains exploratory.
-- Project launch gates (permissions/provenance, independent sample-size design, human IAA) remain unmet.
+- A second benchmark is used for **training** only via NotInject transfer, which is zero-shot scoring.
+- No optimised adaptive attacker.
+- One model family.
+- Project launch gates remain unmet.
