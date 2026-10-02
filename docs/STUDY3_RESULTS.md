@@ -22,7 +22,7 @@ Every seed shows a reduction of at least 18 points.
 
 The effect is larger than the preregistered sensitivity limit (a minimum detectable reduction of about 0.17–0.20). Both of the required intervals exclude 0, and both upper bounds are below −0.05.
 
-**Answer to PIDS-Bench's open question** (p. 19, §VIII-D), within the scope below: **yes.** Benign augmentation drawn to match the externally sourced distribution cut external over-defense from about 32% to about 6% at their operating point. That meets their 10% target. It did so with no measurable loss of attack recall.
+**Answer to PIDS-Bench's open question** (p. 19, §VIII-D), within the scope below: **yes, in an oracle setting.** Benign augmentation selected with the benchmark's own rules and test composition, from the same corpora, cut external over-defense from about 32% to about 6% at their operating point, which meets their 10% target. Unselected same-corpus rows (A3) achieve most of that reduction (to 0.14). There was no measurable loss of attack recall on in-distribution PIDS-Bench attacks, where recall is at ceiling. **Mechanism caveat (found in review, 2026-10-02):** every PIDS-Bench benign training row is a GPT-4o-mini paraphrase (pidsbench-2026.md:20; all 12,846 benign rows in train.csv have `generator_model = gpt-4o-mini`), while the external test rows and every pool row are raw human text. We cannot separate corpus content from a raw-versus-paraphrased style effect; see Study 4's results and the planned follow-up.
 
 ## Descriptive results by arm (seed mean; 95% CI)
 
@@ -62,12 +62,12 @@ The CIs are joint bootstraps over near-duplicate groups and seeds (2,000 replica
 
 ## What the results show, and what they do not
 
-1. **Matched augmentation closes the external gap.** A2 cuts external over-defense by about 26 points against both the baseline and the curated pool, with every seed agreeing. PIDS-Bench's curated pool of the same size did not move this rate, which our replication confirms.
+1. **Matched augmentation closes the external gap (oracle setting).** A2 cuts external over-defense by about 26 points against both the baseline and the curated pool, with every seed agreeing. The A0 and A1 means are 0.325 and 0.321; we computed no interval for A1 − A0, which matches PIDS-Bench's reported null (−0.004, [−0.014, +0.005]).
 
-2. **Most of the gain comes from the corpora; the matched selection adds the rest.**
+2. **Most of the gain comes from unselected same-corpus raw text; the matched selection adds the rest.**
    - A3 draws 535 random filtered rows from the same corpora. Only 5% of them contain a context term (`pool_manifest.json`, composition), yet A3 already lowers external FPR to 0.138.
    - Matched selection (A2) lowers it by a further 8.1 points [−11.1, −5.4].
-   - INFERENCE: much of the external over-defense reflects the training set's lack of real user text from these corpora, not only a missing "security-adjacent" signal. We did not test this mechanism directly.
+   - INFERENCE: much of the external over-defense reflects the training set's lack of raw user text. Because PIDS-Bench's benign training rows are all LLM paraphrases, this could be corpus content or a learned "raw human text = benign" style shortcut; we did not test which.
 
 3. **Each pool fixes the distribution it came from, and not the other.**
    - A1's curated pool removes curated over-defense entirely: 0.528 → 0.000.
@@ -89,8 +89,9 @@ The CIs are joint bootstraps over near-duplicate groups and seeds (2,000 replica
 - **The pool differs from the test mix.**
   - No unused Dolly keyword rows survived filtering, so 11 rows moved to LMSYS keyword, as preregistered.
   - 33% of A2's rows (and 41% of A2L's) use LMSYS's "you are the text completion model" template, against 0% of the external test rows.
-  - The test rows are longer (median 298 characters vs 397 in A2).
-  - The reduction happened despite these differences; we did not try to correct them.
+  - At the median the test rows are shorter (298 characters vs 397 in A2), but they have a longer upper tail (upper quartile 582.5 vs 423.5).
+  - The reduction happened despite these differences; we did not try to correct them. Because filter 2 did not remove the template (the test set contains none of it), A2 is not fully distribution-matched.
+- **Deviation (logged 2026-10-02):** the preregistration's LMSYS stopping rule says 3,000 candidates per cell, but its Cap rule and the runner (`CAND_CAP = 5000`) use 5,000. The run used 5,000. This internal inconsistency in the frozen document was not noticed before the run.
 - **Pool labels are unaudited so far.** The 200-row blind audit export exists, but the owner's labels are pending. Until they are in, the share of pool rows that are truly benign is not known.
 - **Same corpora, disjoint rows.** Pool rows are disjoint from every evaluation row: exact match, word 5-gram containment ≥ 0.5, and char TF-IDF cosine ≥ 0.92. LMSYS pool rows also come from stream indices ≥ 200,000, while all test rows came from the first 200,000. However, pool and test share their corpora, so this is in-distribution generalisation, not generalisation to new sources. The OASST1/Dolly transfer result (A2L) is the only cross-source evidence, and it is partial.
 - **Other scope limits.**
