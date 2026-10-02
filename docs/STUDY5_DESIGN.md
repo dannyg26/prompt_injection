@@ -1,6 +1,10 @@
-# Study 5 design draft v2: provenance shortcut, attack safety, transfer, framing
+# Study 5 design draft v3: provenance shortcut, attack safety, transfer, framing
 
-**Status: design draft v2 for a second pre-mortem, 2026-10-02. Not a preregistration. Nothing has been run.** v1 was reviewed by a pre-mortem (6 blocking findings). This version replaces it; v1 remains in the git history.
+**Status: design draft v3, 2026-10-02. Not a preregistration. Nothing has been run.**
+
+- **v1** had 6 blocking findings in pre-mortem 1.
+- **v2** had 4 new blocking findings in pre-mortem 2; it rated the outcome patterns weak accept or weak reject depending on controls.
+- **v3** keeps v2's body below and applies every pre-mortem 2 fix in the section *v3 revisions*. Where they conflict, the revisions override the body. The preregistration will merge the two.
 
 ## Key facts that reshape the study (verified)
 
@@ -103,3 +107,77 @@ That is 29 fits × about 49 minutes ≈ 24 A100 hours, plus about 3 hours of hea
 - No optimised adaptive attacker.
 - One model family.
 - Project launch gates remain unmet.
+
+
+## v3 revisions (apply all pre-mortem 2 findings; these override the body above)
+
+**R1. "Raw" means unparaphrased, not human.**
+- Every "raw" contrast is relabelled *unparaphrased vs GPT-4o-mini-paraphrased*.
+- Origin of the recovered sources:
+  - `alpaca_benign`: LLM-generated (self-instruct; UNVERIFIED);
+  - `sharegpt.csv`: is OASST1, human;
+  - `stackexchange.csv`: is Dolly, human;
+  - `chatbot_instructions_benign`: provenance to be checked before the lock and recorded;
+  - `spml_injection`: LLM-generated attacks per its source paper (UNVERIFIED; to be checked);
+  - `deepset_injection`: human.
+- **P1 is reported stratified by origin** (human vs LLM). A shortcut that also fires on LLM-written Alpaca raw text is "not GPT-4o-mini style", not "human style". That distinction is itself a result.
+
+**R2. P1/P2 units and controls.**
+- **Unit:** the content seed. Obfuscated rows are excluded, the 1–3 paraphrase rows of a seed are averaged, and the bootstrap resamples content seeds × models.
+- **Covariates:**
+  - a length-controlled secondary (logistic regression on log length, and length-matched pairs);
+  - non-English deepset seeds excluded;
+  - the count of seeds over 512 tokens reported, and those seeds excluded from the primary.
+- **SPML system-prompt reuse.** 85 of 375 SPML test seeds share a system prompt (first 80 normalised characters) with a train seed. **P2 and T2 are confirmatory on the unseen-system-prompt stratum**; the seen stratum is reported separately.
+
+**R3. Human-written attacks.**
+- The SPML attack side may be LLM-written (R1), and deepset has only 9 seeds. Every arm is therefore also scored zero-shot on **HackAPrompt's crowdsourced, human-written submissions**: the InjecGuard release rows already used in Study 2; licence UNVERIFIED, as recorded there.
+- The bootstrap is clustered by challenge level and by near-duplicate group. Study 2 found only 6 lexical groups, so intervals will be wide; this is stated.
+- T2' (O-raw − A0 on HackAPrompt recall, non-inferiority 0.02) is confirmatory.
+
+**R4. T3 is a gate, and T1 is relative to it.**
+- T1 (O-para − O-raw) is interpreted only if T3 (O-raw − A0, external FPR) is established. T1 is also reported as a fraction of T3.
+- Equivalence for T1 is declared if the TOST interval lies within ±25% of the observed T3 magnitude.
+- **Every contrast is reported on the LMSYS stratum (664 rows) and the OASST1/Dolly stratum (208 rows).** Study 4 showed most of the gain sits on LMSYS rows, and an OASST1/Dolly pool may move them less.
+
+**R5. X1 uses crossed-stratum predictions.**
+- WildChat is closer to LMSYS than to OASST1/Dolly. Preregistered predictions for "content matters":
+  - W beats O-raw on the LMSYS stratum;
+  - O-raw beats W on the OASST1/Dolly stratum.
+
+  "Any raw text works" predicts no stratum interaction. The confirmatory X1 is the interaction.
+- **WildChat pool hygiene:**
+  - English, non-toxic, non-redacted first user turns;
+  - the generic jailbreak-marker filter from Study 4;
+  - template share capped at 5% per near-duplicate group;
+  - a 100-row blind audit;
+  - plus a T2-style raw-attack check for W.
+- WildChat-1M is ODC-BY and openly accessible (owner checked 2026-10-02).
+
+**R6. Paraphrase protocol pinned.**
+- PIDS-Bench's `paraphrase_round` is an index over independent samples (`realize.py:138`, `index + 1`), not iterated rounds. O-para therefore uses **one direct paraphrase per row**: PIDS-Bench prompt, temperature 0.9, a pinned GPT-4o-mini snapshot (recorded). PIDS-Bench's own snapshot is UNVERIFIED.
+- The O pool is deduplicated against all of `sharegpt.csv` and `stackexchange.csv` (PIDS-Bench's OASST1/Dolly seeds), against all benchmark files and against the external set. The methods are exact match, 5-gram containment ≥ 0.5 and cosine ≥ 0.92.
+- **Validation:**
+  - the length rule is applied to raw and paraphrased rows alike;
+  - drop rates are reported by keyword status;
+  - a dropped row leaves both arms.
+
+**R7. Multiplicity.**
+- **Holm across all confirmatory tests** (P1, P2, T1, T2, T2', T3, X1, X2, F1; 9 tests), with family-wise α = 0.05.
+- Each test's p-value comes from the joint group × seed bootstrap (percentile inversion).
+- "Established" additionally requires the Welch seed interval to agree.
+- **Non-inferiority (T2, T2'):** one-sided at the Holm-adjusted level. A power statement for 8 vs 8 seeds, clustered over about 290 unseen-prompt SPML seeds, goes in the preregistration.
+- **TOST:** run on both the joint bootstrap and Welch; both are required.
+
+**R8. Framing.**
+- Study 4's 5 prefixes are added as a fifth cell, so F1 is a direct replication of the 0.83.
+- All 1,848 paraphrased benign rows are used.
+- The security cell uses a fixed vocabulary list with no imperatives.
+- Flags in the processing-instruction cell are reported but **not counted as FPR**, because their labels are ambiguous.
+
+**R9. X2 reading.** NotInject is LLM-written, so X2 < 0 (O-raw helps on NotInject) is evidence **against** a pure "unparaphrased = benign" shortcut. It is reported that way. Whether A0's NotInject FPR sits at a floor is checked after the lock and before any fit, and a floor is reported as non-informative.
+
+**R10. Budget.**
+- W drops to 3 seeds.
+- DistilBERT A0/O-raw/O-para × 3 seeds is added if the pilot shows ≤ 10 minutes per fit.
+- Total: about 27 A100 hours.
