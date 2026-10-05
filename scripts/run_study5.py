@@ -17,6 +17,7 @@ enters this git repository; only fingerprints, counts and scores are written pub
 
 import argparse
 import csv
+import hashlib
 import json
 import math
 import os
@@ -24,6 +25,7 @@ import shutil
 import subprocess
 import sys
 import time
+from collections import Counter
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -71,13 +73,16 @@ from injection_lab.study5 import (  # noqa: E402
     boot_p_two_sided,
     fpr_at_recall,
     framed,
+    has_term,
     holm,
     is_english,
+    joint_t1_t3,
     length_ok,
     paired_within_model_diff,
     paraphrase_valid,
     parse_seed_id,
     percentile,
+    sanitize_like_pids,
     system_prompt_key,
     t_interval,
     twoway_cell_diff,
@@ -97,6 +102,8 @@ W_CANDIDATES = 5000
 W_TEMPLATE_CAP = math.ceil(0.05 * (N_TRAIN + N_VAL))
 AUDIT_N = 100
 SECONDARY_REPS = 2000
+AUDIT_PASS = 90  # of 100: preregistered audit thresholds
+NOTINJECT_FLOOR = 0.05
 MAX_TOKENS = 512
 
 
@@ -170,7 +177,12 @@ def paraphrase_all(texts, cache_path, key):
             try:
                 resp = client.chat.completions.create(
                     model=PARAPHRASE_MODEL,
-                    messages=[{"role": "user", "content": PARAPHRASE_TEMPLATE.format(text=text)}],
+                    messages=[
+                        {
+                            "role": "user",
+                            "content": PARAPHRASE_TEMPLATE.format(text=sanitize_like_pids(text)),
+                        }
+                    ],
                     temperature=PARAPHRASE_TEMPERATURE,
                     max_tokens=512,
                     seed=POOL_SEED + attempt,
@@ -214,21 +226,22 @@ def disjoint(rows, eval_texts, extra_refs, hb):
 def template_cap(rows, cap):
     """Keep at most `cap` rows per word-5-gram containment group (stream order)."""
     groups = s3.near_duplicate_groups([r["text"] for r in rows], "w")
+    largest = max(Counter(groups).values()) if len(groups) else 0
     counts, out = {}, []
     for r, g in zip(rows, groups):
         if counts.get(g, 0) < cap:
             counts[g] = counts.get(g, 0) + 1
             out.append(r)
-    return out, max(counts.values()) if counts else 0
+    return out, largest
 
 
 def build_raw_seeds(pids_root, tok):
     """Unique recoverable seeds of test.csv rows (obfuscated rows excluded)."""
     real = {s: read_rows(pids_root / REAL / f"{s}.csv") for s in SEED_CLASS}
     test = read_rows(pids_root / DATA / "test.csv")
-    train = read_rows(pids_root / DATA / "train.csv")
+    seen_rows = read_rows(pids_root / DATA / "train.csv") + read_rows(pids_root / DATA / "val.csv")
     seen_keys = set()
-    for r in train:
+    for r in seen_rows:
         parsed = parse_seed_id(r["parent_seed_id"])
         if parsed and parsed[0] == "spml_injection" and parsed[1] < len(real[parsed[0]]):
             seen_keys.add(system_prompt_key(real[parsed[0]][parsed[1]]["text"]))
@@ -330,15 +343,15 @@ def build_pools(pids_root, private, public, token, openai_key, work):
     rng = np.random.default_rng(POOL_SEED)
     cands = [cands[i] for i in rng.permutation(len(cands))[:O_CANDIDATES]]
     o_universe, o_filters = disjoint(cands, all_eval, pids_seed_od, hb)
-    o_draw = uniform_draw(o_universe, N_TRAIN + N_VAL + N_RESERVE, POOL_SEED + 1)
+    o_draw = uniform_draw(
+        o_universe, min(len(o_universe), N_TRAIN + N_VAL + N_RESERVE), POOL_SEED + 1
+    )
 
     terms = sorted(set(hb.HARD_BENIGN_CONTEXT_TERMS + hb.INJECTION_KEYWORDS))
     call = paraphrase_all([r["text"] for r in o_draw], private / "paraphrases.jsonl", openai_key)
-    pairs, drops = [], {"with_term": 0, "without_term": 0, "attempts": 0}
+    valid, drops = [], {"with_term": 0, "without_term": 0, "attempts": 0, "adds_term": 0}
     for r in o_draw:
-        if len(pairs) == N_TRAIN + N_VAL:
-            break
-        has_term = any(t in r["text"].lower() for t in terms)
+        src_has = any(has_term(r["text"], t) for t in terms)
         para = None
         for attempt in (0, 1):
             drops["attempts"] += 1
@@ -347,9 +360,18 @@ def build_pools(pids_root, private, public, token, openai_key, work):
                 para = " ".join(candidate.split())
                 break
         if para is None:
-            drops["with_term" if has_term else "without_term"] += 1
+            drops["with_term" if src_has else "without_term"] += 1
             continue
-        pairs.append({"raw": r["text"], "para": para, "source": r["source"]})
+        if any(has_term(para, t) and not has_term(r["text"], t) for t in terms):
+            drops["adds_term"] += 1
+        valid.append({"raw": r["text"], "para": para, "source": r["source"]})
+    # A pair is dropped from both arms if its paraphrase hits any disjointness filter.
+    para_texts = [v["para"] for v in valid]
+    hits = cross_containment_hits(para_texts, all_eval + pids_seed_od)
+    keep = semantic_keep_mask(para_texts, all_eval)
+    para_ok = [i not in hits and bool(k) for i, k in enumerate(keep)]
+    drops["paraphrase_disjointness"] = int(len(valid) - sum(para_ok))
+    pairs = [v for v, ok in zip(valid, para_ok) if ok][: N_TRAIN + N_VAL]
     if len(pairs) < N_TRAIN + N_VAL:
         raise SystemExit(f"Only {len(pairs)} valid paraphrase pairs; preregistered stop")
     o_raw = [{"text": p["raw"], "source": p["source"], "cell": f"o|{p['source']}"} for p in pairs]
@@ -423,7 +445,13 @@ def build_pools(pids_root, private, public, token, openai_key, work):
     write_csv(private / "notinject.csv", ["text", "subset"], notinject)
     write_csv(private / "hackaprompt.csv", ["text"], hackaprompt)
     test = read_rows(data / "test.csv")
-    benign_idx = [i for i, r in enumerate(test) if r["label"] == "0"]
+    benign_idx = [
+        i
+        for i, r in enumerate(test)
+        if r["label"] == "0"
+        and r.get("obfuscation", "none") == "none"
+        and r["source_type"] == "real"
+    ]
     benign_texts = [test[i]["text"] for i in benign_idx]
     frame_rows = []
     for cell, (texts, pidx) in framed(benign_texts, POOL_SEED + 50).items():
@@ -499,9 +527,29 @@ def build_pools(pids_root, private, public, token, openai_key, work):
         "framing_rows_per_cell": len(benign_idx),
         "manifest": manifest,
     }
+    write_json(private / "eval_fingerprints.json", eval_fingerprints(pids_root))
     done.write_text(json.dumps(result), encoding="utf-8")
     write_json(public / "pool_manifest.json", result)
     return result
+
+
+def eval_fingerprints(root):
+    """Exact-text SHA-256 per row of every PIDS-Bench evaluation file ('' for empty)."""
+    out = {}
+    for name, f in s3.EVAL_FILES.items():
+        out[name] = [
+            hashlib.sha256(r["text"].encode("utf-8")).hexdigest() if r["text"].strip() else ""
+            for r in read_rows(root / DATA / f)
+        ]
+    return out
+
+
+def check_frozen(root, private):
+    frozen = json.loads((private / "eval_fingerprints.json").read_text(encoding="utf-8"))
+    if eval_fingerprints(root) != frozen:
+        raise AssertionError(
+            f"Evaluation text under {root} differs from the frozen pools-stage copy"
+        )
 
 
 # --------------------------------------- fits ---------------------------------------
@@ -531,6 +579,7 @@ def run_one(arm, seed, pids_root, private, work, best_threshold, extra):
     for attempt in (1, 2):
         shutil.rmtree(fit_dir, ignore_errors=True)
         start = time.time()
+        check_frozen(root, private)
         if s3.fit(arm, seed, root, fit_dir, log_path):
             seconds = time.time() - start
             scores, tau, gpu = s4.score(fit_dir / "model", root, arm, best_threshold, extra)
@@ -572,7 +621,7 @@ def plan():
 # -------------------------------------- analysis --------------------------------------
 
 
-def analyze(pids_root, private, public, head, unrestored):
+def analyze(pids_root, private, public, head, unrestored, audits):
     data = pids_root / DATA
     hb = read_rows(data / s3.EVAL_FILES["hard_benign"])
     test = read_rows(data / "test.csv")
@@ -581,7 +630,9 @@ def analyze(pids_root, private, public, head, unrestored):
     frames = read_rows(private / "framing.csv")
     hack = read_rows(private / "hackaprompt.csv")
     ni = read_rows(private / "notinject.csv")
-    present = np.array([bool(r["text"].strip()) for r in hb])
+    check_frozen(pids_root, private)
+    frozen = json.loads((private / "eval_fingerprints.json").read_text(encoding="utf-8"))
+    present = np.array([fp != "" for fp in frozen["hard_benign"]])
     ext = np.array([r["source_type"] == "real" for r in hb]) & present
     cur = np.array([r["source_type"] == "curated" for r in hb])
     lm = np.array([r["source"].startswith("lmsys") for r in hb])
@@ -670,14 +721,14 @@ def analyze(pids_root, private, public, head, unrestored):
         tests["P1"] = paired_test("P1", "A0_none", benign_core)
         tests["P2"] = paired_test("P2", "A0_none", spml_core)
         rf = np.array([r["frame_security"] >= THRESHOLD for r in runs["A0_none"]], float)
-        rn = np.array([r["frame_neutral"] >= THRESHOLD for r in runs["A0_none"]], float)
+        rn = np.array([r["frame_academic"] >= THRESHOLD for r in runs["A0_none"]], float)
         pre = {
             c: np.array([int(r["prefix"]) for r in frames if r["cell"] == c])
-            for c in ("security", "neutral")
+            for c in ("security", "academic")
         }
         rows_fr = np.array([int(r["test_row"]) for r in frames if r["cell"] == "security"])
         reps = twoway_cell_diff(
-            rf, rn, pre["security"], pre["neutral"], g_test[rows_fr], BOOT_REPS, named_rng("s5:F1")
+            rf, rn, pre["security"], pre["academic"], g_test[rows_fr], BOOT_REPS, named_rng("s5:F1")
         )
         per_model = rf.mean(1) - rn.mean(1)
         tests["F1"] = {
@@ -704,9 +755,6 @@ def analyze(pids_root, private, public, head, unrestored):
             "reps": reps,
             "p": boot_p_noninferior(reps, NI_MARGIN),
         }
-        tests["T2h"] = unpaired_test(
-            "T2h", "O_raw", "A0_none", "hackaprompt", None, g_hack, "noninferior"
-        )
         tests["T3"] = unpaired_test("T3", "O_raw", "A0_none", "hard_benign", ext, g_ext)
         tests["X2"] = unpaired_test("X2", "O_raw", "A0_none", "notinject", None, g_ni)
     if {"W_raw", "O_raw"} <= have and lm_e.any() and (~lm_e).any():
@@ -727,7 +775,7 @@ def analyze(pids_root, private, public, head, unrestored):
             "prediction": "negative (W relatively better on LMSYS rows)",
         }
 
-    order = ["P1", "P2", "T1", "T2", "T2h", "T3", "X1", "X2", "F1"]
+    order = ["P1", "P2", "T1", "T2", "T3", "X1", "X2", "F1"]
     names = [k for k in order if k in tests]
     rejected, used = holm([tests[k]["p"] for k in names]) if names else ([], [])
     t3_est = None
@@ -741,7 +789,8 @@ def analyze(pids_root, private, public, head, unrestored):
                 if "t_rates" in t
                 else welch_interval(t["rates_a"], t["rates_b"], level)
             )
-            agree = comp[1] < 0 or comp[0] > 0
+            est = t["estimate"]
+            agree = (est < 0 and comp[1] < 0) or (est > 0 and comp[0] > 0)
         else:
             level = 1 - 2 * a
             boot_ci = percentile(t["reps"], level)
@@ -767,22 +816,45 @@ def analyze(pids_root, private, public, head, unrestored):
         if k == "T3":
             t3_est = t["estimate"]
     if "T1" in tests and t3_est is not None:
-        margin = TOST_FRACTION * abs(t3_est)
-        b90 = percentile(tests["T1"]["reps"], 0.90)
-        w90 = welch_interval(tests["T1"]["rates_a"], tests["T1"]["rates_b"], 0.90)
         gate = bool(results["tests"].get("T3", {}).get("established"))
-        results["tests"]["T1"].update(
+        audit_ok = audits.get("Opara", 0) >= AUDIT_PASS
+        t1r, t3r, share = joint_t1_t3(
+            flags("A0_none", "hard_benign", ext),
+            flags("O_raw", "hard_benign", ext),
+            flags("O_para", "hard_benign", ext),
+            g_ext,
+            BOOT_REPS,
+            named_rng("s5:T1share"),
+        )
+        share_ci90 = percentile(share[np.isfinite(share)], 0.90)
+        share_ci95 = percentile(share[np.isfinite(share)], 0.95)
+        interpretable = gate and audit_ok and complete
+        t1 = results["tests"]["T1"]
+        t1.update(
             {
                 "gate_T3_established": gate,
-                "fraction_of_T3": float(tests["T1"]["estimate"] / t3_est) if t3_est else None,
-                "tost_margin": margin,
-                "tost_bootstrap_ci90": b90,
-                "tost_welch_ci90": w90,
+                "audit_Opara_pass": audit_ok,
+                "interpretable": interpretable,
+                "established": t1["established"] if interpretable else None,
+                "share_of_T3_lost_when_paraphrased": float(t1["estimate"] / -t3_est),
+                "share_ci95": share_ci95,
+                "share_ci90": share_ci90,
+                "equivalence_margin_share": TOST_FRACTION,
                 "equivalent": bool(
-                    gate and complete and all(-margin < x < margin for x in b90 + w90)
+                    interpretable
+                    and -TOST_FRACTION < share_ci90[0]
+                    and share_ci90[1] < TOST_FRACTION
                 ),
             }
         )
+    if "X1" in results["tests"]:
+        results["tests"]["X1"]["audit_W_pass"] = audits.get("W", 0) >= AUDIT_PASS
+    if "X2" in results["tests"] and "A0_none" in have:
+        floor = float(flags("A0_none", "notinject").mean())
+        results["tests"]["X2"]["a0_notinject_fpr"] = floor
+        if floor < NOTINJECT_FLOOR:
+            results["tests"]["X2"]["informative"] = False
+            results["tests"]["X2"]["established"] = None
 
     # Secondary (exploratory, 95%): strata, origins, length-matched P1, seen stratum, deepset.
     sec = {}
@@ -797,12 +869,13 @@ def analyze(pids_root, private, public, head, unrestored):
                     "ci95": percentile(r["reps"], 0.95),
                 }
         lm_match = benign_core & (np.abs(s_len_raw - s_len_para) <= 0.2 * s_len_para)
-        r = paired_test("P1_len", "A0_none", lm_match)
-        sec["P1_length_matched"] = {
-            "n_units": int(lm_match.sum()),
-            "estimate": r["estimate"],
-            "ci95": percentile(r["reps"], 0.95),
-        }
+        if lm_match.sum():
+            r = paired_test("P1_len", "A0_none", lm_match)
+            sec["P1_length_matched"] = {
+                "n_units": int(lm_match.sum()),
+                "estimate": r["estimate"],
+                "ci95": percentile(r["reps"], 0.95),
+            }
         for nm, m in (
             ("P2_spml_seen", (s_source == "spml_injection") & ~s_unseen & s_eng & s_ok),
             ("P2_deepset", (s_source == "deepset_injection") & s_eng & s_ok),
@@ -833,6 +906,33 @@ def analyze(pids_root, private, public, head, unrestored):
                     "estimate": float(fa.mean() - fb.mean()),
                     "ci95": percentile(reps, 0.95),
                 }
+    if {"O_raw", "A0_none"} <= have:
+        t = unpaired_test("T2h", "O_raw", "A0_none", "hackaprompt", None, g_hack, "noninferior")
+        sec["T2h_hackaprompt_recall_O_raw-A0"] = {
+            "estimate": t["estimate"],
+            "ci95": percentile(t["reps"], 0.95),
+            "note": "HackAPrompt rows = level template + participant submission; few clusters",
+        }
+    if {"W_raw", "A0_none"} <= have:
+        t = unpaired_test("Weff", "W_raw", "A0_none", "hard_benign", ext, g_ext)
+        sec["W_effective_ext_fpr_W_raw-A0"] = {
+            "estimate": t["estimate"],
+            "ci95": percentile(t["reps"], 0.95),
+        }
+    if "A0_none" in have:
+        for other in ("neutral", "authority", "study4"):
+            fa = np.array([r["frame_security"] >= THRESHOLD for r in runs["A0_none"]], float)
+            fb = np.array([r[f"frame_{other}"] >= THRESHOLD for r in runs["A0_none"]], float)
+            pa = np.array([int(r["prefix"]) for r in frames if r["cell"] == "security"])
+            pb = np.array([int(r["prefix"]) for r in frames if r["cell"] == other])
+            rows_s = np.array([int(r["test_row"]) for r in frames if r["cell"] == "security"])
+            reps = twoway_cell_diff(
+                fa, fb, pa, pb, g_test[rows_s], SECONDARY_REPS, named_rng(f"s5:F_{other}")
+            )
+            sec[f"A0_frame_security-{other}"] = {
+                "estimate": float(fa.mean() - fb.mean()),
+                "ci95": percentile(reps, 0.95),
+            }
     results["secondary_exploratory"] = sec
 
     # Descriptive per-arm rates (95% joint group x seed bootstrap) and threshold-free metrics.
@@ -902,19 +1002,23 @@ def analyze(pids_root, private, public, head, unrestored):
         "arms_complete": complete_arms,
         "n_external": int(ext.sum()),
         "n_external_unrestored_excluded": int(unrestored),
+        "audit_counts_of_100": audits,
         **results,
         "interval_method": (
-            "Confirmatory: Holm over the tests present (nominal 9) at family-wise alpha 0.05. "
+            "Confirmatory: Holm over the tests present (nominal 8) at family-wise alpha 0.05. "
             "p-values from bootstrap percentile inversion (two-sided; non-inferiority one-sided "
             f"against margin {NI_MARGIN}). Bootstraps resample content units (seed ids, "
             "near-duplicate groups, parent_seed_id, prefixes for framing) and models; arms "
             "with different models are resampled independently (seeds are not reproducible, "
             "so arms are unpaired). 'Established' requires Holm rejection and agreement of a "
             "companion interval at the Holm-adjusted level (t over models for within-model "
-            "contrasts; Welch over seeds between arms). T1 is interpreted only if T3 is "
-            f"established; equivalence (TOST, margin {TOST_FRACTION} x |T3|) needs both 90% "
-            "intervals inside the margin. Secondary results are exploratory (95%, "
-            "uncorrected). Seeds share data and are not independent test examples."
+            "contrasts; Welch over seeds between arms), with the same sign as the estimate. "
+            "T1 is interpreted only if T3 is established and the O_para audit passes; "
+            "'no style dependence' requires the 90% joint-bootstrap interval of the share of "
+            f"T3 lost (T1/-T3) inside +-{TOST_FRACTION}. The row+seed bootstrap counts "
+            "Bernoulli noise in both, so it is conservative. Secondary results are "
+            "exploratory (95%, uncorrected). Seeds share data and are not independent test "
+            "examples."
         ),
         "finished_utc": datetime.now(UTC).isoformat(timespec="seconds"),
     }
@@ -925,7 +1029,12 @@ def analyze(pids_root, private, public, head, unrestored):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--out", required=True, help="Drive folder for Study 5 state")
-    parser.add_argument("--stage", choices=("pools", "pilot", "all"), required=True)
+    parser.add_argument("--stage", choices=("pools", "pilot", "all", "analyze"), required=True)
+    parser.add_argument(
+        "--audits",
+        default="",
+        help="analyze stage only: counts of 1s per 100-row audit, e.g. W=97,Opara=95,S3=190,S4=180",
+    )
     parser.add_argument("--pids-root", default="/content/pidsbench")
     parser.add_argument("--work", default="/content/study5_work")
     args = parser.parse_args()
@@ -956,7 +1065,7 @@ def main():
     best_threshold = s3.load_pids_module(
         pids_root, "src/baselines/deberta_v3_hardneg.py", "pids_hardneg5"
     ).best_threshold
-    order = plan()
+    order = plan() if args.stage == "all" else []
     if args.stage == "pilot":
         order = [("O_para", SEEDS_MAIN[0])]
     for arm, seed in order:
@@ -968,7 +1077,15 @@ def main():
     if args.stage == "pilot":
         log("pilot complete")
         return
-    report = analyze(pids_root, private, public, head, unrestored)
+    if args.stage == "all":
+        log("all fits done; label the audits, then run --stage analyze --audits ...")
+        return
+    audits = dict(
+        (k.strip(), int(v)) for k, v in (x.split("=") for x in args.audits.split(",") if "=" in x)
+    )
+    if not {"W", "Opara", "S3", "S4"} <= set(audits):
+        raise SystemExit("Analysis needs all audit counts: --audits W=..,Opara=..,S3=..,S4=..")
+    report = analyze(pids_root, private, public, head, unrestored, audits)
     log(f"analysis written: status {report['status']}")
 
 

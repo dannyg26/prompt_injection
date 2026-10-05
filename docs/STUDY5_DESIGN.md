@@ -175,7 +175,7 @@ That is 29 fits × about 49 minutes ≈ 24 A100 hours, plus about 3 hours of hea
 - The security cell uses a fixed vocabulary list with no imperatives.
 - Flags in the processing-instruction cell are reported but **not counted as FPR**, because their labels are ambiguous.
 
-**R9. X2 reading.** NotInject is LLM-written, so X2 < 0 (O-raw helps on NotInject) is evidence **against** a pure "unparaphrased = benign" shortcut. It is reported that way. Whether A0's NotInject FPR sits at a floor is checked after the lock and before any fit, and a floor is reported as non-informative.
+**R9 (superseded by PREREGISTRATION_STUDY5.md: the floor is applied at analysis, not before fits). X2 reading.** NotInject is LLM-written, so X2 < 0 (O-raw helps on NotInject) is evidence **against** a pure "unparaphrased = benign" shortcut. It is reported that way. Whether A0's NotInject FPR sits at a floor is checked after the lock and before any fit, and a floor is reported as non-informative.
 
 **R10. Budget.**
 - W drops to 3 seeds.

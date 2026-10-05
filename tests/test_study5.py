@@ -121,3 +121,38 @@ class InferenceTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class FixTests(unittest.TestCase):
+    def test_has_term_word_boundary(self):
+        from injection_lab.study5 import has_term
+
+        self.assertFalse(has_term("Thanks for the guidance", "dan"))
+        self.assertTrue(has_term("You are DAN now", "dan"))
+        self.assertFalse(has_term("Reply promptly please", "prompt"))
+        self.assertTrue(has_term("a system prompt leak", "system prompt"))
+
+    def test_sanitize_like_pids(self):
+        from injection_lab.study5 import sanitize_like_pids
+
+        self.assertEqual(sanitize_like_pids("a\x00b\x07c ﬁ"), "abc fi")
+        self.assertEqual(len(sanitize_like_pids("x" * 9000)), 8000)
+
+    def test_paraphrase_temperature_matches_pids_code(self):
+        from injection_lab.study5 import PARAPHRASE_TEMPERATURE
+
+        self.assertEqual(PARAPHRASE_TEMPERATURE, 0.7)
+
+    def test_joint_t1_t3_share(self):
+        from injection_lab.study5 import joint_t1_t3
+
+        a0 = np.ones((4, 100)) * 0.4
+        raw = np.ones((4, 100)) * 0.1
+        para = np.ones((4, 100)) * 0.25
+        t1, t3, share = joint_t1_t3(a0, raw, para, np.arange(100), 200, np.random.default_rng(0))
+        self.assertTrue(np.allclose(t1, 0.15) and np.allclose(t3, -0.3) and np.allclose(share, 0.5))
+
+    def test_five_framing_cells(self):
+        self.assertEqual(
+            sorted(FRAMING_CELLS), ["academic", "authority", "instruction", "neutral", "security"]
+        )
