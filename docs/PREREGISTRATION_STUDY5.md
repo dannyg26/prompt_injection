@@ -68,6 +68,7 @@ Studies 3–4 found that adding raw same-corpus benign text cut PIDS-Bench's ext
 - At the pools stage, the exact-text SHA-256 of every row of every PIDS-Bench evaluation file is saved (`eval_fingerprints.json`; an empty row is recorded as empty).
 - Before every fit and at analysis, the evaluation files actually used are checked against it; any difference stops the run.
 - The external-row mask is built from the frozen fingerprints. This guards against restoring LMSYS rows differently after a Colab reconnect.
+- This relies on PIDS-Bench's `rebuild_restricted.py` restoring the same text every time (it matches by fingerprint, so it should). Any difference, including a row that was empty at the pools stage and is restored later, stops the run rather than silently changing the test set.
 - Text is read with Python's `csv` module without `newline=''`, so a carriage return inside a field reads as a newline. This affects scored and stored text identically.
 
 ## Pools
@@ -112,7 +113,8 @@ Each pool adds 419 training / 116 validation rows through PIDS-Bench's `train_an
 - **The analysis stage refuses to run** until all four audit counts (W, O_para, Study 3 A2, Study 4 B1) are supplied. The `all` stage trains and scores but does not analyse, so labels are given before any result is seen.
 - **Consequences fixed now:**
   - If fewer than 90/100 O_para pairs pass, T1 is not interpreted.
-  - If fewer than 90/100 W rows are benign, X1 is reported as qualified by label noise.
+  - If fewer than 90/100 W rows are benign, X1 is still tested, but any X1 conclusion is stated as possibly driven by mislabelled (non-benign) W rows.
+  - The analysis stage recounts the 1s in the two Study 5 audit files and refuses to run if any row is unlabelled or the typed counts differ. The Study 3/4 counts are typed by the owner.
   - Study 3/4 audits follow those studies' rules.
 
 ## Arms and fits

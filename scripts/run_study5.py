@@ -826,8 +826,9 @@ def analyze(pids_root, private, public, head, unrestored, audits):
             BOOT_REPS,
             named_rng("s5:T1share"),
         )
-        share_ci90 = percentile(share[np.isfinite(share)], 0.90)
-        share_ci95 = percentile(share[np.isfinite(share)], 0.95)
+        finite = share[np.isfinite(share)]
+        share_ci90 = percentile(finite, 0.90) if finite.size else None
+        share_ci95 = percentile(finite, 0.95) if finite.size else None
         interpretable = gate and audit_ok and complete
         t1 = results["tests"]["T1"]
         t1.update(
@@ -836,25 +837,35 @@ def analyze(pids_root, private, public, head, unrestored, audits):
                 "audit_Opara_pass": audit_ok,
                 "interpretable": interpretable,
                 "established": t1["established"] if interpretable else None,
-                "share_of_T3_lost_when_paraphrased": float(t1["estimate"] / -t3_est),
+                "share_of_T3_lost_when_paraphrased": (
+                    float(t1["estimate"] / -t3_est) if t3_est else None
+                ),
                 "share_ci95": share_ci95,
                 "share_ci90": share_ci90,
                 "equivalence_margin_share": TOST_FRACTION,
                 "equivalent": bool(
                     interpretable
+                    and share_ci90 is not None
                     and -TOST_FRACTION < share_ci90[0]
                     and share_ci90[1] < TOST_FRACTION
                 ),
             }
         )
     if "X1" in results["tests"]:
-        results["tests"]["X1"]["audit_W_pass"] = audits.get("W", 0) >= AUDIT_PASS
+        w_ok = audits.get("W", 0) >= AUDIT_PASS
+        results["tests"]["X1"]["audit_W_pass"] = w_ok
+        if not w_ok:
+            results["tests"]["X1"]["qualification"] = (
+                "W pool label audit below 90/100: any X1 conclusion is stated as possibly "
+                "driven by mislabelled (non-benign) W rows"
+            )
     if "X2" in results["tests"] and "A0_none" in have:
         floor = float(flags("A0_none", "notinject").mean())
         results["tests"]["X2"]["a0_notinject_fpr"] = floor
         if floor < NOTINJECT_FLOOR:
             results["tests"]["X2"]["informative"] = False
             results["tests"]["X2"]["established"] = None
+            results["tests"]["X2"]["fragile"] = None
 
     # Secondary (exploratory, 95%): strata, origins, length-matched P1, seen stratum, deepset.
     sec = {}
@@ -1085,6 +1096,15 @@ def main():
     )
     if not {"W", "Opara", "S3", "S4"} <= set(audits):
         raise SystemExit("Analysis needs all audit counts: --audits W=..,Opara=..,S3=..,S4=..")
+    for key, name, col in (
+        ("W", "audit_W_blind.csv", "is_benign (1/0)"),
+        ("Opara", "audit_Opara_blind.csv", "same_meaning_and_benign (1/0)"),
+    ):
+        labels = [r[col].strip() for r in read_rows(private / name)]
+        if any(v not in ("0", "1") for v in labels):
+            raise SystemExit(f"{name} has unlabelled or invalid rows; label every row 1 or 0")
+        if labels.count("1") != audits[key]:
+            raise SystemExit(f"{name} has {labels.count('1')} ones but --audits says {audits[key]}")
     report = analyze(pids_root, private, public, head, unrestored, audits)
     log(f"analysis written: status {report['status']}")
 

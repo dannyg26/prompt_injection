@@ -1,0 +1,18 @@
+{
+  "frozen_utc": "2026-10-05T17:41:44+00:00",
+  "note": "Frozen before any Study 5 pool draw, paraphrase, fit or score, after two design pre-mortems and a pre-lock code review (22 findings) plus a verification pass (5 follow-ups), all addressed. Covers every repository module the run imports. AGENTS.md is not hashed so the owner's approval can be recorded.",
+  "sha256": {
+    "docs/PREREGISTRATION_STUDY5.md": "9a30fa496e829d84857e8e47b0b340bc672a9d0ed74689921093b1c5c5c90e8a",
+    "src/injection_lab/study5.py": "06cbb3b49a7c98da9f2f3fe79574f6e74f92f7fe8f45b11dd7081c70db56217e",
+    "scripts/run_study5.py": "488bacb46593c8c4786fc5e252f538ada208771dc33df4658e04079482cae35e",
+    "notebooks/study5_colab.ipynb": "a8dcb2a39636b3aa98c2a8083eedf7640d2593f194c366ed4ecd84ef26a39a66",
+    "scripts/run_study3.py": "0663548c57385ffd60c422325d33b0b34b923dbbd72215b9687ef478549f918c",
+    "scripts/run_study4.py": "f29437d6bd3471517c013e9ae3de92a0253d40c24505a3be6a244aab0dbbbf85",
+    "src/injection_lab/study3.py": "53033c8c60890b1c459169ffd99965dcb9ee6be04f1d4f7f2b2146c3daf79367",
+    "src/injection_lab/study4.py": "41792c7f5860451dee99cd50f5a53478ce689232aaba6d09344e5fe217013fe0",
+    "src/injection_lab/pools.py": "7f3b6ffdf532a2ad7b967290721870f7f3993010acdc66698657a5bd4d8fdebc",
+    "src/injection_lab/curation.py": "0aeba0e4ed2569b24bf4a34b33d49407a2d173320d5a6517db414a0ac920d1cb",
+    "src/injection_lab/data.py": "f8d427ce8d2ea239126873740fcc6d8af2332a6b8409c728ec3dc4a5792cff92",
+    "src/injection_lab/transformer.py": "6575c0654a71c84822d10fadc99ca54d7026daddd1bdfafd813504eb0088d329"
+  }
+}
