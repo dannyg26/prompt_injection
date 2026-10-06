@@ -1,0 +1,1328 @@
+{
+  "status": "complete",
+  "commit": "de3056a40676bf924587c8ea68441acf17753a34",
+  "pids_commit": "87dc835566b930ee921240874a4939b2c266c2fe",
+  "arm_seeds": {
+    "A0_none": [
+      13,
+      42,
+      123,
+      2024,
+      7777,
+      31,
+      271,
+      9001
+    ],
+    "O_raw": [
+      13,
+      42,
+      123,
+      2024,
+      7777,
+      31,
+      271,
+      9001
+    ],
+    "O_para": [
+      13,
+      42,
+      123,
+      2024,
+      7777,
+      31,
+      271,
+      9001
+    ],
+    "W_raw": [
+      13,
+      42,
+      123
+    ]
+  },
+  "arms_complete": [
+    "A0_none",
+    "O_raw",
+    "O_para",
+    "W_raw"
+  ],
+  "n_external": 872,
+  "n_external_unrestored_excluded": 0,
+  "audit_counts_of_100": {
+    "W": 96,
+    "Opara": 82,
+    "S3": 197,
+    "S4": 156
+  },
+  "tests": {
+    "P1": {
+      "kind": "difference",
+      "n_units": 694,
+      "estimate": -0.0023715177713736785,
+      "per_model": [
+        -0.0007204610951008642,
+        -0.0014409221902017284,
+        -0.0014409221902017284,
+        -0.0004803073967339089,
+        -0.001921229586935638,
+        -0.0072046109510086435,
+        -0.0014409221902017297,
+        -0.004322766570605188
+      ],
+      "p": 0.058,
+      "holm_alpha": 0.016666666666666666,
+      "holm_rejected": false,
+      "bootstrap_ci": [
+        -0.0068946625840537856,
+        0.00036023054755043225
+      ],
+      "companion_ci": [
+        -0.004888510773466066,
+        0.0001454752307187084
+      ],
+      "companion": "t over models",
+      "established": false,
+      "fragile": false
+    },
+    "P2": {
+      "kind": "difference",
+      "n_units": 284,
+      "estimate": -0.0005868544600938774,
+      "per_model": [
+        0.0035211267605633756,
+        -0.0035211267605633756,
+        0.0,
+        -0.0023474178403756207,
+        -0.0023474178403756207,
+        0.001173708920187977,
+        0.0035211267605633756,
+        -0.0046948356807511304
+      ],
+      "p": 0.8912,
+      "holm_alpha": 0.05,
+      "holm_rejected": false,
+      "bootstrap_ci": [
+        -0.00982981220657277,
+        0.008949530516431926
+      ],
+      "companion_ci": [
+        -0.003209342603046072,
+        0.002035633682858317
+      ],
+      "companion": "t over models",
+      "established": false,
+      "fragile": false
+    },
+    "T1": {
+      "kind": "difference",
+      "n_rows": 872,
+      "estimate": 0.042431192660550454,
+      "rates_a": [
+        0.29128440366972475,
+        0.30504587155963303,
+        0.3360091743119266,
+        0.2786697247706422,
+        0.23853211009174313,
+        0.3394495412844037,
+        0.4105504587155963,
+        0.286697247706422
+      ],
+      "rates_b": [
+        0.2993119266055046,
+        0.2706422018348624,
+        0.286697247706422,
+        0.24885321100917432,
+        0.2511467889908257,
+        0.22821100917431192,
+        0.30045871559633025,
+        0.26146788990825687
+      ],
+      "p": 0.0322,
+      "holm_alpha": 0.0125,
+      "holm_rejected": false,
+      "bootstrap_ci": [
+        -0.005761274844165854,
+        0.09737608403110064
+      ],
+      "companion_ci": [
+        -0.019198634078763828,
+        0.10406101939986484
+      ],
+      "companion": "Welch over seeds",
+      "established": null,
+      "fragile": false,
+      "gate_T3_established": false,
+      "audit_Opara_pass": false,
+      "interpretable": false,
+      "share_of_T3_lost_when_paraphrased": 0.5401459854014597,
+      "share_ci95": [
+        0.05235353372051093,
+        1.6009777549416648
+      ],
+      "share_ci90": [
+        0.13356450408459283,
+        1.2861878025697966
+      ],
+      "equivalence_margin_share": 0.25,
+      "equivalent": false
+    },
+    "T2": {
+      "kind": "noninferior",
+      "n_rows": 284,
+      "estimate": 0.00044014084507049134,
+      "rates_a": [
+        0.9894366197183099,
+        0.9859154929577465,
+        0.9823943661971831,
+        0.9929577464788732,
+        0.9894366197183099,
+        0.9929577464788732,
+        0.9894366197183099,
+        0.9823943661971831
+      ],
+      "rates_b": [
+        0.9859154929577465,
+        0.9823943661971831,
+        0.9859154929577465,
+        0.9894366197183099,
+        0.9929577464788732,
+        0.9894366197183099,
+        0.9859154929577465,
+        0.9894366197183099
+      ],
+      "p": 0.0,
+      "holm_alpha": 0.00625,
+      "holm_rejected": true,
+      "bootstrap_ci": [
+        -0.006602112676056427,
+        0.007922535211267512
+      ],
+      "companion_ci": [
+        -0.004975735108268428,
+        0.005856016798409189
+      ],
+      "companion": "Welch over seeds",
+      "established": true,
+      "fragile": false
+    },
+    "T3": {
+      "kind": "difference",
+      "n_rows": 872,
+      "estimate": -0.07855504587155965,
+      "rates_a": [
+        0.2993119266055046,
+        0.2706422018348624,
+        0.286697247706422,
+        0.24885321100917432,
+        0.2511467889908257,
+        0.22821100917431192,
+        0.30045871559633025,
+        0.26146788990825687
+      ],
+      "rates_b": [
+        0.3623853211009174,
+        0.27408256880733944,
+        0.34174311926605505,
+        0.2786697247706422,
+        0.35091743119266056,
+        0.4518348623853211,
+        0.26605504587155965,
+        0.44954128440366975
+      ],
+      "p": 0.0012,
+      "holm_alpha": 0.008333333333333333,
+      "holm_rejected": true,
+      "bootstrap_ci": [
+        -0.1527989701332882,
+        -0.013408358610796775
+      ],
+      "companion_ci": [
+        -0.1726858742161247,
+        0.015575782473005492
+      ],
+      "companion": "Welch over seeds",
+      "established": false,
+      "fragile": true
+    },
+    "X1": {
+      "kind": "difference",
+      "n_rows": 872,
+      "estimate": -0.08638158402842142,
+      "rates_a": [
+        0.12482622798887857,
+        0.11828081556997219,
+        0.1785217794253939
+      ],
+      "rates_b": [
+        0.20366079703429102,
+        0.2354610750695088,
+        0.2691728452270621,
+        0.18159175162187213,
+        0.2224860982391103,
+        0.19236561631139948,
+        0.2746177015755329,
+        0.2360403151065802
+      ],
+      "p": 0.002,
+      "prediction": "negative (W relatively better on LMSYS rows)",
+      "holm_alpha": 0.01,
+      "holm_rejected": true,
+      "bootstrap_ci": [
+        -0.1511183079678243,
+        -0.01626175183439216
+      ],
+      "companion_ci": [
+        -0.19564340147088433,
+        0.02288023341404151
+      ],
+      "companion": "Welch over seeds",
+      "established": false,
+      "fragile": true,
+      "audit_W_pass": true
+    },
+    "X2": {
+      "kind": "difference",
+      "n_rows": 339,
+      "estimate": -0.028023598820059004,
+      "rates_a": [
+        0.45132743362831856,
+        0.4365781710914454,
+        0.3392330383480826,
+        0.35693215339233036,
+        0.3893805309734513,
+        0.31563421828908556,
+        0.39823008849557523,
+        0.3834808259587021
+      ],
+      "rates_b": [
+        0.3480825958702065,
+        0.41002949852507375,
+        0.35398230088495575,
+        0.40707964601769914,
+        0.4218289085545723,
+        0.44542772861356933,
+        0.41002949852507375,
+        0.49852507374631266
+      ],
+      "p": 0.2354,
+      "holm_alpha": 0.025,
+      "holm_rejected": false,
+      "bootstrap_ci": [
+        -0.08333333333333331,
+        0.02323008849557523
+      ],
+      "companion_ci": [
+        -0.08719775552252597,
+        0.03115055788240796
+      ],
+      "companion": "Welch over seeds",
+      "established": false,
+      "fragile": false,
+      "a0_notinject_fpr": 0.4118731563421829
+    },
+    "F1": {
+      "kind": "difference",
+      "n_rows": 1364,
+      "estimate": 0.4769061583577713,
+      "per_model": [
+        0.3526392961876833,
+        0.3614369501466276,
+        0.591642228739003,
+        0.6231671554252199,
+        0.280791788856305,
+        0.5102639296187683,
+        0.49266862170087977,
+        0.6026392961876832
+      ],
+      "p": 0.0,
+      "holm_alpha": 0.0071428571428571435,
+      "holm_rejected": true,
+      "bootstrap_ci": [
+        0.26810021679347973,
+        0.6874700969194022
+      ],
+      "companion_ci": [
+        0.3039422851064787,
+        0.6498700316090639
+      ],
+      "companion": "t over models",
+      "established": true,
+      "fragile": false
+    }
+  },
+  "secondary": {},
+  "descriptive": {
+    "A0_none": {
+      "ext_fpr": {
+        "n_rows": 872,
+        "estimate": 0.34690366972477066,
+        "ci95": [
+          0.29051038862409345,
+          0.4064385474860334
+        ]
+      },
+      "curated_fpr": {
+        "n_rows": 600,
+        "estimate": 0.5810416666666667,
+        "ci95": [
+          0.32420096781716423,
+          0.7979965753424655
+        ]
+      },
+      "test_recall": {
+        "n_rows": 2070,
+        "estimate": 0.9881642512077294,
+        "ci95": [
+          0.9814581397489521,
+          0.9940364314400458
+        ]
+      },
+      "test_fpr": {
+        "n_rows": 1848,
+        "estimate": 0.013257575757575758,
+        "ci95": [
+          0.006500213829795252,
+          0.021445596512825613
+        ]
+      },
+      "hackaprompt_recall": {
+        "n_rows": 5000,
+        "estimate": 0.6268,
+        "ci95": [
+          0.2720858473178325,
+          0.8296644838999673
+        ]
+      },
+      "notinject_fpr": {
+        "n_rows": 339,
+        "estimate": 0.4118731563421829,
+        "ci95": [
+          0.35656342182890854,
+          0.4682890855457227
+        ]
+      },
+      "raw_benign_seed_fpr": {
+        "n_rows": 694,
+        "estimate": 0.004142651296829971,
+        "ci95": [
+          0.00018011527377521613,
+          0.009365994236311239
+        ]
+      },
+      "para_benign_seed_fpr": {
+        "n_rows": 694,
+        "estimate": 0.0065141690682036495,
+        "ci95": [
+          0.0016810758885686837,
+          0.012728146013448606
+        ]
+      },
+      "raw_spml_unseen_recall": {
+        "n_rows": 284,
+        "estimate": 0.9876760563380281,
+        "ci95": [
+          0.9744718309859155,
+          0.9982394366197183
+        ]
+      },
+      "para_spml_unseen_recall": {
+        "n_rows": 284,
+        "estimate": 0.9882629107981219,
+        "ci95": [
+          0.9754951584507043,
+          0.9977992957746479
+        ]
+      },
+      "frame_academic_flag_rate": {
+        "n_rows": 1364,
+        "estimate": 0.02749266862170088,
+        "ci95": [
+          0.014635384331116039,
+          0.043255917092615
+        ]
+      },
+      "frame_authority_flag_rate": {
+        "n_rows": 1364,
+        "estimate": 0.47406524926686217,
+        "ci95": [
+          0.4147527831192802,
+          0.5332815510793951
+        ]
+      },
+      "frame_instruction_flag_rate": {
+        "n_rows": 1364,
+        "estimate": 0.5706561583577713,
+        "ci95": [
+          0.44906948589800094,
+          0.6706115834365293
+        ]
+      },
+      "frame_neutral_flag_rate": {
+        "n_rows": 1364,
+        "estimate": 0.018511730205278593,
+        "ci95": [
+          0.009437545821114373,
+          0.029414160667887705
+        ]
+      },
+      "frame_security_flag_rate": {
+        "n_rows": 1364,
+        "estimate": 0.5043988269794721,
+        "ci95": [
+          0.41563528705495667,
+          0.5948013995852154
+        ]
+      },
+      "frame_study4_flag_rate": {
+        "n_rows": 1364,
+        "estimate": 0.8272543988269795,
+        "ci95": [
+          0.7719642857142858,
+          0.8753696008880697
+        ]
+      },
+      "auroc_ext_vs_raw_spml": {
+        "estimate": 0.983953030107249,
+        "ci95_t": [
+          0.9822063543183372,
+          0.9856997058961607
+        ]
+      },
+      "auroc_ext_vs_para_attacks": {
+        "estimate": 0.9732483767672739,
+        "ci95_t": [
+          0.9679139786229646,
+          0.9785827749115833
+        ]
+      },
+      "ext_fpr_at_95_recall_para_attacks": {
+        "estimate": 0.22720756880733944,
+        "ci95_t": [
+          0.17475419201564973,
+          0.27966094559902915
+        ]
+      },
+      "test_f1": {
+        "estimate": 0.988162502366688,
+        "ci95_t": [
+          0.9867810605543818,
+          0.9895439441789943
+        ]
+      },
+      "per_seed": [
+        {
+          "seed": 13,
+          "tau_val": 0.14400000000000002,
+          "fit_minutes": 49.7982234120369,
+          "attempts": 1,
+          "gpu": "NVIDIA A100-SXM4-40GB"
+        },
+        {
+          "seed": 42,
+          "tau_val": 0.866,
+          "fit_minutes": 49.86711906989415,
+          "attempts": 1,
+          "gpu": "NVIDIA A100-SXM4-40GB"
+        },
+        {
+          "seed": 123,
+          "tau_val": 0.49,
+          "fit_minutes": 49.882589503129324,
+          "attempts": 1,
+          "gpu": "NVIDIA A100-SXM4-40GB"
+        },
+        {
+          "seed": 2024,
+          "tau_val": 0.654,
+          "fit_minutes": 49.88306905825933,
+          "attempts": 1,
+          "gpu": "NVIDIA A100-SXM4-40GB"
+        },
+        {
+          "seed": 7777,
+          "tau_val": 0.662,
+          "fit_minutes": 50.057534937063856,
+          "attempts": 1,
+          "gpu": "NVIDIA A100-SXM4-40GB"
+        },
+        {
+          "seed": 31,
+          "tau_val": 0.862,
+          "fit_minutes": 49.801246917247774,
+          "attempts": 1,
+          "gpu": "NVIDIA A100-SXM4-40GB"
+        },
+        {
+          "seed": 271,
+          "tau_val": 0.198,
+          "fit_minutes": 49.929784973462425,
+          "attempts": 1,
+          "gpu": "NVIDIA A100-SXM4-40GB"
+        },
+        {
+          "seed": 9001,
+          "tau_val": 0.334,
+          "fit_minutes": 49.78570412794749,
+          "attempts": 1,
+          "gpu": "NVIDIA A100-SXM4-40GB"
+        }
+      ]
+    },
+    "O_raw": {
+      "ext_fpr": {
+        "n_rows": 872,
+        "estimate": 0.268348623853211,
+        "ci95": [
+          0.22770216958013287,
+          0.31166803352695094
+        ]
+      },
+      "curated_fpr": {
+        "n_rows": 600,
+        "estimate": 0.466875,
+        "ci95": [
+          0.22230153181705198,
+          0.6904159226190474
+        ]
+      },
+      "test_recall": {
+        "n_rows": 2070,
+        "estimate": 0.9884661835748793,
+        "ci95": [
+          0.9817491528625049,
+          0.9941572915510807
+        ]
+      },
+      "test_fpr": {
+        "n_rows": 1848,
+        "estimate": 0.012445887445887446,
+        "ci95": [
+          0.005990472202092765,
+          0.02026714604654581
+        ]
+      },
+      "hackaprompt_recall": {
+        "n_rows": 5000,
+        "estimate": 0.5878,
+        "ci95": [
+          0.2565060137300209,
+          0.7881429652042359
+        ]
+      },
+      "notinject_fpr": {
+        "n_rows": 339,
+        "estimate": 0.3838495575221239,
+        "ci95": [
+          0.32853982300884954,
+          0.43805309734513276
+        ]
+      },
+      "raw_benign_seed_fpr": {
+        "n_rows": 694,
+        "estimate": 0.002521613832853026,
+        "ci95": [
+          0.0,
+          0.006484149855907781
+        ]
+      },
+      "para_benign_seed_fpr": {
+        "n_rows": 694,
+        "estimate": 0.006093900096061478,
+        "ci95": [
+          0.0018611911623439,
+          0.011708243275696441
+        ]
+      },
+      "raw_spml_unseen_recall": {
+        "n_rows": 284,
+        "estimate": 0.9881161971830986,
+        "ci95": [
+          0.9744718309859155,
+          0.9973591549295775
+        ]
+      },
+      "para_spml_unseen_recall": {
+        "n_rows": 284,
+        "estimate": 0.9891431924882628,
+        "ci95": [
+          0.9779892899061033,
+          0.9979460093896713
+        ]
+      },
+      "frame_academic_flag_rate": {
+        "n_rows": 1364,
+        "estimate": 0.01970307917888563,
+        "ci95": [
+          0.010812567321236225,
+          0.030848568121730483
+        ]
+      },
+      "frame_authority_flag_rate": {
+        "n_rows": 1364,
+        "estimate": 0.40670821114369504,
+        "ci95": [
+          0.33238885328204915,
+          0.46826496924746736
+        ]
+      },
+      "frame_instruction_flag_rate": {
+        "n_rows": 1364,
+        "estimate": 0.5476539589442815,
+        "ci95": [
+          0.4191584073025556,
+          0.6721098237439713
+        ]
+      },
+      "frame_neutral_flag_rate": {
+        "n_rows": 1364,
+        "estimate": 0.013654692082111437,
+        "ci95": [
+          0.006000517286266411,
+          0.022660927764820846
+        ]
+      },
+      "frame_security_flag_rate": {
+        "n_rows": 1364,
+        "estimate": 0.39846041055718473,
+        "ci95": [
+          0.3102903880719299,
+          0.47954663601781766
+        ]
+      },
+      "frame_study4_flag_rate": {
+        "n_rows": 1364,
+        "estimate": 0.6985887096774194,
+        "ci95": [
+          0.6273372786915579,
+          0.7538189778177653
+        ]
+      },
+      "auroc_ext_vs_raw_spml": {
+        "estimate": 0.9870794434035405,
+        "ci95_t": [
+          0.9827948471814261,
+          0.9913640396256549
+        ]
+      },
+      "auroc_ext_vs_para_attacks": {
+        "estimate": 0.9819220765190799,
+        "ci95_t": [
+          0.9793331009363212,
+          0.9845110521018386
+        ]
+      },
+      "ext_fpr_at_95_recall_para_attacks": {
+        "estimate": 0.16126720183486237,
+        "ci95_t": [
+          0.1279373322740007,
+          0.19459707139572405
+        ]
+      },
+      "test_f1": {
+        "estimate": 0.9886746650767227,
+        "ci95_t": [
+          0.9875829195775657,
+          0.9897664105758798
+        ]
+      },
+      "per_seed": [
+        {
+          "seed": 13,
+          "tau_val": 0.978,
+          "fit_minutes": 48.70895560979843,
+          "attempts": 1,
+          "gpu": "NVIDIA A100-SXM4-40GB"
+        },
+        {
+          "seed": 42,
+          "tau_val": 0.75,
+          "fit_minutes": 48.532352956136066,
+          "attempts": 1,
+          "gpu": "NVIDIA A100-SXM4-40GB"
+        },
+        {
+          "seed": 123,
+          "tau_val": 0.608,
+          "fit_minutes": 48.522571794192,
+          "attempts": 1,
+          "gpu": "NVIDIA A100-SXM4-40GB"
+        },
+        {
+          "seed": 2024,
+          "tau_val": 0.20800000000000002,
+          "fit_minutes": 48.65711282491684,
+          "attempts": 1,
+          "gpu": "NVIDIA A100-SXM4-40GB"
+        },
+        {
+          "seed": 7777,
+          "tau_val": 0.888,
+          "fit_minutes": 48.55145384867986,
+          "attempts": 1,
+          "gpu": "NVIDIA A100-SXM4-40GB"
+        },
+        {
+          "seed": 31,
+          "tau_val": 0.128,
+          "fit_minutes": 48.52438503901164,
+          "attempts": 1,
+          "gpu": "NVIDIA A100-SXM4-40GB"
+        },
+        {
+          "seed": 271,
+          "tau_val": 0.856,
+          "fit_minutes": 48.55486050049464,
+          "attempts": 1,
+          "gpu": "NVIDIA A100-SXM4-40GB"
+        },
+        {
+          "seed": 9001,
+          "tau_val": 0.642,
+          "fit_minutes": 48.70258010228475,
+          "attempts": 1,
+          "gpu": "NVIDIA A100-SXM4-40GB"
+        }
+      ]
+    },
+    "O_para": {
+      "ext_fpr": {
+        "n_rows": 872,
+        "estimate": 0.31077981651376146,
+        "ci95": [
+          0.26149495514459536,
+          0.36121687821169174
+        ]
+      },
+      "curated_fpr": {
+        "n_rows": 600,
+        "estimate": 0.5029166666666667,
+        "ci95": [
+          0.26973653093883365,
+          0.7183241338813858
+        ]
+      },
+      "test_recall": {
+        "n_rows": 2070,
+        "estimate": 0.9882246376811594,
+        "ci95": [
+          0.9814033774274381,
+          0.9941120013643412
+        ]
+      },
+      "test_fpr": {
+        "n_rows": 1848,
+        "estimate": 0.01278409090909091,
+        "ci95": [
+          0.006335446423023321,
+          0.020678211219892023
+        ]
+      },
+      "hackaprompt_recall": {
+        "n_rows": 5000,
+        "estimate": 0.64225,
+        "ci95": [
+          0.2707040093639938,
+          0.8561955872189848
+        ]
+      },
+      "notinject_fpr": {
+        "n_rows": 339,
+        "estimate": 0.37684365781710916,
+        "ci95": [
+          0.318952802359882,
+          0.43437499999999996
+        ]
+      },
+      "raw_benign_seed_fpr": {
+        "n_rows": 694,
+        "estimate": 0.0036023054755043226,
+        "ci95": [
+          0.0,
+          0.009005763688760805
+        ]
+      },
+      "para_benign_seed_fpr": {
+        "n_rows": 694,
+        "estimate": 0.006634245917387127,
+        "ci95": [
+          0.0019212295869356388,
+          0.012308627521613828
+        ]
+      },
+      "raw_spml_unseen_recall": {
+        "n_rows": 284,
+        "estimate": 0.9867957746478874,
+        "ci95": [
+          0.9727112676056339,
+          0.9973701584507042
+        ]
+      },
+      "para_spml_unseen_recall": {
+        "n_rows": 284,
+        "estimate": 0.9884096244131455,
+        "ci95": [
+          0.9765258215962441,
+          0.997212441314554
+        ]
+      },
+      "frame_academic_flag_rate": {
+        "n_rows": 1364,
+        "estimate": 0.02309384164222874,
+        "ci95": [
+          0.01309948599641275,
+          0.034387002105139106
+        ]
+      },
+      "frame_authority_flag_rate": {
+        "n_rows": 1364,
+        "estimate": 0.4973423753665689,
+        "ci95": [
+          0.39902789690819296,
+          0.5851532695399944
+        ]
+      },
+      "frame_instruction_flag_rate": {
+        "n_rows": 1364,
+        "estimate": 0.5449963343108505,
+        "ci95": [
+          0.4052070963336356,
+          0.6861901896425965
+        ]
+      },
+      "frame_neutral_flag_rate": {
+        "n_rows": 1364,
+        "estimate": 0.018786656891495602,
+        "ci95": [
+          0.010172081489158763,
+          0.029342572191322757
+        ]
+      },
+      "frame_security_flag_rate": {
+        "n_rows": 1364,
+        "estimate": 0.4250366568914956,
+        "ci95": [
+          0.36246391175929976,
+          0.4835699781403986
+        ]
+      },
+      "frame_study4_flag_rate": {
+        "n_rows": 1364,
+        "estimate": 0.750366568914956,
+        "ci95": [
+          0.6818096798274719,
+          0.8128212891824843
+        ]
+      },
+      "auroc_ext_vs_raw_spml": {
+        "estimate": 0.9878703845781109,
+        "ci95_t": [
+          0.9856812789706779,
+          0.990059490185544
+        ]
+      },
+      "auroc_ext_vs_para_attacks": {
+        "estimate": 0.9776951618800691,
+        "ci95_t": [
+          0.9733866857934441,
+          0.9820036379666941
+        ]
+      },
+      "ext_fpr_at_95_recall_para_attacks": {
+        "estimate": 0.18205275229357798,
+        "ci95_t": [
+          0.14387561597135998,
+          0.22022988861579598
+        ]
+      },
+      "test_f1": {
+        "estimate": 0.9884031557345425,
+        "ci95_t": [
+          0.9877132941851545,
+          0.9890930172839305
+        ]
+      },
+      "per_seed": [
+        {
+          "seed": 13,
+          "tau_val": 0.58,
+          "fit_minutes": 48.62984705766042,
+          "attempts": 1,
+          "gpu": "NVIDIA A100-SXM4-40GB"
+        },
+        {
+          "seed": 42,
+          "tau_val": 0.932,
+          "fit_minutes": 48.55707388321559,
+          "attempts": 1,
+          "gpu": "NVIDIA A100-SXM4-40GB"
+        },
+        {
+          "seed": 123,
+          "tau_val": 0.024,
+          "fit_minutes": 48.57912654081981,
+          "attempts": 1,
+          "gpu": "NVIDIA A100-SXM4-40GB"
+        },
+        {
+          "seed": 2024,
+          "tau_val": 0.772,
+          "fit_minutes": 48.68158582051595,
+          "attempts": 1,
+          "gpu": "NVIDIA A100-SXM4-40GB"
+        },
+        {
+          "seed": 7777,
+          "tau_val": 0.962,
+          "fit_minutes": 48.52056169509888,
+          "attempts": 1,
+          "gpu": "NVIDIA A100-SXM4-40GB"
+        },
+        {
+          "seed": 31,
+          "tau_val": 0.856,
+          "fit_minutes": 48.48531956275304,
+          "attempts": 1,
+          "gpu": "NVIDIA A100-SXM4-40GB"
+        },
+        {
+          "seed": 271,
+          "tau_val": 0.622,
+          "fit_minutes": 48.473792203267415,
+          "attempts": 1,
+          "gpu": "NVIDIA A100-SXM4-40GB"
+        },
+        {
+          "seed": 9001,
+          "tau_val": 0.6960000000000001,
+          "fit_minutes": 48.54658627510071,
+          "attempts": 1,
+          "gpu": "NVIDIA A100-SXM4-40GB"
+        }
+      ]
+    },
+    "W_raw": {
+      "ext_fpr": {
+        "n_rows": 872,
+        "estimate": 0.1823394495412844,
+        "ci95": [
+          0.13630935889684564,
+          0.23815184516290921
+        ]
+      },
+      "curated_fpr": {
+        "n_rows": 600,
+        "estimate": 0.4661111111111111,
+        "ci95": [
+          0.20250659362953952,
+          0.7161363470119227
+        ]
+      },
+      "test_recall": {
+        "n_rows": 2070,
+        "estimate": 0.9877616747181964,
+        "ci95": [
+          0.9809649464359956,
+          0.9941031066046958
+        ]
+      },
+      "test_fpr": {
+        "n_rows": 1848,
+        "estimate": 0.013708513708513708,
+        "ci95": [
+          0.006316549359321422,
+          0.02164348702026572
+        ]
+      },
+      "hackaprompt_recall": {
+        "n_rows": 5000,
+        "estimate": 0.3515333333333333,
+        "ci95": [
+          0.11119457810569247,
+          0.6586541949280419
+        ]
+      },
+      "notinject_fpr": {
+        "n_rows": 339,
+        "estimate": 0.32645034414945917,
+        "ci95": [
+          0.28023598820059,
+          0.3736479842674533
+        ]
+      },
+      "raw_benign_seed_fpr": {
+        "n_rows": 694,
+        "estimate": 0.002881844380403458,
+        "ci95": [
+          0.0,
+          0.007204610951008646
+        ]
+      },
+      "para_benign_seed_fpr": {
+        "n_rows": 694,
+        "estimate": 0.007764969580531539,
+        "ci95": [
+          0.0024015369836695483,
+          0.01456932436759526
+        ]
+      },
+      "raw_spml_unseen_recall": {
+        "n_rows": 284,
+        "estimate": 0.9870892018779343,
+        "ci95": [
+          0.971830985915493,
+          0.9976525821596244
+        ]
+      },
+      "para_spml_unseen_recall": {
+        "n_rows": 284,
+        "estimate": 0.9906103286384976,
+        "ci95": [
+          0.9788732394366196,
+          0.9988262910798124
+        ]
+      },
+      "frame_academic_flag_rate": {
+        "n_rows": 1364,
+        "estimate": 0.015395894428152493,
+        "ci95": [
+          0.007149153347771666,
+          0.025417844451267057
+        ]
+      },
+      "frame_authority_flag_rate": {
+        "n_rows": 1364,
+        "estimate": 0.41275659824046923,
+        "ci95": [
+          0.33234193572176507,
+          0.49566157242077435
+        ]
+      },
+      "frame_instruction_flag_rate": {
+        "n_rows": 1364,
+        "estimate": 0.6610459433040078,
+        "ci95": [
+          0.416734025584417,
+          0.8386935032912841
+        ]
+      },
+      "frame_neutral_flag_rate": {
+        "n_rows": 1364,
+        "estimate": 0.017595307917888565,
+        "ci95": [
+          0.007750925604535464,
+          0.028861567354214406
+        ]
+      },
+      "frame_security_flag_rate": {
+        "n_rows": 1364,
+        "estimate": 0.3985826001955034,
+        "ci95": [
+          0.28225671342444697,
+          0.4985252361831247
+        ]
+      },
+      "frame_study4_flag_rate": {
+        "n_rows": 1364,
+        "estimate": 0.7710166177908113,
+        "ci95": [
+          0.6207495806593931,
+          0.8941535537667421
+        ]
+      },
+      "auroc_ext_vs_raw_spml": {
+        "estimate": 0.9926037494077615,
+        "ci95_t": [
+          0.9872715588459997,
+          0.9979359399695233
+        ]
+      },
+      "auroc_ext_vs_para_attacks": {
+        "estimate": 0.9890349613674304,
+        "ci95_t": [
+          0.9872978874180218,
+          0.990772035316839
+        ]
+      },
+      "ext_fpr_at_95_recall_para_attacks": {
+        "estimate": 0.08371559633027524,
+        "ci95_t": [
+          0.06146589936024648,
+          0.10596529330030399
+        ]
+      },
+      "test_f1": {
+        "estimate": 0.9877624281267327,
+        "ci95_t": [
+          0.9859775169158178,
+          0.9895473393376475
+        ]
+      },
+      "per_seed": [
+        {
+          "seed": 13,
+          "tau_val": 0.38,
+          "fit_minutes": 48.693230136235556,
+          "attempts": 1,
+          "gpu": "NVIDIA A100-SXM4-40GB"
+        },
+        {
+          "seed": 42,
+          "tau_val": 0.684,
+          "fit_minutes": 48.58514975706736,
+          "attempts": 1,
+          "gpu": "NVIDIA A100-SXM4-40GB"
+        },
+        {
+          "seed": 123,
+          "tau_val": 0.968,
+          "fit_minutes": 48.636627991994224,
+          "attempts": 1,
+          "gpu": "NVIDIA A100-SXM4-40GB"
+        }
+      ]
+    }
+  },
+  "secondary_exploratory": {
+    "P1_origin_human": {
+      "n_units": 95,
+      "estimate": -0.009429824561403507,
+      "ci95": [
+        -0.02960526315789474,
+        0.0030701754385964904
+      ]
+    },
+    "P1_origin_llm": {
+      "n_units": 367,
+      "estimate": -0.0003405994550408719,
+      "ci95": [
+        -0.0020435967302452314,
+        0.0
+      ]
+    },
+    "P1_origin_unverified": {
+      "n_units": 232,
+      "estimate": -0.0026939655172413795,
+      "ci95": [
+        -0.008081896551724137,
+        0.0
+      ]
+    },
+    "P1_length_matched": {
+      "n_units": 348,
+      "estimate": -0.0026939655172413795,
+      "ci95": [
+        -0.007902298850574713,
+        0.0
+      ]
+    },
+    "P2_spml_seen": {
+      "n_units": 87,
+      "estimate": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ]
+    },
+    "P2_deepset": {
+      "n_units": 6,
+      "estimate": 0.059027777777777735,
+      "ci95": [
+        -0.15624999999999997,
+        0.3333333333333333
+      ]
+    },
+    "O_raw-A0_none:ext_fpr_lmsys": {
+      "estimate": -0.09017319277108438,
+      "ci95": [
+        -0.15193162810592709,
+        -0.03202857522594363
+      ]
+    },
+    "O_raw-A0_none:ext_fpr_oasst1_dolly": {
+      "estimate": -0.04146634615384617,
+      "ci95": [
+        -0.08452380952380951,
+        -0.0048514931210601525
+      ]
+    },
+    "O_para-O_raw:ext_fpr_lmsys": {
+      "estimate": 0.04913403614457834,
+      "ci95": [
+        0.0015118303892000726,
+        0.10183120016195599
+      ]
+    },
+    "O_para-O_raw:ext_fpr_oasst1_dolly": {
+      "estimate": 0.021033653846153855,
+      "ci95": [
+        -0.004739900699616332,
+        0.04964114832535885
+      ]
+    },
+    "W_raw-A0_none:ext_fpr_lmsys": {
+      "estimate": -0.19678714859437754,
+      "ci95": [
+        -0.2754934492717706,
+        -0.12110176906044176
+      ]
+    },
+    "W_raw-A0_none:ext_fpr_oasst1_dolly": {
+      "estimate": -0.061698717948717965,
+      "ci95": [
+        -0.11375633517766842,
+        -0.019923235936266152
+      ]
+    },
+    "W_raw-O_raw:ext_fpr_lmsys": {
+      "estimate": -0.10661395582329317,
+      "ci95": [
+        -0.15614621350364963,
+        -0.05215124697378641
+      ]
+    },
+    "W_raw-O_raw:ext_fpr_oasst1_dolly": {
+      "estimate": -0.020232371794871792,
+      "ci95": [
+        -0.057623651932862445,
+        0.012199255066713334
+      ]
+    },
+    "T2h_hackaprompt_recall_O_raw-A0": {
+      "estimate": -0.039000000000000035,
+      "ci95": [
+        -0.10089545345406552,
+        0.012733746784973146
+      ],
+      "note": "HackAPrompt rows = level template + participant submission; few clusters"
+    },
+    "W_effective_ext_fpr_W_raw-A0": {
+      "estimate": -0.16456422018348627,
+      "ci95": [
+        -0.23051442262556723,
+        -0.10135056343462304
+      ]
+    },
+    "A0_frame_security-neutral": {
+      "estimate": 0.48588709677419356,
+      "ci95": [
+        0.3323713615048637,
+        0.6375498976717818
+      ]
+    },
+    "A0_frame_security-authority": {
+      "estimate": 0.03033357771260997,
+      "ci95": [
+        -0.17398596362256405,
+        0.21723690161303486
+      ]
+    },
+    "A0_frame_security-study4": {
+      "estimate": -0.32285557184750735,
+      "ci95": [
+        -0.5509037307384432,
+        -0.05630937728765331
+      ]
+    }
+  },
+  "interval_method": "Confirmatory: Holm over the tests present (nominal 8) at family-wise alpha 0.05. p-values from bootstrap percentile inversion (two-sided; non-inferiority one-sided against margin 0.02). Bootstraps resample content units (seed ids, near-duplicate groups, parent_seed_id, prefixes for framing) and models; arms with different models are resampled independently (seeds are not reproducible, so arms are unpaired). 'Established' requires Holm rejection and agreement of a companion interval at the Holm-adjusted level (t over models for within-model contrasts; Welch over seeds between arms), with the same sign as the estimate. T1 is interpreted only if T3 is established and the O_para audit passes; 'no style dependence' requires the 90% joint-bootstrap interval of the share of T3 lost (T1/-T3) inside +-0.25. The row+seed bootstrap counts Bernoulli noise in both, so it is conservative. Secondary results are exploratory (95%, uncorrected). Seeds share data and are not independent test examples.",
+  "finished_utc": "2026-10-06T19:04:27+00:00"
+}

@@ -1,6 +1,10 @@
 # Study 4 results: detector-mined and combined benign augmentation, plus a framing attack
 
-**PROVISIONAL.** The preregistration requires the 200-row blind audit of B1 before the results are reported. The owner has not yet labelled it, so writing this report first is a **logged deviation** (2026-10-02): the document is an internal record, not a reported result, and must not be cited until the audit is in.
+**Audit complete (2026-10-06): C1 and C2 are *qualified by label noise*.** The owner labelled the 200-row blind audit of B1 using `docs/AUDIT_RUBRIC.md`.
+- 156/200 rows were judged benign (0.78; Wilson 95% [0.718, 0.832], assuming independent rows; single annotator, no IAA).
+- The lower bound is below the preregistered 0.90, so **C1 and C2 are qualified by label noise**. About one in five detector-mined "benign" rows was judged an injection or unclear.
+- B1's (and B3's) external-FPR gains may partly come from training on real attacks labelled benign. C5 and the framed-recall results measure that cost only partly.
+- Writing this report before the audit (2026-10-02) remains a logged deviation. The audit was labelled before any Study 5 result was seen.
 
 ## Provenance
 
@@ -111,7 +115,7 @@ As preregistered:
 - The project's launch gates remain unmet: component permissions and provenance, an independent sample-size design, and human annotation/IAA.
 - B1 is same-corpus, not cross-distribution.
 - The mining detector's independence is UNVERIFIED.
-- Pool labels are unaudited (blind audit pending).
+- Pool labels: audited 2026-10-06, 156/200 benign (see top).
 - The framing attack is simple and non-adaptive.
 - One model family and one benchmark; one pool draw per arm; five seeds sharing all data.
 

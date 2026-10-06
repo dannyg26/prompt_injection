@@ -92,7 +92,7 @@ The CIs are joint bootstraps over near-duplicate groups and seeds (2,000 replica
   - At the median the test rows are shorter (298 characters vs 397 in A2), but they have a longer upper tail (upper quartile 582.5 vs 423.5).
   - The reduction happened despite these differences; we did not try to correct them. Because filter 2 did not remove the template (the test set contains none of it), A2 is not fully distribution-matched.
 - **Deviation (logged 2026-10-02):** the preregistration's LMSYS stopping rule says 3,000 candidates per cell, but its Cap rule and the runner (`CAND_CAP = 5000`) use 5,000. The run used 5,000. This internal inconsistency in the frozen document was not noticed before the run.
-- **Pool labels are unaudited so far.** The 200-row blind audit export exists, but the owner's labels are pending. Until they are in, the share of pool rows that are truly benign is not known.
+- **Pool label audit (labelled 2026-10-06, before any Study 5 result was seen; rubric in `docs/AUDIT_RUBRIC.md`).** 197/200 sampled A2 rows were judged benign (0.985; Wilson 95% [0.957, 0.995], assuming independent rows; single annotator, no IAA).
 - **Same corpora, disjoint rows.** Pool rows are disjoint from every evaluation row: exact match, word 5-gram containment ≥ 0.5, and char TF-IDF cosine ≥ 0.92. LMSYS pool rows also come from stream indices ≥ 200,000, while all test rows came from the first 200,000. However, pool and test share their corpora, so this is in-distribution generalisation, not generalisation to new sources. The OASST1/Dolly transfer result (A2L) is the only cross-source evidence, and it is partial.
 - **Other scope limits.**
   - One model family (DeBERTa-v3-base) and one benchmark.
