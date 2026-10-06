@@ -1,6 +1,6 @@
 # Preregistration - Study 6: security vocabulary in released detectors, a trigger-word substitution attack, and audit agreement
 
-**Status: frozen on lock; NOT YET AUTHORIZED TO RUN.** `scripts/run_study6.py` refuses to run until two conditions hold:
+**Status: frozen on lock (results/study6/PREREG_LOCK.json); NOT YET AUTHORIZED TO RUN.** `scripts/run_study6.py` refuses to run until two conditions hold:
 
 1. The owner adds an AGENTS.md amendment containing "PREREGISTRATION_STUDY6.md may be scored".
 2. `results/study6/PREREG_LOCK.json` matches a pushed commit.
@@ -165,7 +165,7 @@ For each attack row, 98 variants are scored:
 
 **Colab A100, notebook `notebooks/study6_colab.ipynb`:**
 1. `--stage prepare`: no scores.
-2. `--stage score`: about 1–1.5 GPU hours. This is resumable, one file per detector.
+2. `--stage score`: about 1–2.5 GPU hours (13 models × about 175,000 texts). This is resumable, one file per detector.
 3. The owner labels `audit_SUB_blind.csv`.
 4. `--stage analyze --audit SUB=<count>`.
 5. `--stage iaa`, once the second annotator has finished. It is independent of scoring.
