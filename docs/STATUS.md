@@ -1,3 +1,25 @@
+# Research status - v1.0 (2026-10-22)
+
+**All six preregistered studies have run and been analysed.** The project summary is in the [README](../README.md).
+
+| Study | Status | Write-up |
+| --- | --- | --- |
+| 1 Benign-label adaptation | Done: null result | [results](../results/study/RESULTS.md) |
+| 2 Template leakage | Done: Part A withdrawn, Part B reported | [Part B](STUDY2_PARTB_RESULTS.md) |
+| 3 Matched benign augmentation | Done: established reduction (oracle) | [results](STUDY3_RESULTS.md) |
+| 4 Detector-mined augmentation | Done: qualified by label noise (78% audit) | [results](STUDY4_RESULTS.md) |
+| 5 Mechanism (style, safety, transfer, framing) | Done: framing established; style test not interpretable | [results](STUDY5_RESULTS.md) |
+| 6 Released detectors and substitution attack | Done: F shared 4/4; substitution evades 3/4 | [results](STUDY6_RESULTS.md) |
+
+**Open items**
+- **IAA:** a second annotator labels the four exported `iaa_*` files (50 rows per audit), then `run_study6.py --stage iaa` is run. Until then every audit is single-annotator.
+- **Paper:** `paper/PAPER.md` covers Studies 1–2 only. It needs rewriting around Studies 3–6, followed by a hostile review against the result files.
+- **Unmet gates:** the AGENTS.md launch gates remain unmet and are reported as limitations.
+
+---
+
+Earlier status history follows.
+
 # Research status - v0.4 (2026-09-24)
 
 **The preregistered adaptation study ran once and has been analyzed.** Report: [paper/PAPER.md](../paper/PAPER.md).
