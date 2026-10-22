@@ -1,0 +1,18 @@
+{
+  "attack_rows": 1665,
+  "attack_groups": 716,
+  "changed_rows": 893,
+  "changed_groups": 441,
+  "attack_sources": {
+    "deepset_injection": 22,
+    "qualifire": 94,
+    "spml_injection": 901,
+    "template": 648
+  },
+  "substitutions_per_changed_row_median": 1.0,
+  "input_sha256": {
+    "framing.csv": "bbca2b910ccb1ff1b25b69132ebc0b798d5315c2fab80f7fbbd01c4d5e219cff",
+    "notinject.csv": "159ce757ca27b80eeac015d7135dfe7a2d77881f4877d936baea1d18b8299f96",
+    "attacks.csv": "04b5c68ebe3f17967af4e34d0b1d34e79e7f3f00ec1263095fe0bd44fc8a36c8"
+  }
+}

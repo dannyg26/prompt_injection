@@ -1,0 +1,74 @@
+{
+  "a0_pids_seed123": {
+    "checkpoint": "study5 A0 seed 123 (fp16, scored in fp32)",
+    "benign_index": 0
+  },
+  "a0_pids_seed13": {
+    "checkpoint": "study5 A0 seed 13 (fp16, scored in fp32)",
+    "benign_index": 0
+  },
+  "a0_pids_seed2024": {
+    "checkpoint": "study5 A0 seed 2024 (fp16, scored in fp32)",
+    "benign_index": 0
+  },
+  "a0_pids_seed271": {
+    "checkpoint": "study5 A0 seed 271 (fp16, scored in fp32)",
+    "benign_index": 0
+  },
+  "a0_pids_seed31": {
+    "checkpoint": "study5 A0 seed 31 (fp16, scored in fp32)",
+    "benign_index": 0
+  },
+  "a0_pids_seed42": {
+    "checkpoint": "study5 A0 seed 42 (fp16, scored in fp32)",
+    "benign_index": 0
+  },
+  "a0_pids_seed7777": {
+    "checkpoint": "study5 A0 seed 7777 (fp16, scored in fp32)",
+    "benign_index": 0
+  },
+  "a0_pids_seed9001": {
+    "checkpoint": "study5 A0 seed 9001 (fp16, scored in fp32)",
+    "benign_index": 0
+  },
+  "deepset": {
+    "repo": "deepset/deberta-v3-base-injection",
+    "sha": "80dda00d0b0d9a03917a7685e2ddbcd28e04dbb1",
+    "id2label": {
+      "0": "LEGIT",
+      "1": "INJECTION"
+    },
+    "benign_index": 0
+  },
+  "injecguard.unavailable": {
+    "repo": "leolee99/InjecGuard",
+    "reason": "ValueError('The repository leolee99/InjecGuard contains custom code which must be executed to correctly load the model. You can inspect the repository content at https://hf.co/leolee99/InjecGuard .\\n You can inspect the repository content at https://hf.co/leolee99/InjecGuard.\\nPlease pass the argument `trust_remote_code=True` to allow custom code to be run.')"
+  },
+  "promptguard2_22m": {
+    "repo": "meta-llama/Llama-Prompt-Guard-2-22M",
+    "sha": "11614a155199674a0a95e6602d6ab0417b790ed0",
+    "id2label": {
+      "0": "LABEL_0",
+      "1": "LABEL_1"
+    },
+    "benign_index": 0
+  },
+  "promptguard2_86m": {
+    "repo": "meta-llama/Llama-Prompt-Guard-2-86M",
+    "sha": "a8ded8e697ce7c355e395a0df51f94adb4a2fd27",
+    "id2label": {
+      "0": "LABEL_0",
+      "1": "LABEL_1"
+    },
+    "benign_index": 0
+  },
+  "protectai_v2": {
+    "repo": "protectai/deberta-v3-base-prompt-injection-v2",
+    "sha": "90c9989b1a342275dd0d1a95aad283c04e075671",
+    "id2label": {
+      "0": "SAFE",
+      "1": "INJECTION"
+    },
+    "benign_index": 0
+  }
+}
