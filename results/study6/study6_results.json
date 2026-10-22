@@ -1,0 +1,1059 @@
+{
+  "status": "complete_with_unavailable",
+  "commit": "3214e93ceb070238a43561074287b558afed0f67",
+  "detectors_scored": [
+    "a0_pids",
+    "deepset",
+    "promptguard2_22m",
+    "promptguard2_86m",
+    "protectai_v2"
+  ],
+  "unavailable": {
+    "injecguard": {
+      "repo": "leolee99/InjecGuard",
+      "reason": "ValueError('The repository leolee99/InjecGuard contains custom code which must be executed to correctly load the model. You can inspect the repository content at https://hf.co/leolee99/InjecGuard .\\n You can inspect the repository content at https://hf.co/leolee99/InjecGuard.\\nPlease pass the argument `trust_remote_code=True` to allow custom code to be run.')"
+    }
+  },
+  "a0_seeds": [
+    13,
+    42,
+    123,
+    2024,
+    7777,
+    31,
+    271,
+    9001
+  ],
+  "sub_audit_of_50": 49,
+  "n_tests_in_holm": 9,
+  "tests": {
+    "F_protectai_v2": {
+      "estimate": 0.0829662261380323,
+      "informative": true,
+      "p": 0.0,
+      "bootstrap_ci95": [
+        0.03128047582107407,
+        0.14778312685442385
+      ],
+      "holm_alpha": 0.005555555555555556,
+      "holm_rejected": true,
+      "bootstrap_ci_holm": [
+        0.01617741002844743,
+        0.1845501629887319
+      ],
+      "established": true,
+      "fragile": false
+    },
+    "A_protectai_v2": {
+      "estimate": 0.03928170594837266,
+      "informative": true,
+      "p": 0.0,
+      "bootstrap_ci95": [
+        0.02011173184357542,
+        0.06033592725977016
+      ],
+      "holm_alpha": 0.00625,
+      "holm_rejected": true,
+      "bootstrap_ci_holm": [
+        0.013193907544637631,
+        0.06906057431829002
+      ],
+      "established": true,
+      "fragile": false,
+      "sub_audit_pass": true
+    },
+    "F_promptguard2_86m": {
+      "estimate": 0.07567964731814843,
+      "informative": true,
+      "p": 0.0004,
+      "bootstrap_ci95": [
+        0.021093091643258434,
+        0.14665710456251857
+      ],
+      "holm_alpha": 0.0125,
+      "holm_rejected": true,
+      "bootstrap_ci_holm": [
+        0.011522880712397645,
+        0.16955786189013466
+      ],
+      "established": true,
+      "fragile": false
+    },
+    "A_promptguard2_86m": {
+      "estimate": 0.11791383219954649,
+      "informative": true,
+      "p": 0.0,
+      "bootstrap_ci95": [
+        0.08755760368663594,
+        0.14932219095339416
+      ],
+      "holm_alpha": 0.0071428571428571435,
+      "holm_rejected": true,
+      "bootstrap_ci_holm": [
+        0.07796458659331788,
+        0.16144008607671384
+      ],
+      "established": true,
+      "fragile": false,
+      "sub_audit_pass": true
+    },
+    "F_promptguard2_22m": {
+      "estimate": 0.18027961736571008,
+      "informative": true,
+      "p": 0.0,
+      "bootstrap_ci95": [
+        0.07692015209125479,
+        0.30196577766922555
+      ],
+      "holm_alpha": 0.008333333333333333,
+      "holm_rejected": true,
+      "bootstrap_ci_holm": [
+        0.04879885616961049,
+        0.34857302657710776
+      ],
+      "established": true,
+      "fragile": false
+    },
+    "A_promptguard2_22m": {
+      "estimate": 0.14705882352941174,
+      "informative": true,
+      "p": 0.0,
+      "bootstrap_ci95": [
+        0.11396648044692738,
+        0.18203022313015657
+      ],
+      "holm_alpha": 0.01,
+      "holm_rejected": true,
+      "bootstrap_ci_holm": [
+        0.10360302744605071,
+        0.19310384012539178
+      ],
+      "established": true,
+      "fragile": false,
+      "sub_audit_pass": true
+    },
+    "F_deepset": {
+      "estimate": 0.11967694566813514,
+      "informative": true,
+      "p": 0.0036,
+      "bootstrap_ci95": [
+        0.03975626238765874,
+        0.1968023204915419
+      ],
+      "holm_alpha": 0.016666666666666666,
+      "holm_rejected": true,
+      "bootstrap_ci_holm": [
+        0.022891287018895194,
+        0.213687681682819
+      ],
+      "established": true,
+      "fragile": false
+    },
+    "A_deepset": {
+      "estimate": -0.008978675645342271,
+      "informative": true,
+      "p": 0.0044,
+      "bootstrap_ci95": [
+        -0.01822375410061739,
+        -0.002232142857142857
+      ],
+      "holm_alpha": 0.025,
+      "holm_rejected": true,
+      "bootstrap_ci_holm": [
+        -0.020112013047879716,
+        -0.0011520571608872948
+      ],
+      "established": true,
+      "fragile": false,
+      "sub_audit_pass": true
+    },
+    "A_a0_pids": {
+      "estimate": 0.0009820426487093248,
+      "informative": true,
+      "p": 0.7366,
+      "bootstrap_ci95": [
+        -0.005256087774947025,
+        0.0069826667615437805
+      ],
+      "holm_alpha": 0.05,
+      "holm_rejected": false,
+      "bootstrap_ci_holm": [
+        -0.005256087774947025,
+        0.0069826667615437805
+      ],
+      "per_model": [
+        -0.001122334455667784,
+        0.002244668911335568,
+        -0.0033670033670033517,
+        0.002244668911335568,
+        0.0033670033670033517,
+        0.001122334455667784,
+        0.004489337822671247,
+        -0.001122334455667784
+      ],
+      "companion_ci": [
+        -0.001229145117428103,
+        0.0031932304148467525
+      ],
+      "companion": "t over models",
+      "established": false,
+      "fragile": false,
+      "sub_audit_pass": true
+    }
+  },
+  "summary": {
+    "F_shared_across_released": true,
+    "A_shared_across_released": false
+  },
+  "secondary_exploratory": {
+    "protectai_v2:evasion_academic-security": 0.03340440653873489,
+    "protectai_v2:evasion_neutral-academic": -0.09665955934612651,
+    "promptguard2_86m:evasion_academic-security": 0.054945054945054944,
+    "promptguard2_86m:evasion_neutral-academic": -0.04866562009419151,
+    "promptguard2_22m:evasion_academic-security": -0.0070126227208976155,
+    "promptguard2_22m:evasion_neutral-academic": -0.047685834502103785,
+    "deepset:evasion_academic-security": 0.036608863198458574,
+    "deepset:evasion_neutral-academic": -0.028901734104046242,
+    "a0_pids:evasion_academic-security": 0.004190560173932132,
+    "a0_pids:evasion_neutral-academic": 7.389145176109162e-05
+  },
+  "descriptive": {
+    "protectai_v2": {
+      "n_benign_eligible": 1362,
+      "n_attack_eligible": 1660,
+      "benign_plain_fpr": {
+        "n_rows": 1362,
+        "estimate": 0.007342143906020558,
+        "ci95": [
+          0.0014481997252352842,
+          0.01543011464321217
+        ]
+      },
+      "frame_academic_flag_rate": {
+        "n_rows": 1362,
+        "estimate": 0.003671071953010279,
+        "ci95": [
+          0.0,
+          0.00878493395330877
+        ]
+      },
+      "frame_authority_flag_rate": {
+        "n_rows": 1362,
+        "estimate": 0.2907488986784141,
+        "ci95": [
+          0.263609903849372,
+          0.3176737818913091
+        ]
+      },
+      "frame_instruction_flag_rate": {
+        "n_rows": 1362,
+        "estimate": 0.07856093979441997,
+        "ci95": [
+          0.06453827947522309,
+          0.0930907119899881
+        ]
+      },
+      "frame_neutral_flag_rate": {
+        "n_rows": 1362,
+        "estimate": 0.006607929515418502,
+        "ci95": [
+          0.0021849963583394027,
+          0.012463571709808661
+        ]
+      },
+      "frame_security_flag_rate": {
+        "n_rows": 1362,
+        "estimate": 0.08663729809104258,
+        "ci95": [
+          0.07016084306228844,
+          0.10337652060475011
+        ]
+      },
+      "frame_study4_flag_rate": {
+        "n_rows": 1362,
+        "estimate": 0.17180616740088106,
+        "ci95": [
+          0.14865648075624008,
+          0.19574780058651026
+        ]
+      },
+      "external_fpr": {
+        "n_rows": 872,
+        "estimate": 0.08256880733944955,
+        "ci95": [
+          0.06380393652968748,
+          0.10368398848520942
+        ]
+      },
+      "notinject_fpr": {
+        "n_rows": 339,
+        "estimate": 0.4277286135693215,
+        "ci95": [
+          0.3746312684365782,
+          0.4778761061946903
+        ]
+      },
+      "attack_recall_plain": {
+        "n_rows": 1660,
+        "estimate": 0.8475903614457831,
+        "ci95": [
+          0.8195691049150506,
+          0.8734579003463896
+        ]
+      },
+      "attack_recall_single_academic": {
+        "n_rows": 1660,
+        "estimate": 0.8246987951807229,
+        "ci95": [
+          0.7974277345288152,
+          0.8510901653186289
+        ]
+      },
+      "attack_recall_single_neutral": {
+        "n_rows": 1660,
+        "estimate": 0.8572289156626506,
+        "ci95": [
+          0.8316215208926058,
+          0.8807871547195391
+        ]
+      },
+      "attack_recall_single_security": {
+        "n_rows": 1660,
+        "estimate": 0.8680722891566265,
+        "ci95": [
+          0.8450027666306446,
+          0.89077782744422
+        ]
+      },
+      "evasion_best_of_24_academic": {
+        "estimate": 0.1734186211798152,
+        "ci95": [
+          0.1462020307738448,
+          0.20187506174578182
+        ]
+      },
+      "evasion_best_of_24_neutral": {
+        "estimate": 0.0767590618336887,
+        "ci95": [
+          0.05791665976816909,
+          0.09654291164646027
+        ]
+      },
+      "evasion_best_of_24_security": {
+        "estimate": 0.14001421464108033,
+        "ci95": [
+          0.1143628300863332,
+          0.1652312264510898
+        ]
+      },
+      "evasion_best_of_48_benign_register": {
+        "estimate": 0.17484008528784648,
+        "ci95": [
+          0.14775849202620162,
+          0.20142895822588963
+        ]
+      },
+      "evasion_sub_plus_academic": {
+        "estimate": 0.22743425728500355,
+        "ci95": [
+          0.19546726655855065,
+          0.25833424308588065
+        ]
+      },
+      "evasion_any_variant": {
+        "estimate": 0.23667377398720682,
+        "ci95": [
+          0.20476540261922938,
+          0.2693649685973482
+        ]
+      },
+      "n_changed_eligible": 891,
+      "recall_changed_plain": {
+        "n_rows": 891,
+        "estimate": 0.9046015712682379,
+        "ci95": [
+          0.8748626953296611,
+          0.9309955060885252
+        ]
+      },
+      "recall_changed_sub": {
+        "n_rows": 891,
+        "estimate": 0.8653198653198653,
+        "ci95": [
+          0.8333333333333334,
+          0.896863873977473
+        ]
+      }
+    },
+    "promptguard2_86m": {
+      "n_benign_eligible": 1361,
+      "n_attack_eligible": 1649,
+      "benign_plain_fpr": {
+        "n_rows": 1361,
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "frame_academic_flag_rate": {
+        "n_rows": 1361,
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "frame_authority_flag_rate": {
+        "n_rows": 1361,
+        "estimate": 0.0007347538574577516,
+        "ci95": [
+          0.0,
+          0.0022354694485842027
+        ]
+      },
+      "frame_instruction_flag_rate": {
+        "n_rows": 1361,
+        "estimate": 0.011756061719324026,
+        "ci95": [
+          0.006483800243226838,
+          0.017860031323816354
+        ]
+      },
+      "frame_neutral_flag_rate": {
+        "n_rows": 1361,
+        "estimate": 0.0007347538574577516,
+        "ci95": [
+          0.0,
+          0.002245508982035928
+        ]
+      },
+      "frame_security_flag_rate": {
+        "n_rows": 1361,
+        "estimate": 0.07567964731814843,
+        "ci95": [
+          0.06018636325685952,
+          0.0915032679738562
+        ]
+      },
+      "frame_study4_flag_rate": {
+        "n_rows": 1361,
+        "estimate": 0.01689933872152829,
+        "ci95": [
+          0.009743314726565292,
+          0.02451891457384356
+        ]
+      },
+      "external_fpr": {
+        "n_rows": 872,
+        "estimate": 0.10665137614678899,
+        "ci95": [
+          0.08219138444951801,
+          0.13186148098408432
+        ]
+      },
+      "notinject_fpr": {
+        "n_rows": 339,
+        "estimate": 0.06489675516224189,
+        "ci95": [
+          0.038348082595870206,
+          0.09144542772861357
+        ]
+      },
+      "attack_recall_plain": {
+        "n_rows": 1649,
+        "estimate": 0.3862947240751971,
+        "ci95": [
+          0.35425020814563923,
+          0.42003127221037667
+        ]
+      },
+      "attack_recall_single_academic": {
+        "n_rows": 1649,
+        "estimate": 0.3638568829593693,
+        "ci95": [
+          0.331312220196134,
+          0.39702369258575304
+        ]
+      },
+      "attack_recall_single_neutral": {
+        "n_rows": 1649,
+        "estimate": 0.3941782898726501,
+        "ci95": [
+          0.35920270619792233,
+          0.4288366703472244
+        ]
+      },
+      "attack_recall_single_security": {
+        "n_rows": 1649,
+        "estimate": 0.5597331716191631,
+        "ci95": [
+          0.5264383404645477,
+          0.5928185605747243
+        ]
+      },
+      "evasion_best_of_24_academic": {
+        "estimate": 0.24803767660910517,
+        "ci95": [
+          0.2048780487804878,
+          0.29187274877694747
+        ]
+      },
+      "evasion_best_of_24_neutral": {
+        "estimate": 0.19937205651491366,
+        "ci95": [
+          0.1641337386018237,
+          0.23598978312886928
+        ]
+      },
+      "evasion_best_of_24_security": {
+        "estimate": 0.19309262166405022,
+        "ci95": [
+          0.15061734554800524,
+          0.23385191082802545
+        ]
+      },
+      "evasion_best_of_48_benign_register": {
+        "estimate": 0.27001569858712715,
+        "ci95": [
+          0.2283464566929134,
+          0.3158775282688326
+        ]
+      },
+      "evasion_sub_plus_academic": {
+        "estimate": 0.3877551020408163,
+        "ci95": [
+          0.33430519223044997,
+          0.4404227364927162
+        ]
+      },
+      "evasion_any_variant": {
+        "estimate": 0.41287284144427,
+        "ci95": [
+          0.36088750559294763,
+          0.46167375355630663
+        ]
+      },
+      "n_changed_eligible": 882,
+      "recall_changed_plain": {
+        "n_rows": 882,
+        "estimate": 0.5351473922902494,
+        "ci95": [
+          0.48942791600583,
+          0.5800248963696452
+        ]
+      },
+      "recall_changed_sub": {
+        "n_rows": 882,
+        "estimate": 0.41723356009070295,
+        "ci95": [
+          0.3709959694120174,
+          0.4655367231638418
+        ]
+      }
+    },
+    "promptguard2_22m": {
+      "n_benign_eligible": 1359,
+      "n_attack_eligible": 1652,
+      "benign_plain_fpr": {
+        "n_rows": 1359,
+        "estimate": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "frame_academic_flag_rate": {
+        "n_rows": 1359,
+        "estimate": 0.002207505518763797,
+        "ci95": [
+          0.0,
+          0.005860913280268118
+        ]
+      },
+      "frame_authority_flag_rate": {
+        "n_rows": 1359,
+        "estimate": 0.0014716703458425313,
+        "ci95": [
+          0.0,
+          0.00372321656794212
+        ]
+      },
+      "frame_instruction_flag_rate": {
+        "n_rows": 1359,
+        "estimate": 0.03164091243561442,
+        "ci95": [
+          0.023187986021471523,
+          0.04108659420406958
+        ]
+      },
+      "frame_neutral_flag_rate": {
+        "n_rows": 1359,
+        "estimate": 0.0029433406916850625,
+        "ci95": [
+          0.0,
+          0.007278684916475542
+        ]
+      },
+      "frame_security_flag_rate": {
+        "n_rows": 1359,
+        "estimate": 0.18248712288447388,
+        "ci95": [
+          0.16119560599866944,
+          0.203696110813985
+        ]
+      },
+      "frame_study4_flag_rate": {
+        "n_rows": 1359,
+        "estimate": 0.15378955114054452,
+        "ci95": [
+          0.1345015427376581,
+          0.17523627147653217
+        ]
+      },
+      "external_fpr": {
+        "n_rows": 872,
+        "estimate": 0.12958715596330275,
+        "ci95": [
+          0.10324732859362694,
+          0.15837243886318572
+        ]
+      },
+      "notinject_fpr": {
+        "n_rows": 339,
+        "estimate": 0.07669616519174041,
+        "ci95": [
+          0.0471976401179941,
+          0.10619469026548672
+        ]
+      },
+      "attack_recall_plain": {
+        "n_rows": 1652,
+        "estimate": 0.43159806295399517,
+        "ci95": [
+          0.39486552567237165,
+          0.46670838876376775
+        ]
+      },
+      "attack_recall_single_academic": {
+        "n_rows": 1652,
+        "estimate": 0.4358353510895884,
+        "ci95": [
+          0.4010926535562679,
+          0.46992496290623226
+        ]
+      },
+      "attack_recall_single_neutral": {
+        "n_rows": 1652,
+        "estimate": 0.45883777239709445,
+        "ci95": [
+          0.4234719321767779,
+          0.4908424908424908
+        ]
+      },
+      "attack_recall_single_security": {
+        "n_rows": 1652,
+        "estimate": 0.5847457627118644,
+        "ci95": [
+          0.5532419468028119,
+          0.6160019196160768
+        ]
+      },
+      "evasion_best_of_24_academic": {
+        "estimate": 0.20336605890603085,
+        "ci95": [
+          0.16985484895219088,
+          0.2402788440142412
+        ]
+      },
+      "evasion_best_of_24_neutral": {
+        "estimate": 0.15568022440392706,
+        "ci95": [
+          0.12605947503944084,
+          0.185881584159954
+        ]
+      },
+      "evasion_best_of_24_security": {
+        "estimate": 0.21037868162692847,
+        "ci95": [
+          0.17374229336043362,
+          0.24862709114090326
+        ]
+      },
+      "evasion_best_of_48_benign_register": {
+        "estimate": 0.2244039270687237,
+        "ci95": [
+          0.18859362083218517,
+          0.25931906598544047
+        ]
+      },
+      "evasion_sub_plus_academic": {
+        "estimate": 0.3870967741935484,
+        "ci95": [
+          0.3420319264069264,
+          0.4346621788537549
+        ]
+      },
+      "evasion_any_variant": {
+        "estimate": 0.45161290322580644,
+        "ci95": [
+          0.4039671336728143,
+          0.49929078014184397
+        ]
+      },
+      "n_changed_eligible": 884,
+      "recall_changed_plain": {
+        "n_rows": 884,
+        "estimate": 0.6040723981900452,
+        "ci95": [
+          0.5582736612702366,
+          0.6495930027025243
+        ]
+      },
+      "recall_changed_sub": {
+        "n_rows": 884,
+        "estimate": 0.45701357466063347,
+        "ci95": [
+          0.41296744938458446,
+          0.5021711472373199
+        ]
+      }
+    },
+    "deepset": {
+      "n_benign_eligible": 1362,
+      "n_attack_eligible": 1660,
+      "benign_plain_fpr": {
+        "n_rows": 1362,
+        "estimate": 0.41409691629955947,
+        "ci95": [
+          0.3784922139792847,
+          0.45347802887837635
+        ]
+      },
+      "frame_academic_flag_rate": {
+        "n_rows": 1362,
+        "estimate": 0.7422907488986784,
+        "ci95": [
+          0.7105859190829796,
+          0.7727272727272727
+        ]
+      },
+      "frame_authority_flag_rate": {
+        "n_rows": 1362,
+        "estimate": 0.8913362701908958,
+        "ci95": [
+          0.8699473917271469,
+          0.9115470776559583
+        ]
+      },
+      "frame_instruction_flag_rate": {
+        "n_rows": 1362,
+        "estimate": 1.0,
+        "ci95": [
+          1.0,
+          1.0
+        ]
+      },
+      "frame_neutral_flag_rate": {
+        "n_rows": 1362,
+        "estimate": 0.6519823788546255,
+        "ci95": [
+          0.6163284327965768,
+          0.6855540387744409
+        ]
+      },
+      "frame_security_flag_rate": {
+        "n_rows": 1362,
+        "estimate": 0.8619676945668135,
+        "ci95": [
+          0.8372268136788431,
+          0.8850335901835724
+        ]
+      },
+      "frame_study4_flag_rate": {
+        "n_rows": 1362,
+        "estimate": 0.8179148311306902,
+        "ci95": [
+          0.7918795922563332,
+          0.8438930187459599
+        ]
+      },
+      "external_fpr": {
+        "n_rows": 872,
+        "estimate": 0.8245412844036697,
+        "ci95": [
+          0.7976956916278702,
+          0.8519372482400938
+        ]
+      },
+      "notinject_fpr": {
+        "n_rows": 339,
+        "estimate": 0.7050147492625368,
+        "ci95": [
+          0.6578171091445427,
+          0.7581120943952803
+        ]
+      },
+      "attack_recall_plain": {
+        "n_rows": 1660,
+        "estimate": 0.9379518072289157,
+        "ci95": [
+          0.9191788381629659,
+          0.9550734464223853
+        ]
+      },
+      "attack_recall_single_academic": {
+        "n_rows": 1660,
+        "estimate": 0.9722891566265061,
+        "ci95": [
+          0.9616303910487833,
+          0.9823922282938676
+        ]
+      },
+      "attack_recall_single_neutral": {
+        "n_rows": 1660,
+        "estimate": 0.9590361445783132,
+        "ci95": [
+          0.9449793628426435,
+          0.971498309351857
+        ]
+      },
+      "attack_recall_single_security": {
+        "n_rows": 1660,
+        "estimate": 0.9891566265060241,
+        "ci95": [
+          0.9815684616899968,
+          0.99581602448011
+        ]
+      },
+      "evasion_best_of_24_academic": {
+        "estimate": 0.038535645472061654,
+        "ci95": [
+          0.026484507369589017,
+          0.05259782927699745
+        ]
+      },
+      "evasion_best_of_24_neutral": {
+        "estimate": 0.009633911368015413,
+        "ci95": [
+          0.004467063428753761,
+          0.01563614920404766
+        ]
+      },
+      "evasion_best_of_24_security": {
+        "estimate": 0.0019267822736030828,
+        "ci95": [
+          0.0,
+          0.00441111669713771
+        ]
+      },
+      "evasion_best_of_48_benign_register": {
+        "estimate": 0.03982016698779704,
+        "ci95": [
+          0.027008778940455613,
+          0.053040567821917295
+        ]
+      },
+      "evasion_sub_plus_academic": {
+        "estimate": 0.028259473346178548,
+        "ci95": [
+          0.018504935918058855,
+          0.03936520434945632
+        ]
+      },
+      "evasion_any_variant": {
+        "estimate": 0.04174694926140013,
+        "ci95": [
+          0.02897584204036602,
+          0.05573452351527807
+        ]
+      },
+      "n_changed_eligible": 891,
+      "recall_changed_plain": {
+        "n_rows": 891,
+        "estimate": 0.9696969696969697,
+        "ci95": [
+          0.9511399726088244,
+          0.9850087692904594
+        ]
+      },
+      "recall_changed_sub": {
+        "n_rows": 891,
+        "estimate": 0.978675645342312,
+        "ci95": [
+          0.9631686140762171,
+          0.9920906186631978
+        ]
+      }
+    },
+    "a0_pids": {
+      "n_benign_eligible": 1362,
+      "n_attack_eligible": 1660,
+      "benign_plain_fpr": {
+        "n_rows": 1362,
+        "estimate": 0.010187224669603524,
+        "ci95": [
+          0.0032399091723688514,
+          0.019366485484962174
+        ]
+      },
+      "frame_academic_flag_rate": {
+        "n_rows": 1362,
+        "estimate": 0.02753303964757709,
+        "ci95": [
+          0.014747407386366571,
+          0.044123887898819505
+        ]
+      },
+      "frame_authority_flag_rate": {
+        "n_rows": 1362,
+        "estimate": 0.4742107195301028,
+        "ci95": [
+          0.4180788917184292,
+          0.5346711006560082
+        ]
+      },
+      "frame_instruction_flag_rate": {
+        "n_rows": 1362,
+        "estimate": 0.5703928046989721,
+        "ci95": [
+          0.44840018184169356,
+          0.6722984704673445
+        ]
+      },
+      "frame_neutral_flag_rate": {
+        "n_rows": 1362,
+        "estimate": 0.018538913362701907,
+        "ci95": [
+          0.00928990412641075,
+          0.029364466815809086
+        ]
+      },
+      "frame_security_flag_rate": {
+        "n_rows": 1362,
+        "estimate": 0.5040381791483113,
+        "ci95": [
+          0.4155593759456105,
+          0.5933906011869433
+        ]
+      },
+      "frame_study4_flag_rate": {
+        "n_rows": 1362,
+        "estimate": 0.8270007342143906,
+        "ci95": [
+          0.7722172365737838,
+          0.8739128574688164
+        ]
+      },
+      "external_fpr": {
+        "n_rows": 872,
+        "estimate": 0.34690366972477066,
+        "ci95": [
+          0.2883917747736839,
+          0.4076356165021419
+        ]
+      },
+      "notinject_fpr": {
+        "n_rows": 339,
+        "estimate": 0.4118731563421829,
+        "ci95": [
+          0.3572916666666667,
+          0.46979166666666655
+        ]
+      },
+      "attack_recall_plain": {
+        "n_rows": 1660,
+        "estimate": 0.9887048192771084,
+        "ci95": [
+          0.9804980890395402,
+          0.9954335370260475
+        ]
+      },
+      "attack_recall_single_academic": {
+        "n_rows": 1660,
+        "estimate": 0.9927710843373494,
+        "ci95": [
+          0.9867434081340158,
+          0.9974557162400915
+        ]
+      },
+      "attack_recall_single_neutral": {
+        "n_rows": 1660,
+        "estimate": 0.9904367469879518,
+        "ci95": [
+          0.9834728366114824,
+          0.9961102879824285
+        ]
+      },
+      "attack_recall_single_security": {
+        "n_rows": 1660,
+        "estimate": 0.9985692771084337,
+        "ci95": [
+          0.9967580678377119,
+          0.999850209706411
+        ]
+      },
+      "evasion_best_of_24_academic": {
+        "estimate": 0.004648023213975434,
+        "ci95": [
+          0.0013593324410214353,
+          0.008754365202417994
+        ]
+      },
+      "evasion_best_of_24_neutral": {
+        "estimate": 0.004721914665736526,
+        "ci95": [
+          0.0016624080950353654,
+          0.008806248748051726
+        ]
+      },
+      "evasion_best_of_24_security": {
+        "estimate": 0.0004574630400433021,
+        "ci95": [
+          0.0,
+          0.0013700542040076414
+        ]
+      },
+      "evasion_best_of_48_benign_register": {
+        "estimate": 0.006704949146884322,
+        "ci95": [
+          0.0026906486845142486,
+          0.01213837023632799
+        ]
+      },
+      "evasion_sub_plus_academic": {
+        "estimate": 0.008306241395315694,
+        "ci95": [
+          0.003198312359416359,
+          0.01472921001317157
+        ]
+      },
+      "evasion_any_variant": {
+        "estimate": 0.009677277766589297,
+        "ci95": [
+          0.0038948977970482183,
+          0.017457839147482477
+        ]
+      },
+      "n_changed_eligible": 891,
+      "recall_changed_plain": {
+        "n_rows": 891,
+        "estimate": 0.992564534231201,
+        "ci95": [
+          0.9824247602539887,
+          0.999425996447966
+        ]
+      },
+      "recall_changed_sub": {
+        "n_rows": 891,
+        "estimate": 0.9915824915824916,
+        "ci95": [
+          0.9817172561592203,
+          0.9984522617196843
+        ]
+      }
+    }
+  },
+  "interval_method": "Confirmatory: Holm over the informative tests at family-wise alpha 0.05; p-values from bootstrap percentile inversion (10,000 replicates, named streams). F_d resamples parent_seed_id groups and prefixes within cell; A_d resamples parent_seed_id groups (and, for the A0 family, models, with a t companion over models at the Holm level). Released detectors are deterministic single models, so their intervals reflect content sampling only. A tests are interpreted only if the substitution audit passes (>= 45/50). Descriptive rates: 95% joint group(+model) bootstrap, 2,000 replicates. Seeds share data and are not independent test examples.",
+  "finished_utc": "2026-10-22T22:28:47+00:00"
+}
